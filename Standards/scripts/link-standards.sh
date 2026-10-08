@@ -9,7 +9,7 @@
 #   ./scripts/link-standards.sh --update         Scan Tech folder & update projects.txt
 #   ./scripts/link-standards.sh --select         Select projects to link by number
 #   ./scripts/link-standards.sh --file <path>    Use custom data file
-#   ./scripts/link-standards.sh <type> <path>    Link a specific project (type: kmp|android)
+#   ./scripts/link-standards.sh <type> <path>    Link a specific project (type: kmp|android|swift)
 #   ./scripts/link-standards.sh --help           Show this message
 # ─────────────────────────────────────────────────────────────────────────────
 set -eo pipefail
@@ -59,6 +59,16 @@ detect_project_type() {
     if [[ "$(basename "$dir")" == "intellij-plugin" || "$(basename "$dir")" == "build-logic" ]]; then
         echo "unknown"
         return
+    fi
+
+    # 0. Pure Swift: SwiftPM/Xcode project at the root and no Gradle build nearby.
+    #    (KMP/Android repos with an iosApp Xcode project keep their Gradle files, so they fall through.)
+    if { [[ -f "$dir/Package.swift" ]] || compgen -G "$dir/*.xcodeproj" >/dev/null; }; then
+        if ! find "$dir" -maxdepth 2 \( -name "settings.gradle*" -o -name "build.gradle*" \) \
+            -not -path "*/.build/*" -not -path "*/build/*" 2>/dev/null | grep -q .; then
+            echo "swift"
+            return
+        fi
     fi
 
     # 1. Look for commonMain or iosMain source sets
@@ -125,8 +135,8 @@ link_project() {
     local target="$2"
 
     case "$type" in
-        kmp|android) ;;
-        *) err "Invalid type '${type}'. Must be 'kmp' or 'android'."; return 1 ;;
+        kmp|android|swift) ;;
+        *) err "Invalid type '${type}'. Must be 'kmp', 'android' or 'swift'."; return 1 ;;
     esac
 
     local steering_dir="${STANDARDS_DIR}/steering/${type}"
@@ -168,10 +178,13 @@ update_project_list() {
 
     local candidates=()
 
-    # 1. Root & subprojects with settings.gradle / settings.gradle.kts or existing .standards
+    # 1. Root & subprojects with settings.gradle / settings.gradle.kts, Package.swift, *.xcodeproj or existing .standards
     while IFS= read -r dir; do
         [[ -n "$dir" ]] && candidates+=("$dir")
-    done < <(find "$TECH_DIR" -maxdepth 6 \( -name "settings.gradle" -o -name "settings.gradle.kts" -o -name ".standards" \) \
+    done < <(find "$TECH_DIR" -maxdepth 6 \( -name "settings.gradle" -o -name "settings.gradle.kts" -o -name "Package.swift" -o -name "*.xcodeproj" -o -name ".standards" \) \
+        -not -path "*/.build/*" \
+        -not -path "*/SourcePackages/*" \
+        -not -path "*/Pods/*" \
         -not -path "*/.claude/*" \
         -not -path "*/.git/*" \
         -not -path "*/build/*" \
@@ -201,12 +214,13 @@ update_project_list() {
 
     local android_projects=()
     local kmp_projects=()
+    local swift_projects=()
     local kolt_projects=()
 
     for dir in "${unique_candidates[@]}"; do
         local type
         type="$(detect_project_type "$dir")"
-        if [[ "$type" != "kmp" && "$type" != "android" ]]; then
+        if [[ "$type" != "kmp" && "$type" != "android" && "$type" != "swift" ]]; then
             continue
         fi
 
@@ -216,6 +230,8 @@ update_project_list() {
             kolt_projects+=("${type}|${rel}")
         elif [[ "$type" == "android" ]]; then
             android_projects+=("${type}|${rel}")
+        elif [[ "$type" == "swift" ]]; then
+            swift_projects+=("${type}|${rel}")
         else
             kmp_projects+=("${type}|${rel}")
         fi
@@ -229,7 +245,7 @@ update_project_list() {
         echo "# FORMAT:"
         echo "#   <type>  <project_path>"
         echo "#"
-        echo "#   - <type>: 'android' or 'kmp'"
+        echo "#   - <type>: 'android', 'kmp' or 'swift'"
         echo "#   - <project_path>: Relative to Tech root (or absolute path)"
         echo "#   - Lines beginning with '#' or empty lines are ignored."
         echo "# ─────────────────────────────────────────────────────────────────────────────"
@@ -248,6 +264,13 @@ update_project_list() {
             printf "%-10s %s\n" "$t" "$r"
         done
         echo ""
+        echo "# Swift Projects"
+        for p in "${swift_projects[@]}"; do
+            local t="${p%%|*}"
+            local r="${p#*|}"
+            printf "%-10s %s\n" "$t" "$r"
+        done
+        echo ""
         echo "# Kolt Repository & Subprojects"
         for p in "${kolt_projects[@]}"; do
             local t="${p%%|*}"
@@ -256,9 +279,9 @@ update_project_list() {
         done
     } > "$DATA_FILE"
 
-    local total_count=$((${#android_projects[@]} + ${#kmp_projects[@]} + ${#kolt_projects[@]}))
+    local total_count=$((${#android_projects[@]} + ${#kmp_projects[@]} + ${#swift_projects[@]} + ${#kolt_projects[@]}))
     success "Updated ${DATA_FILE}"
-    info "Found ${total_count} projects: ${#android_projects[@]} Android, ${#kmp_projects[@]} KMP, ${#kolt_projects[@]} Kolt subprojects."
+    info "Found ${total_count} projects: ${#android_projects[@]} Android, ${#kmp_projects[@]} KMP, ${#swift_projects[@]} Swift, ${#kolt_projects[@]} Kolt subprojects."
 }
 
 # ── Option 2: List projects with type and status ─────────────────────────────
@@ -307,6 +330,7 @@ list_projects() {
 
         local type_color="$CYAN"
         [[ "$type" == "android" ]] && type_color="$GREEN"
+        [[ "$type" == "swift" ]] && type_color="$YELLOW"
 
         printf "  %2d) %b%-9s%b %-45s [%b]\n" "$idx" "$type_color" "[$type]" "$NC" "$display_path" "$status"
         ((idx++))
@@ -378,6 +402,7 @@ link_selected() {
 
         local type_color="$CYAN"
         [[ "$type" == "android" ]] && type_color="$GREEN"
+        [[ "$type" == "swift" ]] && type_color="$YELLOW"
 
         printf "  %2d) %b%-9s%b %-45s [%b]\n" "$idx" "$type_color" "[$type]" "$NC" "$display_path" "$status"
         ((idx++))
@@ -471,7 +496,7 @@ interactive_menu() {
         echo -e "  Standards Source: ${CYAN}${STANDARDS_DIR}${NC}"
         echo -e "  Data File:        ${CYAN}${DATA_FILE}${NC}"
         echo ""
-        echo -e "  ${GREEN}1)${NC} Update the project lists in Tech folder with proper type (kmp/android)"
+        echo -e "  ${GREEN}1)${NC} Update the project lists in Tech folder with proper type (kmp/android/swift)"
         echo -e "  ${GREEN}2)${NC} List the projects with its type and status"
         echo -e "  ${GREEN}3)${NC} Link standards to all projects"
         echo -e "  ${GREEN}4)${NC} Link standards to selected projects with project numbers"
@@ -512,7 +537,7 @@ show_help() {
     sed -n '2,13p' "$0" | sed 's/^# //' | sed 's/^#//'
     echo ""
     echo "INTERACTIVE OPTIONS:"
-    echo "  1) Update project list in Tech root with proper type (kmp/android)"
+    echo "  1) Update project list in Tech root with proper type (kmp/android/swift)"
     echo "  2) List configured projects with type and link status"
     echo "  3) Link standards to all projects"
     echo "  4) Link standards to selected projects with project numbers"
