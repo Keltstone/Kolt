@@ -31,7 +31,7 @@ val koltProperties = Properties().apply {
 val koltGroup = koltProperties.getProperty("GROUP")
     ?: error("GROUP not found in ${koltPropertiesFile.canonicalPath}")
 
-val koltGroups = listOfNotNull(koltGroup, "io.github.koltalabs.kolt").distinct()
+val koltGroups = listOfNotNull(koltGroup).distinct()
 
 includeBuild(koltLibsDir) {
     dependencySubstitution {
