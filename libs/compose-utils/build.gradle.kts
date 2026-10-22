@@ -15,7 +15,7 @@ kolt {
 }
 
 android {
-    namespace = "io.github.koltalabs.kolt.composeutils"
+    namespace = "kolt.composeutils"
 }
 
 dependencies {

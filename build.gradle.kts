@@ -56,7 +56,7 @@ val locationPickerVersion by lazy { computeVersion("LOCATION_PICKER_MAJOR", "LOC
 val bomVersion          by lazy { versionProps.getProperty("BOM_VERSION", "2025.06.1")       }
 
 allprojects {
-    group = "io.github.koltalabs.kolt"
+    group = providers.gradleProperty("GROUP").getOrElse("io.github.koltalabs.kolt")
 }
 
 // Expose per-lib versions as root extra properties so submodule build scripts
@@ -216,25 +216,26 @@ tasks.register("updateReadme") {
 // The BOM platform dependency must use `platform(...)` on both sides of the substitution
 // so Gradle preserves the platform semantics correctly (Gradle 6+ feature).
 subprojects {
+    val koltGroup = providers.gradleProperty("GROUP").getOrElse("io.github.koltalabs.kolt")
     configurations.configureEach {
         resolutionStrategy.dependencySubstitution {
             // Platform (BOM) substitution — must use platform() on both sides
-            substitute(platform(module("io.github.koltalabs.kolt:kolt-bom")))
+            substitute(platform(module("$koltGroup:kolt-bom")))
                 .using(platform(project(":libs:bom")))
             // Library substitutions
-            substitute(module("io.github.koltalabs.kolt:utils"))
+            substitute(module("$koltGroup:utils"))
                 .using(project(":libs:utils"))
-            substitute(module("io.github.koltalabs.kolt:logutils"))
+            substitute(module("$koltGroup:logutils"))
                 .using(project(":libs:logutils"))
-            substitute(module("io.github.koltalabs.kolt:crashlogs"))
+            substitute(module("$koltGroup:crashlogs"))
                 .using(project(":libs:crashlogs"))
-            substitute(module("io.github.koltalabs.kolt:crashlogs-no-op"))
+            substitute(module("$koltGroup:crashlogs-no-op"))
                 .using(project(":libs:crashlogs-no-op"))
-            substitute(module("io.github.koltalabs.kolt:crashlogs-ui"))
+            substitute(module("$koltGroup:crashlogs-ui"))
                 .using(project(":libs:crashlogs-ui"))
-            substitute(module("io.github.koltalabs.kolt:compose-kmp"))
+            substitute(module("$koltGroup:compose-kmp"))
                 .using(project(":libs:compose-kmp"))
-            substitute(module("io.github.koltalabs.kolt:compose"))
+            substitute(module("$koltGroup:compose"))
                 .using(project(":libs:compose-utils"))
         }
     }

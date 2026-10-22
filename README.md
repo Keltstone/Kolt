@@ -177,7 +177,7 @@ or any other `io.github.appspiriment.*` artifact not found, update your project 
 - Version catalog: `io.github.koltalabs.kolt:kolt-catalog:<version>` and `io.github.koltalabs.kolt:kmp-catalog:<version>`
 - BOM: `io.github.koltalabs.kolt:kolt-bom:<version>`
 - Runtime dependencies: `io.github.koltalabs.kolt:<artifact>`
-- Packages & imports: `io.github.koltalabs.kolt.*`
+- Packages & imports: `kolt.*`
 - UI components: `Apps*` $\to$ `Kolt*` (e.g. `AppsButton` $\to$ `KoltButton`, `AppspirimentText` $\to$ `KoltText`, `AppspirimentTheme` $\to$ `KoltTheme`)
 
 For comprehensive step-by-step guidance, see [docs/MIGRATION.md](docs/MIGRATION.md) and [Standards/KOLT.md](Standards/KOLT.md).
@@ -239,11 +239,11 @@ All artifacts share the group `io.github.koltalabs.kolt`. Versions are independe
 | Kolt BOM | `kolt-bom` | ![BOM](https://img.shields.io/badge/BOM-2026.06.2-0d47a1?style=flat-square) | [libs/bom/CHANGELOG.md](libs/bom/CHANGELOG.md) |
 | Core Utilities | `utils` | ![utils](https://img.shields.io/badge/utils-0.2.1.dev--01-43a047?style=flat-square) | [libs/utils/CHANGELOG.md](libs/utils/CHANGELOG.md) |
 | Logging Utilities | `logutils` | ![logutils](https://img.shields.io/badge/logutils-0.2.1.dev--00-43a047?style=flat-square) | [libs/logutils/CHANGELOG.md](libs/logutils/CHANGELOG.md) |
-| Compose Utilities (Android) | `compose` | ![compose-utils](https://img.shields.io/badge/compose%20utils-0.2.1.dev--00-6200ea?style=flat-square) | [libs/compose-utils/CHANGELOG.md](libs/compose-utils/CHANGELOG.md) |
-| Compose KMP | `compose-kmp` | ![compose-kmp](https://img.shields.io/badge/compose%20kmp-0.2.1.dev--01-6200ea?style=flat-square) | [libs/compose-kmp/CHANGELOG.md](libs/compose-kmp/CHANGELOG.md) |
-| In-App Update | `update-utils` | ![update-utils](https://img.shields.io/badge/update%20utils-0.2.1.dev--00-f57c00?style=flat-square) | [libs/update-utils/CHANGELOG.md](libs/update-utils/CHANGELOG.md) |
-| Location | `location` | ![location](https://img.shields.io/badge/location-0.2.1.dev--11-00838f?style=flat-square) | [libs/location/CHANGELOG.md](libs/location/CHANGELOG.md) |
-| Location Picker | `location-picker` | ![location-picker](https://img.shields.io/badge/location-0.2.1.dev--11-00838f?style=flat-square) | [libs/location-picker/CHANGELOG.md](libs/location-picker/CHANGELOG.md) |
+| Compose Utilities (Android) | `compose` | ![compose-utils](https://img.shields.io/badge/compose%20utils-0.2.1.dev--01-6200ea?style=flat-square) | [libs/compose-utils/CHANGELOG.md](libs/compose-utils/CHANGELOG.md) |
+| Compose KMP | `compose-kmp` | ![compose-kmp](https://img.shields.io/badge/compose%20kmp-0.2.1.dev--03-6200ea?style=flat-square) | [libs/compose-kmp/CHANGELOG.md](libs/compose-kmp/CHANGELOG.md) |
+| In-App Update | `update-utils` | ![update-utils](https://img.shields.io/badge/update%20utils-0.2.1.dev--01-f57c00?style=flat-square) | [libs/update-utils/CHANGELOG.md](libs/update-utils/CHANGELOG.md) |
+| Location | `location` | ![location](https://img.shields.io/badge/location-0.2.1.dev--12-00838f?style=flat-square) | [libs/location/CHANGELOG.md](libs/location/CHANGELOG.md) |
+| Location Picker | `location-picker` | ![location-picker](https://img.shields.io/badge/location-0.2.1.dev--12-00838f?style=flat-square) | [libs/location-picker/CHANGELOG.md](libs/location-picker/CHANGELOG.md) |
 
 Full release history across every artifact, with links to each GitHub release: see [docs/RELEASE_MANAGEMENT.md](docs/RELEASE_MANAGEMENT.md).
 

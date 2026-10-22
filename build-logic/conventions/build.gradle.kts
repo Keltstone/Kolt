@@ -43,8 +43,16 @@ val currentComposeVersion  = computeVersion(versionProps, "COMPOSE_UTILS_MAJOR",
 val currentComposeKmpVersion = computeVersion(versionProps, "COMPOSE_KMP_MAJOR", "COMPOSE_KMP_DEV")
 val currentUpdateVersion   = computeVersion(versionProps, "UPDATE_UTILS_MAJOR", "UPDATE_UTILS_DEV")
 val currentBomVersion      = versionProps.getProperty("BOM_VERSION", "2025.06.1")
+val gradlePropsFile = rootDir.parentFile.resolve("gradle.properties")
 
-group = "io.github.koltalabs.kolt"
+fun loadGradleProps(): Properties = Properties().apply {
+    if (gradlePropsFile.exists()) gradlePropsFile.inputStream().use { load(it) }
+}
+
+val gradleProps = loadGradleProps()
+val currentKoltGroup = gradleProps.getProperty("GROUP", "io.github.koltalabs.kolt")
+
+group = currentKoltGroup
 version = currentPluginVersion
 
 // ────────────────────────────────────────────────
@@ -220,6 +228,7 @@ fun registerConstantsGenerator(
     inputs.property("composeKmpVersion",   currentComposeKmpVersion)
     inputs.property("updateUtilsVersion",  currentUpdateVersion)
     inputs.property("bomVersion",          currentBomVersion)
+    inputs.property("koltGroup",           currentKoltGroup)
     outputs.dir(generatedSourceDir)
 
     val outFile = generatedSourceDir.map { it.file(outputRelPath) }
@@ -296,9 +305,9 @@ fun registerConstantsGenerator(
         file.parentFile.mkdirs()
         file.writeText(
             """
-            package io.github.koltalabs.kolt.conventions.extensions
+            package kolt.conventions.extensions
 
-            import io.github.koltalabs.kolt.conventions.extensions.KoltLibRef
+            import kolt.conventions.extensions.KoltLibRef
 
             internal const val $tomlNameConst = "$tomlNameValue"
             internal const val $versionConst = "$currentPluginVersion"
@@ -334,7 +343,7 @@ val catalogDir = rootDir.parentFile.resolve("gradle")
 val updateLibFileVersion = registerConstantsGenerator(
     taskName = "updateLibFileVersion",
     tomlFile = catalogDir.resolve("koltlibs.versions.toml"),
-    outputRelPath = "io/github/koltalabs/kolt/conventions/extensions/Constants.kt",
+    outputRelPath = "kolt/conventions/extensions/Constants.kt",
     tomlNameConst = "koltTomlName",
     tomlNameValue = "koltlibs",
     versionConst = "libVersion",
@@ -348,6 +357,7 @@ val updateLibFileVersion = registerConstantsGenerator(
         "composeKmpVersion"    to currentComposeKmpVersion,
         "updateUtilsVersion"   to currentUpdateVersion,
         "bomVersion"           to currentBomVersion,
+        "koltGroup"            to currentKoltGroup,
         // Floors enforced at plugin-apply time (see VersionFloor.kt) — the versions
         // Kolt's convention plugins are actually built and tested against. Consumers may
         // raise agp/kotlin/javaVersion in their own catalog; going below these hard-fails.
@@ -360,7 +370,7 @@ val updateLibFileVersion = registerConstantsGenerator(
 val updateKmpLibFileVersion = registerConstantsGenerator(
     taskName = "updateKmpLibFileVersion",
     tomlFile = catalogDir.resolve("kmplibs.versions.toml"),
-    outputRelPath = "io/github/koltalabs/kolt/conventions/extensions/KmpConstants.kt",
+    outputRelPath = "kolt/conventions/extensions/KmpConstants.kt",
     tomlNameConst = "kmpTomlName",
     tomlNameValue = "kmplibs",
     versionConst = "kmpLibVersion",
@@ -446,74 +456,74 @@ gradlePlugin {
             id = "io.github.koltalabs.kolt.application"
             displayName = "Kolt Application"
             description = "Standardized setup for Android application modules (Compose + Hilt by default)."
-            implementationClass = "io.github.koltalabs.kolt.conventions.plugins.AndroidApplicationConventionPlugin"
+            implementationClass = "kolt.conventions.plugins.AndroidApplicationConventionPlugin"
         }
         create("androidLibrary") {
             id = "io.github.koltalabs.kolt.library"
             displayName = "Kolt Library"
             description = "Minimal Android library module setup."
-            implementationClass = "io.github.koltalabs.kolt.conventions.plugins.AndroidLibraryConventionPlugin"
+            implementationClass = "kolt.conventions.plugins.AndroidLibraryConventionPlugin"
         }
         create("androidHiltLibrary") {
             id = "io.github.koltalabs.kolt.library-hilt"
             displayName = "Kolt Library (Hilt)"
             description = "Android library module with Hilt dependency injection."
-            implementationClass = "io.github.koltalabs.kolt.conventions.plugins.AndroidLibraryHiltConventionPlugin"
+            implementationClass = "kolt.conventions.plugins.AndroidLibraryHiltConventionPlugin"
         }
         create("androidComposeLibrary") {
             id = "io.github.koltalabs.kolt.library-compose"
             displayName = "Kolt Library (Compose)"
             description = "Android library module with Jetpack Compose UI."
-            implementationClass = "io.github.koltalabs.kolt.conventions.plugins.AndroidLibraryComposeConventionPlugin"
+            implementationClass = "kolt.conventions.plugins.AndroidLibraryComposeConventionPlugin"
         }
         create("androidHiltComposeLibrary") {
             id = "io.github.koltalabs.kolt.library-hilt-compose"
             displayName = "Kolt Library (Hilt + Compose)"
             description = "Android library module with both Hilt and Jetpack Compose."
-            implementationClass = "io.github.koltalabs.kolt.conventions.plugins.AndroidLibraryHiltComposeConventionPlugin"
+            implementationClass = "kolt.conventions.plugins.AndroidLibraryHiltComposeConventionPlugin"
         }
         create("androidDataLayerLibrary") {
             id = "io.github.koltalabs.kolt.data"
             displayName = "Kolt Data Layer"
             description = "Data layer setup with opt-in Room, Retrofit, DataStore, Security, and WorkManager."
-            implementationClass = "io.github.koltalabs.kolt.conventions.plugins.feature.AndroidDataLayerConventionPlugin"
+            implementationClass = "kolt.conventions.plugins.feature.AndroidDataLayerConventionPlugin"
         }
         // ----- KMP -----
         create("kmpLibrary") {
             id = "io.github.koltalabs.kolt.kmp.library"
             displayName = "Kolt KMP Library"
             description = "Base KMP shared module setup (Android target always on, iOS/Desktop/WASM opt-in)."
-            implementationClass = "io.github.koltalabs.kolt.conventions.plugins.KmpLibraryConventionPlugin"
+            implementationClass = "kolt.conventions.plugins.KmpLibraryConventionPlugin"
         }
         create("kmpLibraryCompose") {
             id = "io.github.koltalabs.kolt.kmp.library-compose"
             displayName = "Kolt KMP Library (Compose)"
             description = "KMP shared module with Compose Multiplatform UI."
-            implementationClass = "io.github.koltalabs.kolt.conventions.plugins.KmpLibraryComposeConventionPlugin"
+            implementationClass = "kolt.conventions.plugins.KmpLibraryComposeConventionPlugin"
         }
         create("kmpLibraryKoin") {
             id = "io.github.koltalabs.kolt.kmp.library-koin"
             displayName = "Kolt KMP Library (Koin)"
             description = "KMP shared module with Koin dependency injection."
-            implementationClass = "io.github.koltalabs.kolt.conventions.plugins.KmpLibraryKoinConventionPlugin"
+            implementationClass = "kolt.conventions.plugins.KmpLibraryKoinConventionPlugin"
         }
         create("kmpLibraryKoinCompose") {
             id = "io.github.koltalabs.kolt.kmp.library-koin-compose"
             displayName = "Kolt KMP Library (Koin + Compose)"
             description = "KMP shared module with Koin DI and Compose Multiplatform UI."
-            implementationClass = "io.github.koltalabs.kolt.conventions.plugins.KmpLibraryKoinComposeConventionPlugin"
+            implementationClass = "kolt.conventions.plugins.KmpLibraryKoinComposeConventionPlugin"
         }
         create("kmpData") {
             id = "io.github.koltalabs.kolt.kmp.data"
             displayName = "Kolt KMP Data Layer"
             description = "KMP data layer with opt-in SQLDelight, Ktor, DataStore, and Serialization."
-            implementationClass = "io.github.koltalabs.kolt.conventions.plugins.feature.KmpDataLayerConventionPlugin"
+            implementationClass = "kolt.conventions.plugins.feature.KmpDataLayerConventionPlugin"
         }
         create("kmpApplication") {
             id = "io.github.koltalabs.kolt.kmp.application"
             displayName = "Kolt KMP Application"
             description = "Android host app module for a KMP project (Compose + coroutines by default)."
-            implementationClass = "io.github.koltalabs.kolt.conventions.plugins.KmpApplicationConventionPlugin"
+            implementationClass = "kolt.conventions.plugins.KmpApplicationConventionPlugin"
         }
     }
 }

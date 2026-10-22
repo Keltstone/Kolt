@@ -1,11 +1,16 @@
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
+import java.util.Properties
 
 plugins {
     kotlin("jvm") version "2.1.21"
     id("org.jetbrains.intellij.platform") version "2.3.0"
 }
 
-group = "io.github.koltalabs.kolt"
+val gradlePropsFile = rootDir.parentFile.resolve("gradle.properties")
+val gradleProps = Properties().apply {
+    if (gradlePropsFile.exists()) gradlePropsFile.inputStream().use { load(it) }
+}
+group = gradleProps.getProperty("GROUP", "io.github.koltalabs.kolt")
 version = "1.0.0"
 
 kotlin {

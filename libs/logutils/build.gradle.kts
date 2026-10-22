@@ -12,7 +12,7 @@ kmp {
 }
 
 android {
-    namespace = "io.github.koltalabs.kolt.logutils"
+    namespace = "kolt.logutils"
 }
 
 dependencies {

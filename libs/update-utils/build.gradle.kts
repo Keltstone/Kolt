@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "io.github.koltalabs.kolt.updateutils"
+    namespace = "kolt.updateutils"
 }
 
 kolt {

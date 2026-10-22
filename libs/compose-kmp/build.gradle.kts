@@ -13,7 +13,7 @@ kmp {
 }
 
 android {
-    namespace = "io.github.koltalabs.kolt.composekmp"
+    namespace = "kolt.composekmp"
 }
 
 dependencies {

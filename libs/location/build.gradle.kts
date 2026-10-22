@@ -34,7 +34,7 @@ kmp {
 }
 
 android {
-    namespace = "io.github.koltalabs.kolt.location"
+    namespace = "kolt.location"
 }
 
 kmpDataLayer {

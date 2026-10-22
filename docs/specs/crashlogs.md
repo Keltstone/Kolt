@@ -6,7 +6,7 @@ Behaviour:
 - `CrashLogs.install(enabled)`; `onError(tag, throwable)` records handled throwables; uncaught handler (chained to previous) records fatal ones.
 - Android auto-installs via App Startup, enabled = FLAG_DEBUGGABLE (like logutils `LogInitializer`). Desktop/iOS: manual `install(true)`. Default off elsewhere.
 - Uncaught hooks: JVM/Android `Thread.setDefaultUncaughtExceptionHandler`; iOS `setUnhandledExceptionHook`.
-- Android notification per recorded entry, best effort (posted from the crash path; may be lost if the process dies first); tap fires implicit action `io.github.koltalabs.kolt.crashlogs.VIEW`; skipped if no UI module resolves it or POST_NOTIFICATIONS not granted. Lib never requests it.
+- Android notification per recorded entry, best effort (posted from the crash path; may be lost if the process dies first); tap fires implicit action `kolt.crashlogs.VIEW`; skipped if no UI module resolves it or POST_NOTIFICATIONS not granted. Lib never requests it.
 - UI: list (tag, class, message, raw epoch ms) → detail (selectable stack), clear-all, search by text. Plain Material3 (no Kolt UI lib).
 
 Contracts:

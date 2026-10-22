@@ -83,7 +83,7 @@ The plugin sets:
 build-logic/
 ├── conventions/
 │   ├── build.gradle.kts                        # Plugin declarations + publishing
-│   └── src/main/kotlin/io/github/koltalabs/kolt/conventions/
+│   └── src/main/kotlin/kolt/conventions/
 │       ├── extensions/
 │       │   ├── Dependencies.kt                 # Shared dependency helpers
 │       │   ├── Extensions.kt                   # Android DSL extensions

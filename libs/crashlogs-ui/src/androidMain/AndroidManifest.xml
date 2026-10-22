@@ -3,11 +3,11 @@
 
     <application>
         <activity
-            android:name="io.github.koltalabs.kolt.crashlogs.CrashLogsActivity"
+            android:name="kolt.crashlogs.CrashLogsActivity"
             android:exported="false"
             android:label="Crash logs">
             <intent-filter>
-                <action android:name="io.github.koltalabs.kolt.crashlogs.VIEW" />
+                <action android:name="kolt.crashlogs.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

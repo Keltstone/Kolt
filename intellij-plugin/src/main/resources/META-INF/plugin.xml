@@ -37,7 +37,7 @@
             Appears as a top-level entry alongside "Empty Project", "Kotlin", etc.
         -->
         <directoryProjectGenerator
-            implementation="io.github.koltalabs.kolt.intellij.KoltProjectGenerator"/>
+            implementation="kolt.intellij.KoltProjectGenerator"/>
 
         <!--
             Persists non-secret settings (OSSRH username, GPG key name, flags…)
@@ -45,7 +45,7 @@
             KoltCredentials (PasswordSafe).
         -->
         <applicationService
-            serviceImplementation="io.github.koltalabs.kolt.intellij.settings.KoltSettings"/>
+            serviceImplementation="kolt.intellij.settings.KoltSettings"/>
 
         <!--
             Adds Settings → Tools → Kolt panel.
@@ -54,7 +54,7 @@
             parentId="tools"
             id="io.github.koltalabs.kolt.settings"
             displayName="Kolt"
-            implementation="io.github.koltalabs.kolt.intellij.settings.KoltSettingsConfigurable"/>
+            implementation="kolt.intellij.settings.KoltSettingsConfigurable"/>
 
         <!--
             Notification group used by GradleTaskRunner for error toasts.
@@ -84,14 +84,14 @@
             <!-- Publish ALL modules to Maven Local in one Gradle run -->
             <action
                 id="Kolt.PublishAllMavenLocal"
-                class="io.github.koltalabs.kolt.intellij.actions.PublishToMavenLocalAction"
+                class="kolt.intellij.actions.PublishToMavenLocalAction"
                 text="Publish All → Maven Local"
                 description="Run publishAllToMavenLocal for all Kolt modules"/>
 
             <!-- Publish ALL modules to Maven Central (separate Gradle invocations per module) -->
             <action
                 id="Kolt.PublishAllMavenCentral"
-                class="io.github.koltalabs.kolt.intellij.actions.PublishToMavenCentralAction"
+                class="kolt.intellij.actions.PublishToMavenCentralAction"
                 text="Publish All → Maven Central (Release)"
                 description="Sign and publish all Kolt modules to Sonatype OSSRH"/>
 
@@ -100,7 +100,7 @@
             <!-- Pick a single module from a popup chooser -->
             <action
                 id="Kolt.PublishSingleModule"
-                class="io.github.koltalabs.kolt.intellij.actions.PublishSingleModuleAction"
+                class="kolt.intellij.actions.PublishSingleModuleAction"
                 text="Publish Single Module…"
                 description="Choose one Kolt module to publish"/>
 
@@ -109,7 +109,7 @@
             <!-- Bump the DEV counter in version.properties -->
             <action
                 id="Kolt.BumpDevVersion"
-                class="io.github.koltalabs.kolt.intellij.actions.BumpDevVersionAction"
+                class="kolt.intellij.actions.BumpDevVersionAction"
                 text="Bump Dev Version"
                 description="Increment the DEV counter in version.properties"/>
 

@@ -52,4 +52,4 @@ Use `git mv` per dir (history kept), then rewrite. Rules, by string shape — ne
 
 Where: `libs/*`, `build-logic/**`, `intellij-plugin/**`, `demo-app`, `demo-web`, `project-templates`, `Standards/steering/**`, `docs/**`, `gradle.properties`, `settings.gradle.kts`, `gradle/*.versions.toml`.
 
-Status: proposed, not started. Needs: package root confirmed; demo `applicationId` decision.
+Status: Executed in working tree (uncommitted). Steps 0 & 1 complete: package root `kolt.*` moved across all modules, build-logic, intellij-plugin, demo, templates, and docs. GROUP single-sourced from root gradle.properties. Verified: leftover scan categorized & clean; build-logic check passed; all module unit/desktop tests & lint passed; publishToMavenLocal verified via artifact unzip; consumer smoke project compiled; flip test passed & reverted. Unverified: iOS binary linking (no Xcode CLI) and wasmJsBrowserTest (no ChromeHeadless).

@@ -177,7 +177,7 @@ Log.init(enabled = BuildConfig.DEBUG) // sets Log.enabled directly`,
     android:authorities="\${applicationId}.androidx-startup"
     tools:node="merge">
     <meta-data
-        android:name="io.github.koltalabs.kolt.logutils.LogInitializer"
+        android:name="kolt.logutils.LogInitializer"
         android:value="androidx.startup"
         tools:node="remove" />
 </provider>`,
@@ -349,7 +349,7 @@ Box(
         sections: [
             {
                 heading: 'ViewModel Delegate Integration',
-                path: 'libs/update-utils/src/main/java/io/github/koltalabs/kolt/updateutils/AppUpdateHelperUtil.kt',
+                path: 'libs/update-utils/src/main/java/kolt/updateutils/AppUpdateHelperUtil.kt',
                 code: `// Delegate checks directly inside your Hilt ViewModel:
 class MainViewModel @Inject constructor(
     // Inject the helper implementation
@@ -364,7 +364,7 @@ class MainViewModel @Inject constructor(
             },
             {
                 heading: 'Checking and Gating UI Content',
-                path: 'libs/update-utils/src/main/java/io/github/koltalabs/kolt/updateutils/AppUpdateHelperUtil.kt',
+                path: 'libs/update-utils/src/main/java/kolt/updateutils/AppUpdateHelperUtil.kt',
                 code: `// In your root Android Activity / Composable:
 @Composable
 fun AppRoot(viewModel: MainViewModel = hiltViewModel()) {
@@ -399,7 +399,7 @@ FEATURE_DROP    = true   // Displays an optional update prompt with a "Not Now" 
         sections: [
             {
                 heading: 'Runtime Permission Handlers',
-                path: 'libs/compose-utils/src/main/java/io/github/koltalabs/kolt/composeutils/utils/PermissionHandlerUtils.kt',
+                path: 'libs/compose-utils/src/main/java/kolt/composeutils/utils/PermissionHandlerUtils.kt',
                 code: `// Clean wrapper to request runtime permissions from within the Composable tree:
 PermissionHandler.Request(
     permissions = listOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO),
@@ -415,7 +415,7 @@ PermissionHandler.Request(
             },
             {
                 heading: 'System Photo Selector Launcher',
-                path: 'libs/compose-utils/src/main/java/io/github/koltalabs/kolt/composeutils/utils/PhotoPickerUtils.kt',
+                path: 'libs/compose-utils/src/main/java/kolt/composeutils/utils/PhotoPickerUtils.kt',
                 code: `// Invoke the official Android System Photo Picker (supporting maximum item counts):
 val picker = rememberPhotoPickerLauncher { uris ->
     if (uris.isNotEmpty()) {
@@ -431,7 +431,7 @@ KoltButton(text = "Select Images".toUiText()) {
             },
             {
                 heading: 'Soft Keyboard Controller',
-                path: 'libs/compose-utils/src/main/java/io/github/koltalabs/kolt/composeutils/utils/DisableSoftKeyboard.kt',
+                path: 'libs/compose-utils/src/main/java/kolt/composeutils/utils/DisableSoftKeyboard.kt',
                 code: `// Disables the default soft keyboard from showing up when a TextField receives focus.
 // Useful when building custom PIN entry pads, calculators, or date pickers:
 DisableSoftKeyboard {
@@ -444,7 +444,7 @@ DisableSoftKeyboard {
             },
             {
                 heading: 'System Dialers & Communication Actions',
-                path: 'libs/compose-utils/src/main/java/io/github/koltalabs/kolt/composeutils/utils/PhoneActionUtils.kt',
+                path: 'libs/compose-utils/src/main/java/kolt/composeutils/utils/PhoneActionUtils.kt',
                 code: `// Senders that automatically construct dialer intents and email prompts:
 context.dialNumber("+123456789")
 

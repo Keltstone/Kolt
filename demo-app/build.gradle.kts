@@ -47,7 +47,7 @@ kotlin {
 }
 
 android {
-    namespace = "io.github.koltalabs.kolt.demo"
+    namespace = "kolt.demo"
     compileSdk = 36
     defaultConfig {
         applicationId = "io.github.koltalabs.kolt.demo"
@@ -65,6 +65,6 @@ android {
 
 compose.desktop {
     application {
-        mainClass = "io.github.koltalabs.kolt.demo.MainKt"
+        mainClass = "kolt.demo.MainKt"
     }
 }

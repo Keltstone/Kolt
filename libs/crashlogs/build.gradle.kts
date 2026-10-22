@@ -12,7 +12,7 @@ kmp {
 }
 
 android {
-    namespace = "io.github.koltalabs.kolt.crashlogs"
+    namespace = "kolt.crashlogs"
 }
 
 dependencies {

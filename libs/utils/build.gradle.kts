@@ -14,7 +14,7 @@ kmp {
 }
 
 android {
-    namespace = "io.github.koltalabs.kolt.utils"
+    namespace = "kolt.utils"
 }
 
 dependencies {

@@ -23,8 +23,8 @@ dependencies {
 ## Usage
 
 ```kotlin
-import io.github.koltalabs.kolt.logutils.Log
-import io.github.koltalabs.kolt.logutils.printLog
+import kolt.logutils.Log
+import kolt.logutils.printLog
 
 // Direct method calls
 Log.d("MyTag", "Debug message")

@@ -13,11 +13,11 @@ kmp {
 }
 
 android {
-    namespace = "io.github.koltalabs.kolt.locationpicker"
+    namespace = "kolt.locationpicker"
 }
 
 compose.resources {
-    packageOfResClass = "io.github.koltalabs.kolt.locationpicker.generated.resources"
+    packageOfResClass = "kolt.locationpicker.generated.resources"
 }
 
 dependencies {

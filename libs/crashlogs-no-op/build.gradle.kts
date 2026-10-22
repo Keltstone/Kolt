@@ -11,7 +11,7 @@ kmp {
 }
 
 android {
-    namespace = "io.github.koltalabs.kolt.crashlogs.noop"
+    namespace = "kolt.crashlogs.noop"
 }
 
 mavenPublishing {

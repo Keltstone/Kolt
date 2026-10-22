@@ -29,17 +29,19 @@ val composeKmpVersion:   String by rootProject.extra
 val updateUtilsVersion:  String by rootProject.extra
 val locationVersion:     String by rootProject.extra
 
+val koltGroup = project.group.toString()
+
 dependencies {
     constraints {
-        api("io.github.koltalabs.kolt:utils:$utilsVersion")
-        api("io.github.koltalabs.kolt:logutils:$logutilsVersion")
-        api("io.github.koltalabs.kolt:crashlogs:$crashlogsVersion")
-        api("io.github.koltalabs.kolt:crashlogs-no-op:$crashlogsVersion")
-        api("io.github.koltalabs.kolt:crashlogs-ui:$crashlogsVersion")
-        api("io.github.koltalabs.kolt:compose:$composeUtilsVersion")
-        api("io.github.koltalabs.kolt:compose-kmp:$composeKmpVersion")
-        api("io.github.koltalabs.kolt:update-utils:$updateUtilsVersion")
-        api("io.github.koltalabs.kolt:location:$locationVersion")
+        api("$koltGroup:utils:$utilsVersion")
+        api("$koltGroup:logutils:$logutilsVersion")
+        api("$koltGroup:crashlogs:$crashlogsVersion")
+        api("$koltGroup:crashlogs-no-op:$crashlogsVersion")
+        api("$koltGroup:crashlogs-ui:$crashlogsVersion")
+        api("$koltGroup:compose:$composeUtilsVersion")
+        api("$koltGroup:compose-kmp:$composeKmpVersion")
+        api("$koltGroup:update-utils:$updateUtilsVersion")
+        api("$koltGroup:location:$locationVersion")
     }
 }
 

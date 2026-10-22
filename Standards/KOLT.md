@@ -247,7 +247,7 @@ PhoneNumberUtils.format("+919876543210")       // formatted display string
 PhoneNumberUtils.isValid("+919876543210")
 ```
 
-**`androidMain` only (import from `io.github.koltalabs.kolt.utils.extensions`):**
+**`androidMain` only (import from `kolt.utils.extensions`):**
 ```kotlin
 // Context
 context.launchPlayStorePage("com.example.app")
@@ -661,6 +661,6 @@ implementation("io.github.koltalabs.kolt:utils")
 ```
 
 ### 4. Package Names & UI Component Names
-- Replace package imports: `io.github.appspiriment.kolt.*` $\to$ `io.github.koltalabs.kolt.*`
+- Replace package imports: `io.github.appspiriment.kolt.*` $\to$ `kolt.*`
 - Replace UI components: `Apps*` $\to$ `Kolt*` (e.g. `AppsButton` $\to$ `KoltButton`, `AppspirimentText` $\to$ `KoltText`, `AppspirimentTheme` $\to$ `KoltTheme`).
 
