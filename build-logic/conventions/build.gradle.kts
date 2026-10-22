@@ -545,8 +545,8 @@ java { toolchain { languageVersion.set(JavaLanguageVersion.of(javaVersion)) } }
 tasks.withType<KotlinJvmCompile>().configureEach {
     compilerOptions {
         jvmTarget.set(JvmTarget.fromTarget(javaVersion.toString()))
-        apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
-        languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_0)
+        apiVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_1)
+        languageVersion.set(org.jetbrains.kotlin.gradle.dsl.KotlinVersion.KOTLIN_2_1)
         freeCompilerArgs.addAll("-opt-in=kotlin.RequiresOptIn")
     }
 }
