@@ -101,7 +101,7 @@ class KmpApplicationConventionPlugin : Plugin<Project> {
                 }
 
             dependencies {
-                // BOM pins all io.github.koltalabs.kolt:* versions so utils/logutils can be
+                // BOM pins all io.github.keltstone.kolt:* versions so utils/logutils can be
                 // declared without explicit version strings (resolved via addKmpAppUtilDeps).
                 addKoltBom("implementation")
 

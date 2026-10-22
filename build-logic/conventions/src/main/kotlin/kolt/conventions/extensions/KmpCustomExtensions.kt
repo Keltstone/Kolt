@@ -77,7 +77,7 @@ abstract class KmpExtension @Inject constructor(objects: ObjectFactory) {
 }
 
 /**
- * Configuration extension for the `io.github.koltalabs.kolt.kmp.data` plugin.
+ * Configuration extension for the `io.github.keltstone.kolt.kmp.data` plugin.
  *
  * All features are opt-in — nothing is added unless explicitly enabled.
  *

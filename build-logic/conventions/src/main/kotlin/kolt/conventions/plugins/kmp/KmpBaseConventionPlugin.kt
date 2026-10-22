@@ -64,7 +64,7 @@ abstract class KmpBaseConventionPlugin : Plugin<Project> {
                 configureKmpEarly(this)
             }
 
-            // 4. Add the Kolt BOM so all io.github.koltalabs.kolt:* deps resolve without
+            // 4. Add the Kolt BOM so all io.github.keltstone.kolt:* deps resolve without
             //    explicit versions. Added to `implementation` config which is visible across
             //    all KMP source sets when resolved via the android target.
             dependencies {

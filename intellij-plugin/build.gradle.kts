@@ -10,7 +10,7 @@ val gradlePropsFile = rootDir.parentFile.resolve("gradle.properties")
 val gradleProps = Properties().apply {
     if (gradlePropsFile.exists()) gradlePropsFile.inputStream().use { load(it) }
 }
-group = gradleProps.getProperty("GROUP", "io.github.koltalabs.kolt")
+group = gradleProps.getProperty("GROUP", "io.github.keltstone.kolt")
 version = "1.0.0"
 
 kotlin {

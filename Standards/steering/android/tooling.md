@@ -106,7 +106,7 @@ non-negotiables 6, 7, 8, 9, and 11:
   look," not an automatic fail-the-PR blocker the way the others are.
 
 **Don't author these as a project-local rule set.** They're published once,
-KMP-authored, as `io.github.koltalabs.kolt:detekt-rules` — see
+KMP-authored, as `io.github.keltstone.kolt:detekt-rules` — see
 [kolt-libs.md](kolt-libs.md#external-tooling-coordinates) for the coordinate
 and consumption mode; same module the KMP steering set uses, one
 implementation instead of two. Writing a project-local `RuleSetProvider` for

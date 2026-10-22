@@ -288,7 +288,7 @@ internal fun DependencyHandlerScope.addKmpSerializationDeps(libs: VersionCatalog
 /**
  * Adds the Kolt BOM as a platform constraint.
  * The BOM version is baked into the plugin JAR via [bomVersion] in Constants.kt.
- * After this, all `io.github.koltalabs.kolt:*` artifacts can be declared without
+ * After this, all `io.github.keltstone.kolt:*` artifacts can be declared without
  * an explicit version — the BOM resolves them.
  */
 internal fun DependencyHandlerScope.addKoltBom(config: String = "implementation") {

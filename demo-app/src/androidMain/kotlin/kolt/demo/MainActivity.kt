@@ -231,7 +231,7 @@ fun AndroidShowcaseContent() {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 Text("KoltCopyableText (Click to copy):", style = MaterialTheme.typography.bodySmall)
                 KoltCopyableText(
-                    text = "support@koltalabs.com",
+                    text = "https://github.com/keltstone/Kolt",
                     color = Kolt.colors.primary,
                     onCopied = { context.showToast("Copied to clipboard!".toUiText()) }
                 )

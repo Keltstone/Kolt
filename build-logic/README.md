@@ -15,20 +15,20 @@ Gradle convention plugins for Android and Kotlin Multiplatform projects. Applied
 
 | Plugin ID | Description |
 |-----------|-------------|
-| `io.github.koltalabs.kolt.application` | Base Android application: compileSdk, minSdk, Kotlin, proguard |
-| `io.github.koltalabs.kolt.library` | Base Android library: same defaults as application |
-| `io.github.koltalabs.kolt.library-compose` | Library + Jetpack Compose + Compose compiler |
-| `io.github.koltalabs.kolt.library-hilt` | Library + Hilt dependency injection |
-| `io.github.koltalabs.kolt.library-hilt-compose` | Library + Hilt + Compose (most common) |
-| `io.github.koltalabs.kolt.data` | Android data-layer module: Room, Retrofit, serialization |
+| `io.github.keltstone.kolt.application` | Base Android application: compileSdk, minSdk, Kotlin, proguard |
+| `io.github.keltstone.kolt.library` | Base Android library: same defaults as application |
+| `io.github.keltstone.kolt.library-compose` | Library + Jetpack Compose + Compose compiler |
+| `io.github.keltstone.kolt.library-hilt` | Library + Hilt dependency injection |
+| `io.github.keltstone.kolt.library-hilt-compose` | Library + Hilt + Compose (most common) |
+| `io.github.keltstone.kolt.data` | Android data-layer module: Room, Retrofit, serialization |
 
 ### KMP Plugins
 
 | Plugin ID | Description |
 |-----------|-------------|
-| `io.github.koltalabs.kolt.kmp.library` | KMP library: Android + JVM targets, commonMain/androidMain |
-| `io.github.koltalabs.kolt.kmp.application` | KMP application module |
-| `io.github.koltalabs.kolt.kmp.data` | KMP data-layer: Ktor, serialization, coroutines |
+| `io.github.keltstone.kolt.kmp.library` | KMP library: Android + JVM targets, commonMain/androidMain |
+| `io.github.keltstone.kolt.kmp.application` | KMP application module |
+| `io.github.keltstone.kolt.kmp.data` | KMP data-layer: Ktor, serialization, coroutines |
 
 ---
 

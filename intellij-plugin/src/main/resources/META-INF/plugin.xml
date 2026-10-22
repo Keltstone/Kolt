@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>io.github.koltalabs.kolt.project-wizard</id>
     <name>Kolt Project Wizard</name>
-    <vendor email="support@koltalabs.com" url="https://github.com/kolta-labs/Kolt">
+    <vendor url="https://github.com/keltstone/Kolt">
         Kolt
     </vendor>
 
@@ -52,7 +52,7 @@
         -->
         <applicationConfigurable
             parentId="tools"
-            id="io.github.koltalabs.kolt.settings"
+            id="io.github.keltstone.kolt.settings"
             displayName="Kolt"
             implementation="kolt.intellij.settings.KoltSettingsConfigurable"/>
 

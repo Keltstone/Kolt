@@ -50,7 +50,7 @@ fun loadGradleProps(): Properties = Properties().apply {
 }
 
 val gradleProps = loadGradleProps()
-val currentKoltGroup = gradleProps.getProperty("GROUP", "io.github.koltalabs.kolt")
+val currentKoltGroup = gradleProps.getProperty("GROUP", "io.github.keltstone.kolt")
 
 group = currentKoltGroup
 version = currentPluginVersion
@@ -453,74 +453,74 @@ gradlePlugin {
     plugins {
         // ----- Android -----
         create("androidApplication") {
-            id = "io.github.koltalabs.kolt.application"
+            id = "io.github.keltstone.kolt.application"
             displayName = "Kolt Application"
             description = "Standardized setup for Android application modules (Compose + Hilt by default)."
             implementationClass = "kolt.conventions.plugins.AndroidApplicationConventionPlugin"
         }
         create("androidLibrary") {
-            id = "io.github.koltalabs.kolt.library"
+            id = "io.github.keltstone.kolt.library"
             displayName = "Kolt Library"
             description = "Minimal Android library module setup."
             implementationClass = "kolt.conventions.plugins.AndroidLibraryConventionPlugin"
         }
         create("androidHiltLibrary") {
-            id = "io.github.koltalabs.kolt.library-hilt"
+            id = "io.github.keltstone.kolt.library-hilt"
             displayName = "Kolt Library (Hilt)"
             description = "Android library module with Hilt dependency injection."
             implementationClass = "kolt.conventions.plugins.AndroidLibraryHiltConventionPlugin"
         }
         create("androidComposeLibrary") {
-            id = "io.github.koltalabs.kolt.library-compose"
+            id = "io.github.keltstone.kolt.library-compose"
             displayName = "Kolt Library (Compose)"
             description = "Android library module with Jetpack Compose UI."
             implementationClass = "kolt.conventions.plugins.AndroidLibraryComposeConventionPlugin"
         }
         create("androidHiltComposeLibrary") {
-            id = "io.github.koltalabs.kolt.library-hilt-compose"
+            id = "io.github.keltstone.kolt.library-hilt-compose"
             displayName = "Kolt Library (Hilt + Compose)"
             description = "Android library module with both Hilt and Jetpack Compose."
             implementationClass = "kolt.conventions.plugins.AndroidLibraryHiltComposeConventionPlugin"
         }
         create("androidDataLayerLibrary") {
-            id = "io.github.koltalabs.kolt.data"
+            id = "io.github.keltstone.kolt.data"
             displayName = "Kolt Data Layer"
             description = "Data layer setup with opt-in Room, Retrofit, DataStore, Security, and WorkManager."
             implementationClass = "kolt.conventions.plugins.feature.AndroidDataLayerConventionPlugin"
         }
         // ----- KMP -----
         create("kmpLibrary") {
-            id = "io.github.koltalabs.kolt.kmp.library"
+            id = "io.github.keltstone.kolt.kmp.library"
             displayName = "Kolt KMP Library"
             description = "Base KMP shared module setup (Android target always on, iOS/Desktop/WASM opt-in)."
             implementationClass = "kolt.conventions.plugins.KmpLibraryConventionPlugin"
         }
         create("kmpLibraryCompose") {
-            id = "io.github.koltalabs.kolt.kmp.library-compose"
+            id = "io.github.keltstone.kolt.kmp.library-compose"
             displayName = "Kolt KMP Library (Compose)"
             description = "KMP shared module with Compose Multiplatform UI."
             implementationClass = "kolt.conventions.plugins.KmpLibraryComposeConventionPlugin"
         }
         create("kmpLibraryKoin") {
-            id = "io.github.koltalabs.kolt.kmp.library-koin"
+            id = "io.github.keltstone.kolt.kmp.library-koin"
             displayName = "Kolt KMP Library (Koin)"
             description = "KMP shared module with Koin dependency injection."
             implementationClass = "kolt.conventions.plugins.KmpLibraryKoinConventionPlugin"
         }
         create("kmpLibraryKoinCompose") {
-            id = "io.github.koltalabs.kolt.kmp.library-koin-compose"
+            id = "io.github.keltstone.kolt.kmp.library-koin-compose"
             displayName = "Kolt KMP Library (Koin + Compose)"
             description = "KMP shared module with Koin DI and Compose Multiplatform UI."
             implementationClass = "kolt.conventions.plugins.KmpLibraryKoinComposeConventionPlugin"
         }
         create("kmpData") {
-            id = "io.github.koltalabs.kolt.kmp.data"
+            id = "io.github.keltstone.kolt.kmp.data"
             displayName = "Kolt KMP Data Layer"
             description = "KMP data layer with opt-in SQLDelight, Ktor, DataStore, and Serialization."
             implementationClass = "kolt.conventions.plugins.feature.KmpDataLayerConventionPlugin"
         }
         create("kmpApplication") {
-            id = "io.github.koltalabs.kolt.kmp.application"
+            id = "io.github.keltstone.kolt.kmp.application"
             displayName = "Kolt KMP Application"
             description = "Android host app module for a KMP project (Compose + coroutines by default)."
             implementationClass = "kolt.conventions.plugins.KmpApplicationConventionPlugin"
@@ -639,9 +639,9 @@ publishing {
                 name.set("Kolt Convention Plugins")
                 description.set(
                     "Convention Gradle plugins (Android + KMP) and version catalogs " +
-                        "for Kolta Labs projects."
+                        "for Keltstone projects."
                 )
-                url.set("https://github.com/kolta-labs/Kolt")
+                url.set("https://github.com/keltstone/Kolt")
                 licenses {
                     license {
                         name.set("Apache-2.0")
@@ -650,15 +650,15 @@ publishing {
                 }
                 developers {
                     developer {
-                        id.set("kolta-labs")
-                        name.set("Kolta Labs")
-                        url.set("https://github.com/kolta-labs")
+                        id.set("keltstone")
+                        name.set("Keltstone")
+                        url.set("https://github.com/keltstone")
                     }
                 }
                 scm {
-                    connection.set("scm:git:git://github.com/kolta-labs/Kolt.git")
-                    developerConnection.set("scm:git:ssh://github.com/kolta-labs/Kolt.git")
-                    url.set("https://github.com/kolta-labs/Kolt")
+                    connection.set("scm:git:git://github.com/keltstone/Kolt.git")
+                    developerConnection.set("scm:git:ssh://github.com/keltstone/Kolt.git")
+                    url.set("https://github.com/keltstone/Kolt")
                 }
             }
         }

@@ -29,13 +29,13 @@ a project outside it.)*
 Before wiring the first Kolt dependency into a new project, check whether
 consumption is already decided: look for an `includeBuild(...)` pointing at
 `Kolt/libs` in `settings.gradle.kts`, a copied module directory, or an
-`io.github.koltalabs.kolt` coordinate in the version catalog. If none of those exist
+`io.github.keltstone.kolt` coordinate in the version catalog. If none of those exist
 yet, **ask the user which mode to use — always, exactly once per project,
 never silently default:**
 
 1. **Composite build / direct link from disk** — `includeBuild("<path-to-KoltLibs>")` in `settings.gradle.kts`. Not a copy: a live reference to the same files on this machine, edits in Kolt show up immediately with no publish step. Only works on this machine, at this path.
 2. **Copy the module(s) in** — vendor the source into this project's tree. Portable across machines/CI, but you own drift from the source from that point on; no free updates.
-3. **Gradle dependency on a published artifact** — `implementation("io.github.koltalabs.kolt:<module>:<version>")` (note: `compose-utils` is published under artifact ID `compose`, i.e. `io.github.koltalabs.kolt:compose:<version>`). Requires Kolt actually published (Maven local or remote) under that coordinate. Most portable/CI-friendly option, if publishing is set up.
+3. **Gradle dependency on a published artifact** — `implementation("io.github.keltstone.kolt:<module>:<version>")` (note: `compose-utils` is published under artifact ID `compose`, i.e. `io.github.keltstone.kolt:compose:<version>`). Requires Kolt actually published (Maven local or remote) under that coordinate. Most portable/CI-friendly option, if publishing is set up.
 
 Once answered, treat it as decided for the life of the project — don't
 re-ask on later tasks; re-check the project state above instead.
@@ -48,10 +48,10 @@ applies to every link in a dependency chain (app → library → library …), n
 a *chained build* means any included build that itself applies a Kolt plugin.
 
 1. **No versioned/published Kolt coordinates.** Never `io.github.koltsystems…`,
-   `io.github.appspiriment…`, or a literal `io.github.koltalabs.kolt:<module>:<version>` that
+   `io.github.appspiriment…`, or a literal `io.github.keltstone.kolt:<module>:<version>` that
    only resolves from `~/.m2`/Maven. Declare Kolt libraries through the version catalog and let
    the included build *substitute* them.
-2. **Apply Kolt plugins by raw ID, with no version** — `id("io.github.koltalabs.kolt.kmp.library")`,
+2. **Apply Kolt plugins by raw ID, with no version** — `id("io.github.keltstone.kolt.kmp.library")`,
    never a catalog `alias(...)` with `version.ref`, and never `alias(...) apply false` for them in
    the root build. A version makes Gradle demand a published artifact.
 3. **Every build that uses Kolt includes build-logic in `pluginManagement` and applies the shared script LAST:**
@@ -72,7 +72,7 @@ a *chained build* means any included build that itself applies a Kolt plugin.
    `gradle.parent == null` made it worse — so treat it as a hard rule and keep a comment beside
    the includes stating it.
 6. **Prove it before calling it done:** temporarily move
-   `~/.m2/repository/io/github/{koltalabs,koltsystems,appspiriment}` aside and run the project's
+   `~/.m2/repository/io/github/{keltstone,koltsystems,appspiriment}` aside and run the project's
    tests / assemble with `--offline`. If it only builds with those present, something is still
    resolving from Maven.
 
@@ -102,7 +102,7 @@ don't carry stale versions forward from this doc indefinitely.
 **Detekt custom rules live in Kolt, not per-app.** The two rules
 [tooling.md](tooling.md#detekt-custom-rules) specifies (no hardcoded
 `Color`/`.dp`/`.sp`, no plain collection in a `State`) are published once as
-`io.github.koltalabs.kolt:detekt-rules:<version>` and consumed the same way
+`io.github.keltstone.kolt:detekt-rules:<version>` and consumed the same way
 as any other Kolt module (see [How to consume it](#how-to-consume-it--ask-once-at-project-creation)
 above) — writing a project-local `RuleSetProvider` for either of these two
 duplicates a module that already exists a few files over, exactly the
@@ -127,7 +127,7 @@ isn't license to assume every slot documented here is present. If it's
 missing, either bump the pin or fall back to the closest available slot,
 don't hand-roll a literal.
 
-**Tokens are part of the mandate.** Whenever Kolt is available (in the workspace, an `includeBuild`, a copied module, or an `io.github.koltalabs.kolt` dependency),
+**Tokens are part of the mandate.** Whenever Kolt is available (in the workspace, an `includeBuild`, a copied module, or an `io.github.keltstone.kolt` dependency),
 every color, padding/spacing, corner radius, icon/button size and text style
 comes from `Kolt.colors` / `Kolt.sizes` / `Kolt.typography`
 when Kolt has one — no literals, no duplicate app tokens, and no deprecated Kolt tokens (replace them with the current one when you touch the code). Rules in

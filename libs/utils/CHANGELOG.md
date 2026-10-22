@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `utils` (`io.github.koltalabs.kolt:utils`) are documented
+All notable changes to `utils` (`io.github.keltstone.kolt:utils`) are documented
 here, newest first. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 

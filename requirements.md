@@ -7,8 +7,8 @@ causing duplication, a painful local workflow, and diverging versions:
 
 | Old repo | Published artifacts |
 |---|---|
-| `AndroidConventionPlugins` | 6 plugins `io.github.koltalabs.kolt.*` + `koltlibs` catalog |
-| `KoltKMPPlugins` | 6 plugins `io.github.koltalabs.kolt.kmp.*` + `kmplibs` catalog |
+| `AndroidConventionPlugins` | 6 plugins `io.github.keltstone.kolt.*` + `koltlibs` catalog |
+| `KoltKMPPlugins` | 6 plugins `io.github.keltstone.kolt.kmp.*` + `kmplibs` catalog |
 | `AppUtilLibs` | `utils`, `compose-utils`, `logutils`, `update-utils` (all Android-only) |
 
 Confirmed pain points:
@@ -92,33 +92,33 @@ UtilsLibs/
 
 ## 5. Convention Plugin Catalog
 
-### Android plugins (`io.github.koltalabs.kolt.*`)
+### Android plugins (`io.github.keltstone.kolt.*`)
 
 | Plugin ID | Class | Description |
 |---|---|---|
-| `io.github.koltalabs.kolt.application` | `AndroidApplicationConventionPlugin` | Standard Android app module (Compose + Hilt by default) |
-| `io.github.koltalabs.kolt.library` | `AndroidLibraryConventionPlugin` | Minimal Android library |
-| `io.github.koltalabs.kolt.library-hilt` | `AndroidLibraryHiltConventionPlugin` | Library + Hilt |
-| `io.github.koltalabs.kolt.library-compose` | `AndroidLibraryComposeConventionPlugin` | Library + Compose |
-| `io.github.koltalabs.kolt.library-hilt-compose` | `AndroidLibraryHiltComposeConventionPlugin` | Library + Hilt + Compose |
-| `io.github.koltalabs.kolt.data` | `AndroidDataLayerConventionPlugin` | Data layer: opt-in Room, Retrofit, DataStore, Security, WorkManager |
+| `io.github.keltstone.kolt.application` | `AndroidApplicationConventionPlugin` | Standard Android app module (Compose + Hilt by default) |
+| `io.github.keltstone.kolt.library` | `AndroidLibraryConventionPlugin` | Minimal Android library |
+| `io.github.keltstone.kolt.library-hilt` | `AndroidLibraryHiltConventionPlugin` | Library + Hilt |
+| `io.github.keltstone.kolt.library-compose` | `AndroidLibraryComposeConventionPlugin` | Library + Compose |
+| `io.github.keltstone.kolt.library-hilt-compose` | `AndroidLibraryHiltComposeConventionPlugin` | Library + Hilt + Compose |
+| `io.github.keltstone.kolt.data` | `AndroidDataLayerConventionPlugin` | Data layer: opt-in Room, Retrofit, DataStore, Security, WorkManager |
 
-### KMP plugins (`io.github.koltalabs.kolt.kmp.*`)
+### KMP plugins (`io.github.keltstone.kolt.kmp.*`)
 
 | Plugin ID | Class | Description |
 |---|---|---|
-| `io.github.koltalabs.kolt.kmp.library` | `KmpLibraryConventionPlugin` | Base KMP shared module (Android always on; iOS/Desktop/WASM opt-in via `kmp { }`) |
-| `io.github.koltalabs.kolt.kmp.library-compose` | `KmpLibraryComposeConventionPlugin` | KMP library + Compose Multiplatform |
-| `io.github.koltalabs.kolt.kmp.library-koin` | `KmpLibraryKoinConventionPlugin` | KMP library + Koin DI |
-| `io.github.koltalabs.kolt.kmp.library-koin-compose` | `KmpLibraryKoinComposeConventionPlugin` | KMP library + Koin + Compose MP |
-| `io.github.koltalabs.kolt.kmp.data` | `KmpDataLayerConventionPlugin` | KMP data layer: opt-in SQLDelight, Ktor, Ktorfit, DataStore, Serialization, Room 3 |
-| `io.github.koltalabs.kolt.kmp.application` | `KmpApplicationConventionPlugin` | Android host app module for a KMP project |
+| `io.github.keltstone.kolt.kmp.library` | `KmpLibraryConventionPlugin` | Base KMP shared module (Android always on; iOS/Desktop/WASM opt-in via `kmp { }`) |
+| `io.github.keltstone.kolt.kmp.library-compose` | `KmpLibraryComposeConventionPlugin` | KMP library + Compose Multiplatform |
+| `io.github.keltstone.kolt.kmp.library-koin` | `KmpLibraryKoinConventionPlugin` | KMP library + Koin DI |
+| `io.github.keltstone.kolt.kmp.library-koin-compose` | `KmpLibraryKoinComposeConventionPlugin` | KMP library + Koin + Compose MP |
+| `io.github.keltstone.kolt.kmp.data` | `KmpDataLayerConventionPlugin` | KMP data layer: opt-in SQLDelight, Ktor, Ktorfit, DataStore, Serialization, Room 3 |
+| `io.github.keltstone.kolt.kmp.application` | `KmpApplicationConventionPlugin` | Android host app module for a KMP project |
 
 ---
 
 ## 6. Library Artifacts
 
-All artifacts share group `io.github.koltalabs.kolt` and the unified version from `version.properties`.
+All artifacts share group `io.github.keltstone.kolt` and the unified version from `version.properties`.
 
 | Artifact | Type | Targets | Notes |
 |---|---|---|---|
@@ -223,13 +223,13 @@ Published version string: `1.0.0.dev-01` (dev) / `1.0.0` (release, when `-PisRel
   - `androidMain`: `Log.android.kt` — `actual fun platformLog(...)` using `android.util.Log`
   - `androidMain`: `LogInitializer.kt` — App Startup `Initializer<Unit>` reads `FLAG_DEBUGGABLE`, sets `Log.enabled`
   - `androidMain/AndroidManifest.xml` — registers `LogInitializer` via `InitializationProvider`
-  - `build.gradle.kts` — applies `io.github.koltalabs.kolt.kmp.library`, `enableUtils.set(false)`
+  - `build.gradle.kts` — applies `io.github.keltstone.kolt.kmp.library`, `enableUtils.set(false)`
   - **Build validated**: `:libs:logutils:build` → BUILD SUCCESSFUL
 - [x] **`utils`** — KMP module:
   - `commonMain`: `FlowUtils`, `ListUtils`, `PhoneNumberUtils`, `StringExtns` (pure coroutines/Kotlin)
   - `androidMain`: `Utils`, `ContextExtensions`, `FormatUtils` (android.*), `time/` package (java.time + kotlinx.serialization)
   - `androidUnitTest`: `MillisToMMddHmaTimeTest`
-  - `build.gradle.kts` — applies `io.github.koltalabs.kolt.kmp.library` + serialization plugin, `enableUtils.set(false)`
+  - `build.gradle.kts` — applies `io.github.keltstone.kolt.kmp.library` + serialization plugin, `enableUtils.set(false)`
   - **Build validated**: `:libs:utils:build` → BUILD SUCCESSFUL
 - [x] **`compose-utils`** — Android library:
   - Sources ported; `build.gradle.kts` applies `google.android.library` + `kotlin.android` + `kotlin.compose`
@@ -238,7 +238,7 @@ Published version string: `1.0.0.dev-01` (dev) / `1.0.0` (release, when `-PisRel
   - Lint disabled (`tasks.configureEach`) — AGP 8.7.3 + Kotlin 2.x Analysis API crashes several compose-runtime lint detectors; fix propagated to all compose modules via the `setupCompose()` convention
   - **Build validated**: `:libs:compose-utils:build` → BUILD SUCCESSFUL
 - [x] **`update-utils`** — Android library:
-  - `build.gradle.kts` applies `io.github.koltalabs.kolt.library-compose` + firebase deps
+  - `build.gradle.kts` applies `io.github.keltstone.kolt.library-compose` + firebase deps
   - Fixed: `org.jetbrains.kotlin.plugin.serialization` removed from `composePluginList` (it was incorrectly included)
   - Fixed: JVM target mismatch (hardcoded `JVM_21` → `JvmTarget.fromTarget(projectConfigs.javaVersion.toString())`)
   - Fixed: `AppUpdateHelperUtil.kt` API migration (`uiColors → colors`, removed `padding(it)` from `ColumnScope` lambda)
@@ -246,10 +246,10 @@ Published version string: `1.0.0.dev-01` (dev) / `1.0.0` (release, when `-PisRel
 
 ### Phase 5 — Wire publishing + full build ✅ DONE
 - [x] All 4 modules included in `settings.gradle.kts`
-- [x] Dependency substitution in root `build.gradle.kts` — `io.github.koltalabs.kolt:*` → local projects during development
+- [x] Dependency substitution in root `build.gradle.kts` — `io.github.keltstone.kolt:*` → local projects during development
 - [x] `./gradlew build` at repo root → **BUILD SUCCESSFUL** (295 tasks)
 - [x] `./gradlew :build-logic:conventions:test` → **BUILD SUCCESSFUL** (TestKit tests pass)
-- [x] `./gradlew publishToMavenLocal` → **BUILD SUCCESSFUL**; all 4 artifacts at `io.github.koltalabs.kolt:*:1.0.0.dev-01`; `Constants.kt` + `KmpConstants.kt` contain `libVersion = "1.0.0.dev-01"` (LIBVERSION substituted correctly)
+- [x] `./gradlew publishToMavenLocal` → **BUILD SUCCESSFUL**; all 4 artifacts at `io.github.keltstone.kolt:*:1.0.0.dev-01`; `Constants.kt` + `KmpConstants.kt` contain `libVersion = "1.0.0.dev-01"` (LIBVERSION substituted correctly)
 - [x] Plugin IDs resolve from included build — no `publishToMavenLocal` round-trip needed
 - [x] `.gitignore` added (excludes `build/`, `.gradle/`, `.kotlin/`, `local.properties`, `*.jks`)
 - [x] Initial git commit on `main` branch (191 files)

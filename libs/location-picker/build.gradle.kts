@@ -1,7 +1,7 @@
 plugins {
-    id("io.github.koltalabs.kolt.kmp.library-compose")
+    id("io.github.keltstone.kolt.kmp.library-compose")
     alias(kmplibs.plugins.kotlin.serialization)
-    id("io.github.koltalabs.kolt.publish")
+    id("io.github.keltstone.kolt.publish")
     alias(libs.plugins.dokka)
 }
 
@@ -56,7 +56,7 @@ mavenPublishing {
         description = "All-in-one, configurable, themeable location-picker UI (search / map / " +
             "current-location / manual entry) for Android, iOS, Desktop and Web — built on top " +
             "of Kolt Location."
-        url = "https://github.com/kolta-labs/Kolt"
+        url = "https://github.com/keltstone/Kolt"
     }
 }
 

@@ -50,7 +50,7 @@ android {
     namespace = "kolt.demo"
     compileSdk = 36
     defaultConfig {
-        applicationId = "io.github.koltalabs.kolt.demo"
+        applicationId = "io.github.keltstone.kolt.demo"
         minSdk = 26
         targetSdk = 36
         versionCode = 1

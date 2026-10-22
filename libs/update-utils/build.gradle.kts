@@ -1,6 +1,6 @@
 plugins {
-    id("io.github.koltalabs.kolt.library-compose")
-    id("io.github.koltalabs.kolt.publish")
+    id("io.github.keltstone.kolt.library-compose")
+    id("io.github.keltstone.kolt.publish")
     alias(libs.plugins.dokka)
 }
 
@@ -30,6 +30,6 @@ mavenPublishing {
         name = "Kolt Update Utils"
         description = "Lightweight Android library that simplifies Firebase Remote Config-driven " +
             "update flows with Compose UI for immediate and flexible update prompts."
-        url = "https://github.com/kolta-labs/Kolt"
+        url = "https://github.com/keltstone/Kolt"
     }
 }

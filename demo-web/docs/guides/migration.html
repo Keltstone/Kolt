@@ -18,13 +18,13 @@
         <article class="docs-article">
             <span class="docs-eyebrow">Guides</span>
             <h1>Migrating to Kolt</h1>
-            <p class="docs-lede">Step-by-step instructions for upgrading projects from the legacy <code>io.github.appspiriment.kolt</code> namespace to <strong>Kolt</strong> (<code>io.github.koltalabs.kolt</code>).</p>
+            <p class="docs-lede">Step-by-step instructions for upgrading projects from the legacy <code>io.github.appspiriment.kolt</code> namespace to <strong>Kolt</strong> (<code>io.github.keltstone.kolt</code>).</p>
 
             <div class="docs-callout" style="background: rgba(234,67,53,0.08); border-left: 4px solid #ea4335; padding: 14px 18px; border-radius: 6px; margin: 20px 0;">
                 <h4 style="margin: 0 0 6px; color: #ea4335;">Encountering "Plugin not found"?</h4>
                 <p style="margin: 0; font-size: 14px;">
                     <code>Plugin [id: 'io.github.appspiriment.kolt.kmp.application'] was not found in any of the following sources:</code><br>
-                    This occurs when Gradle requests retired plugin IDs. Update your plugin id to <code>io.github.koltalabs.kolt.kmp.application</code> or use the version catalog alias <code>alias(kmplibs.plugins.kmp.application)</code>.
+                    This occurs when Gradle requests retired plugin IDs. Update your plugin id to <code>io.github.keltstone.kolt.kmp.application</code> or use the version catalog alias <code>alias(kmplibs.plugins.kmp.application)</code>.
                 </p>
             </div>
 
@@ -42,76 +42,76 @@
                 <tbody>
                     <tr>
                         <td><code>io.github.appspiriment.kolt.kmp.application</code></td>
-                        <td><code>io.github.koltalabs.kolt.kmp.application</code></td>
+                        <td><code>io.github.keltstone.kolt.kmp.application</code></td>
                         <td><code>alias(kmplibs.plugins.kmp.application)</code></td>
                     </tr>
                     <tr>
                         <td><code>io.github.appspiriment.kolt.kmp.library</code></td>
-                        <td><code>io.github.koltalabs.kolt.kmp.library</code></td>
+                        <td><code>io.github.keltstone.kolt.kmp.library</code></td>
                         <td><code>alias(kmplibs.plugins.kmp.library)</code></td>
                     </tr>
                     <tr>
                         <td><code>io.github.appspiriment.kolt.kmp.library-compose</code></td>
-                        <td><code>io.github.koltalabs.kolt.kmp.library-compose</code></td>
+                        <td><code>io.github.keltstone.kolt.kmp.library-compose</code></td>
                         <td><code>alias(kmplibs.plugins.kmp.library.compose)</code></td>
                     </tr>
                     <tr>
                         <td><code>io.github.appspiriment.kolt.kmp.library-koin</code></td>
-                        <td><code>io.github.koltalabs.kolt.kmp.library-koin</code></td>
+                        <td><code>io.github.keltstone.kolt.kmp.library-koin</code></td>
                         <td><code>alias(kmplibs.plugins.kmp.library.koin)</code></td>
                     </tr>
                     <tr>
                         <td><code>io.github.appspiriment.kolt.kmp.library-koin-compose</code></td>
-                        <td><code>io.github.koltalabs.kolt.kmp.library-koin-compose</code></td>
+                        <td><code>io.github.keltstone.kolt.kmp.library-koin-compose</code></td>
                         <td><code>alias(kmplibs.plugins.kmp.library.koin.compose)</code></td>
                     </tr>
                     <tr>
                         <td><code>io.github.appspiriment.kolt.kmp.data</code></td>
-                        <td><code>io.github.koltalabs.kolt.kmp.data</code></td>
+                        <td><code>io.github.keltstone.kolt.kmp.data</code></td>
                         <td><code>alias(kmplibs.plugins.kmp.data)</code></td>
                     </tr>
                     <tr>
                         <td><code>io.github.appspiriment.kolt.application</code></td>
-                        <td><code>io.github.koltalabs.kolt.application</code></td>
+                        <td><code>io.github.keltstone.kolt.application</code></td>
                         <td><code>alias(koltlibs.plugins.kolt.application)</code></td>
                     </tr>
                     <tr>
                         <td><code>io.github.appspiriment.kolt.library</code></td>
-                        <td><code>io.github.koltalabs.kolt.library</code></td>
+                        <td><code>io.github.keltstone.kolt.library</code></td>
                         <td><code>alias(koltlibs.plugins.kolt.library)</code></td>
                     </tr>
                     <tr>
                         <td><code>io.github.appspiriment.kolt.library-compose</code></td>
-                        <td><code>io.github.koltalabs.kolt.library-compose</code></td>
+                        <td><code>io.github.keltstone.kolt.library-compose</code></td>
                         <td><code>alias(koltlibs.plugins.kolt.library.compose)</code></td>
                     </tr>
                     <tr>
                         <td><code>io.github.appspiriment.kolt.library-hilt</code></td>
-                        <td><code>io.github.koltalabs.kolt.library-hilt</code></td>
+                        <td><code>io.github.keltstone.kolt.library-hilt</code></td>
                         <td><code>alias(koltlibs.plugins.kolt.library.hilt)</code></td>
                     </tr>
                     <tr>
                         <td><code>io.github.appspiriment.kolt.library-hilt-compose</code></td>
-                        <td><code>io.github.koltalabs.kolt.library-hilt-compose</code></td>
+                        <td><code>io.github.keltstone.kolt.library-hilt-compose</code></td>
                         <td><code>alias(koltlibs.plugins.kolt.library.hilt.compose)</code></td>
                     </tr>
                     <tr>
                         <td><code>io.github.appspiriment.kolt.data</code></td>
-                        <td><code>io.github.koltalabs.kolt.data</code></td>
+                        <td><code>io.github.keltstone.kolt.data</code></td>
                         <td><code>alias(koltlibs.plugins.kolt.data)</code></td>
                     </tr>
                 </tbody>
             </table>
 
             <h2>2. Version Catalog Wiring</h2>
-            <p>In <code>settings.gradle.kts</code>, pull from <code>io.github.koltalabs.kolt</code>:</p>
+            <p>In <code>settings.gradle.kts</code>, pull from <code>io.github.keltstone.kolt</code>:</p>
             <pre><code>dependencyResolutionManagement {
     versionCatalogs {
         create("koltlibs") {
-            from("io.github.koltalabs.kolt:kolt-catalog:&lt;version&gt;")
+            from("io.github.keltstone.kolt:kolt-catalog:&lt;version&gt;")
         }
         create("kmplibs") {
-            from("io.github.koltalabs.kolt:kmp-catalog:&lt;version&gt;")
+            from("io.github.keltstone.kolt:kmp-catalog:&lt;version&gt;")
         }
     }
 }</code></pre>
@@ -119,10 +119,10 @@
             <h2>3. Runtime Dependencies &amp; BOM</h2>
             <pre><code>// Update coordinates in build.gradle.kts:
 dependencies {
-    implementation(platform("io.github.koltalabs.kolt:kolt-bom:&lt;version&gt;"))
-    implementation("io.github.koltalabs.kolt:utils")
-    implementation("io.github.koltalabs.kolt:logutils")
-    implementation("io.github.koltalabs.kolt:compose-kmp")
+    implementation(platform("io.github.keltstone.kolt:kolt-bom:&lt;version&gt;"))
+    implementation("io.github.keltstone.kolt:utils")
+    implementation("io.github.keltstone.kolt:logutils")
+    implementation("io.github.keltstone.kolt:compose-kmp")
 }</code></pre>
 
             <h2>4. Source Package Updates</h2>

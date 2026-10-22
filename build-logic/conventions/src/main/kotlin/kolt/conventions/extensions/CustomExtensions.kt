@@ -104,7 +104,7 @@ fun Project.dataLayer(configure: Action<DataLayerExtension>) {
 }
 
 /**
- * Configuration extension for the `io.github.koltalabs.kolt.data` plugin.
+ * Configuration extension for the `io.github.keltstone.kolt.data` plugin.
  * Each nested block is opt-in — nothing is added unless explicitly enabled.
  */
 abstract class DataLayerExtension @Inject constructor(objects: ObjectFactory) {

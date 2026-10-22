@@ -6,7 +6,7 @@
 
 plugins {
     kotlin("jvm")
-    id("io.github.koltalabs.kolt.publish")
+    id("io.github.keltstone.kolt.publish")
     alias(libs.plugins.dokka)
 }
 
@@ -27,6 +27,6 @@ mavenPublishing {
         description = "Custom Detekt rule set enforcing Kolt steering non-negotiables: " +
             "no hardcoded Color(...)/.dp/.sp outside the theme module, no plain " +
             "List/Map/Set in an MVI State class."
-        url = "https://github.com/kolta-labs/Kolt"
+        url = "https://github.com/keltstone/Kolt"
     }
 }

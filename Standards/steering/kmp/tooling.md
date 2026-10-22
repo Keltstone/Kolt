@@ -106,7 +106,7 @@ non-negotiables 6, 7, 8, 9, and 11:
   the way the others are.
 
 **Don't author these as a project-local rule set.** They're published once as
-`io.github.koltalabs.kolt:detekt-rules` — see
+`io.github.keltstone.kolt:detekt-rules` — see
 [kolt-libs.md](kolt-libs.md#external-tooling-coordinates) for the coordinate
 and consumption mode. Writing a project-local `RuleSetProvider` for any of
 these duplicates a module that already exists; only fall back to a

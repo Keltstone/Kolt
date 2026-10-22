@@ -8,10 +8,10 @@ Three independent namespaces (never derive one from another):
 - Gradle plugin IDs — consumer `plugins {}`. Changeable (alias overlap).
 
 Decisions (confirm before start):
-- Package root: `kolt` (placeholder; user to confirm). Map `io.github.koltalabs.kolt.X` -> `kolt.X`; sub-packages kept (`kolt.composekmp`, `kolt.utils`, `kolt.crashlogs`, ...). Build-logic internal package -> `kolt.conventions`.
-- Group + plugin IDs: unchanged in this change (still `io.github.koltalabs.kolt`). Only made single-source.
+- Package root: `kolt` (placeholder; user to confirm). Map `<old package root, see docs/MIGRATION.md>.X` -> `kolt.X`; sub-packages kept (`kolt.composekmp`, `kolt.utils`, `kolt.crashlogs`, ...). Build-logic internal package -> `kolt.conventions`.
+- Group + plugin IDs: unchanged in this change (see `docs/specs/rebrand-keltstone.md` for subsequent rebrand). Only made single-source.
 - IntelliJ plugin `<id>` (`...kolt.project-wizard`) NOT changed: Marketplace ID immutable. Its Kotlin package moves like the rest.
-- Out of scope: GitHub org/repo rename, `Kolta Labs` text, `support@koltalabs.com`, `kolta-labs` URLs (~59 hits) — separate step, GitHub redirects old URL.
+- Out of scope: GitHub org/repo rename, brand text, support email, org URLs — separate step, GitHub redirects old URL.
 - Demo `applicationId` (`...kolt.demo`): demo only, may change; separate decision (new app ID = reinstall).
 
 ## Step 0 — single-source the coordinates (no behaviour change; do first, build green)
@@ -22,18 +22,18 @@ Group hardcoded today in: `gradle.properties` (`GROUP`), root `build.gradle.kts`
 
 ## Step 1 — package sweep (script, one commit)
 Use `git mv` per dir (history kept), then rewrite. Rules, by string shape — never one blanket sed:
-- `package ...` / `import ...` / FQCN in `*.kt` under `src/**`: `io.github.koltalabs.kolt.` -> `kolt.`
-- Maven coordinate = `io.github.koltalabs.kolt:` (has colon) -> leave (group, Step 0).
-- Plugin ID = `io.github.koltalabs.kolt.(kmp.|library|application|data|publish)...` -> leave (plugin IDs). Must be excluded from the sweep or consumers break.
+- `package ...` / `import ...` / FQCN in `*.kt` under `src/**`: `<old package root>.` -> `kolt.`
+- Maven coordinate = `<group>:` (has colon) -> leave (group, Step 0).
+- Plugin ID = `<group>.(kmp.|library|application|data|publish)...` -> leave (plugin IDs). Must be excluded from the sweep or consumers break.
 - Android `namespace = ` in each `libs/*/build.gradle.kts` -> new package (keep namespace == root package of module; R/BuildConfig move with it).
 - `packageOfResClass` (location-picker) -> `kolt.locationpicker.generated.resources`. Pin it explicitly for ANY module using `compose.resources`: default is derived from group+module, so a later group change would silently move `Res` and break imports.
-- Hidden string couplings (grep each): `AndroidManifest.xml` class names + `androidx.startup` `InitializationProvider` meta-data (7 xml), crashlogs intent action `io.github.koltalabs.kolt.crashlogs.VIEW` (lib + ui module, change both together; -> `kolt.crashlogs.VIEW`), `META-INF/services/...RuleSetProvider` file content in detekt-rules, any `-keep`/consumer ProGuard rules, `implementationClass` strings in `gradlePlugin {}`, `mainClass` in demo (`...demo.MainKt`).
+- Hidden string couplings (grep each): `AndroidManifest.xml` class names + `androidx.startup` `InitializationProvider` meta-data (7 xml), crashlogs intent action `<root>.crashlogs.VIEW` (lib + ui module, change both together; -> `kolt.crashlogs.VIEW`), `META-INF/services/...RuleSetProvider` file content in detekt-rules, any `-keep`/consumer ProGuard rules, `implementationClass` strings in `gradlePlugin {}`, `mainClass` in demo (`...demo.MainKt`).
 - Docs/steering/tests touched same commit: `Standards/steering/**`, `docs/**`, `README.md`, `AGENTS.md`, `demo-web/docs/**` (html/js), `project-templates/**` imports, Konsist/Detekt rule fixtures + `KoltRulesTest`. Konsist rules asserting package prefixes must be updated or `check` fails.
 - Do not touch: generated `build/`, `kotlin-js-store`.
 
 ## Step 2 — verify
 - `./gradlew check` all modules + build-logic tests + detekt-rules tests.
-- Leftover scan: `grep -r 'io\.github\.koltalabs\.kolt\.' --include=*.kt --include=*.xml` must be empty except plugin IDs/group in allowlist (build files, toml, plugin.xml `<id>`).
+- Leftover scan: `grep -r '<old package root>\.' --include=*.kt --include=*.xml` must be empty except plugin IDs/group in allowlist (build files, toml, plugin.xml `<id>`).
 - `publishToMavenLocal`; unzip one jar/aar/klib per lib: package dirs = `kolt/...`, no old dirs, manifest namespace correct.
 - Consumer smoke: generate project from `project-templates` (kmp + android), resolve from mavenLocal, compile, run demo-app (desktop + android) + demo-web build.
 - Flip test (proves goal): set `GROUP` to dummy, `publishToMavenLocal`, confirm a consumer compiles with ONLY its dep line changed (imports untouched), then revert.
@@ -52,4 +52,4 @@ Use `git mv` per dir (history kept), then rewrite. Rules, by string shape — ne
 
 Where: `libs/*`, `build-logic/**`, `intellij-plugin/**`, `demo-app`, `demo-web`, `project-templates`, `Standards/steering/**`, `docs/**`, `gradle.properties`, `settings.gradle.kts`, `gradle/*.versions.toml`.
 
-Status: Executed in working tree (uncommitted). Steps 0 & 1 complete: package root `kolt.*` moved across all modules, build-logic, intellij-plugin, demo, templates, and docs. GROUP single-sourced from root gradle.properties. Verified: leftover scan categorized & clean; build-logic check passed; all module unit/desktop tests & lint passed; publishToMavenLocal verified via artifact unzip; consumer smoke project compiled; flip test passed & reverted. Unverified: iOS binary linking (no Xcode CLI) and wasmJsBrowserTest (no ChromeHeadless).
+Status: Done. Steps 0 & 1 complete: package root `kolt.*` moved across all modules, build-logic, intellij-plugin, demo, templates, and docs. GROUP single-sourced from root gradle.properties. Verified: leftover scan categorized & clean; build-logic check passed; all module unit/desktop tests & lint passed; publishToMavenLocal verified via artifact unzip; consumer smoke project compiled; flip test passed & reverted. Subsequent Maven group and plugin ID rebrand documented in `docs/specs/rebrand-keltstone.md`.

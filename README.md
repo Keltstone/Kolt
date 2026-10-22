@@ -11,15 +11,15 @@
 
 **Unified convention Gradle plugins & lightweight runtime libraries for Android & Kotlin Multiplatform**
 
-[![Plugin Version](https://img.shields.io/badge/Plugin%20Version-0.2.1.dev--02-1a73e8?style=for-the-badge&logo=gradle&logoColor=white)](https://github.com/kolta-labs/Kolt/releases)
+[![Plugin Version](https://img.shields.io/badge/Plugin%20Version-0.2.1.dev--02-1a73e8?style=for-the-badge&logo=gradle&logoColor=white)](https://github.com/keltstone/Kolt/releases)
 
-[![Library BOM](https://img.shields.io/badge/Library%20BOM-2026.06.2-0d47a1?style=for-the-badge&logo=android&logoColor=white)](https://github.com/kolta-labs/Kolt/releases)
+[![Library BOM](https://img.shields.io/badge/Library%20BOM-2026.06.2-0d47a1?style=for-the-badge&logo=android&logoColor=white)](https://github.com/keltstone/Kolt/releases)
 
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.3.10-7F52FF?style=flat-square&logo=kotlin&logoColor=white)](https://kotlinlang.org)
 [![Gradle](https://img.shields.io/badge/Gradle-8.12-02303A?style=flat-square&logo=gradle&logoColor=white)](https://gradle.org)
 [![AI-Agent Ready](https://img.shields.io/badge/AI--Agent-Ready-81c995?style=flat-square&logo=googlebard&logoColor=white)](#-ai-agent-readiness--steering)
 [![License](https://img.shields.io/badge/License-Apache%202.0-orange?style=flat-square)](LICENSE)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](https://github.com/kolta-labs/Kolt/pulls)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen?style=flat-square)](https://github.com/keltstone/Kolt/pulls)
 
 <h3>
   <a href="https://kolt-kmp.web.app/">Explore Documentation Portal</a>
@@ -33,7 +33,7 @@
 
 ## 📖 Overview
 
-**Kolt** (published under group `io.github.koltalabs.kolt`) is a consolidated **Gradle composite build monorepo** merging plugin configurations and cross-platform runtime assets. It provides a structured, modern build toolchain and a lightweight toolkit for teams building client applications. 
+**Kolt** (published under group `io.github.keltstone.kolt`) is a consolidated **Gradle composite build monorepo** merging plugin configurations and cross-platform runtime assets. It provides a structured, modern build toolchain and a lightweight toolkit for teams building client applications. 
 
 By applying opinionated convention plugins, Kolt eliminates Gradle configuration boilerplate, enforces modular boundaries, and injects runtime utilities for UI components, state management, offline database persistence, local logging, and location APIs.
 
@@ -96,10 +96,10 @@ dependencyResolutionManagement {
     }
     versionCatalogs {
         create("koltlibs") {
-            from("io.github.koltalabs.kolt:kolt-catalog:0.2.1.dev-02")
+            from("io.github.keltstone.kolt:kolt-catalog:0.2.1.dev-02")
         }
         create("kmplibs") {
-            from("io.github.koltalabs.kolt:kmp-catalog:0.2.1.dev-02")
+            from("io.github.keltstone.kolt:kmp-catalog:0.2.1.dev-02")
         }
     }
 }
@@ -112,26 +112,26 @@ Apply plugins in your module-level `build.gradle.kts` files to receive instant b
 // Android application host module (:app)
 plugins {
     alias(koltlibs.plugins.kolt.application)
-    // or direct ID: id("io.github.koltalabs.kolt.application")
+    // or direct ID: id("io.github.keltstone.kolt.application")
 }
 
 // Android library module with Compose & Hilt
 plugins {
     alias(koltlibs.plugins.kolt.library.hilt.compose)
-    // or direct ID: id("io.github.koltalabs.kolt.library-hilt-compose")
+    // or direct ID: id("io.github.keltstone.kolt.library-hilt-compose")
 }
 
 // Kotlin Multiplatform shared module (:shared)
 plugins {
     alias(kmplibs.plugins.kmp.library)
     // or with Koin + Compose: alias(kmplibs.plugins.kmp.library.koin.compose)
-    // or direct ID: id("io.github.koltalabs.kolt.kmp.library")
+    // or direct ID: id("io.github.keltstone.kolt.kmp.library")
 }
 
 // Kotlin Multiplatform Android host app (:androidApp)
 plugins {
     alias(kmplibs.plugins.kmp.application)
-    // or direct ID: id("io.github.koltalabs.kolt.kmp.application")
+    // or direct ID: id("io.github.keltstone.kolt.kmp.application")
 }
 ```
 
@@ -140,16 +140,16 @@ To use runtime utilities directly in your modules without convention plugins, ap
 
 ```kotlin
 dependencies {
-    implementation(platform("io.github.koltalabs.kolt:kolt-bom:2026.06.2"))
-    implementation("io.github.koltalabs.kolt:utils")
-    implementation("io.github.koltalabs.kolt:logutils")
-    implementation("io.github.koltalabs.kolt:compose-kmp")
+    implementation(platform("io.github.keltstone.kolt:kolt-bom:2026.06.2"))
+    implementation("io.github.keltstone.kolt:utils")
+    implementation("io.github.keltstone.kolt:logutils")
+    implementation("io.github.keltstone.kolt:compose-kmp")
 }
 ```
 
 ---
 
-## 🔄 Migrating from `io.github.appspiriment.kolt` → `io.github.koltalabs.kolt`
+## 🔄 Migrating from `io.github.appspiriment.kolt` → `io.github.keltstone.kolt`
 
 If your build fails with:
 ```
@@ -160,23 +160,23 @@ or any other `io.github.appspiriment.*` artifact not found, update your project 
 ### 1. Plugin ID Mapping
 | Legacy Plugin ID (`appspiriment`) | Current Plugin ID (`kolt`) | Catalog Accessor |
 |---|---|---|
-| `io.github.appspiriment.kolt.kmp.application` | `io.github.koltalabs.kolt.kmp.application` | `alias(kmplibs.plugins.kmp.application)` |
-| `io.github.appspiriment.kolt.kmp.library` | `io.github.koltalabs.kolt.kmp.library` | `alias(kmplibs.plugins.kmp.library)` |
-| `io.github.appspiriment.kolt.kmp.library-compose` | `io.github.koltalabs.kolt.kmp.library-compose` | `alias(kmplibs.plugins.kmp.library.compose)` |
-| `io.github.appspiriment.kolt.kmp.library-koin` | `io.github.koltalabs.kolt.kmp.library-koin` | `alias(kmplibs.plugins.kmp.library.koin)` |
-| `io.github.appspiriment.kolt.kmp.library-koin-compose` | `io.github.koltalabs.kolt.kmp.library-koin-compose` | `alias(kmplibs.plugins.kmp.library.koin.compose)` |
-| `io.github.appspiriment.kolt.kmp.data` | `io.github.koltalabs.kolt.kmp.data` | `alias(kmplibs.plugins.kmp.data)` |
-| `io.github.appspiriment.kolt.application` | `io.github.koltalabs.kolt.application` | `alias(koltlibs.plugins.kolt.application)` |
-| `io.github.appspiriment.kolt.library` | `io.github.koltalabs.kolt.library` | `alias(koltlibs.plugins.kolt.library)` |
-| `io.github.appspiriment.kolt.library-compose` | `io.github.koltalabs.kolt.library-compose` | `alias(koltlibs.plugins.kolt.library.compose)` |
-| `io.github.appspiriment.kolt.library-hilt` | `io.github.koltalabs.kolt.library-hilt` | `alias(koltlibs.plugins.kolt.library.hilt)` |
-| `io.github.appspiriment.kolt.library-hilt-compose` | `io.github.koltalabs.kolt.library-hilt-compose` | `alias(koltlibs.plugins.kolt.library.hilt.compose)` |
-| `io.github.appspiriment.kolt.data` | `io.github.koltalabs.kolt.data` | `alias(koltlibs.plugins.kolt.data)` |
+| `io.github.appspiriment.kolt.kmp.application` | `io.github.keltstone.kolt.kmp.application` | `alias(kmplibs.plugins.kmp.application)` |
+| `io.github.appspiriment.kolt.kmp.library` | `io.github.keltstone.kolt.kmp.library` | `alias(kmplibs.plugins.kmp.library)` |
+| `io.github.appspiriment.kolt.kmp.library-compose` | `io.github.keltstone.kolt.kmp.library-compose` | `alias(kmplibs.plugins.kmp.library.compose)` |
+| `io.github.appspiriment.kolt.kmp.library-koin` | `io.github.keltstone.kolt.kmp.library-koin` | `alias(kmplibs.plugins.kmp.library.koin)` |
+| `io.github.appspiriment.kolt.kmp.library-koin-compose` | `io.github.keltstone.kolt.kmp.library-koin-compose` | `alias(kmplibs.plugins.kmp.library.koin.compose)` |
+| `io.github.appspiriment.kolt.kmp.data` | `io.github.keltstone.kolt.kmp.data` | `alias(kmplibs.plugins.kmp.data)` |
+| `io.github.appspiriment.kolt.application` | `io.github.keltstone.kolt.application` | `alias(koltlibs.plugins.kolt.application)` |
+| `io.github.appspiriment.kolt.library` | `io.github.keltstone.kolt.library` | `alias(koltlibs.plugins.kolt.library)` |
+| `io.github.appspiriment.kolt.library-compose` | `io.github.keltstone.kolt.library-compose` | `alias(koltlibs.plugins.kolt.library.compose)` |
+| `io.github.appspiriment.kolt.library-hilt` | `io.github.keltstone.kolt.library-hilt` | `alias(koltlibs.plugins.kolt.library.hilt)` |
+| `io.github.appspiriment.kolt.library-hilt-compose` | `io.github.keltstone.kolt.library-hilt-compose` | `alias(koltlibs.plugins.kolt.library.hilt.compose)` |
+| `io.github.appspiriment.kolt.data` | `io.github.keltstone.kolt.data` | `alias(koltlibs.plugins.kolt.data)` |
 
 ### 2. Catalog & BOM Coordinates
-- Version catalog: `io.github.koltalabs.kolt:kolt-catalog:<version>` and `io.github.koltalabs.kolt:kmp-catalog:<version>`
-- BOM: `io.github.koltalabs.kolt:kolt-bom:<version>`
-- Runtime dependencies: `io.github.koltalabs.kolt:<artifact>`
+- Version catalog: `io.github.keltstone.kolt:kolt-catalog:<version>` and `io.github.keltstone.kolt:kmp-catalog:<version>`
+- BOM: `io.github.keltstone.kolt:kolt-bom:<version>`
+- Runtime dependencies: `io.github.keltstone.kolt:<artifact>`
 - Packages & imports: `kolt.*`
 - UI components: `Apps*` $\to$ `Kolt*` (e.g. `AppsButton` $\to$ `KoltButton`, `AppspirimentText` $\to$ `KoltText`, `AppspirimentTheme` $\to$ `KoltTheme`)
 
@@ -231,7 +231,7 @@ Kolt builds on outstanding open-source projects. We are grateful to the creators
 
 ## 📦 Library Versions
 
-All artifacts share the group `io.github.koltalabs.kolt`. Versions are independent — only the changed artifact is published on each release.
+All artifacts share the group `io.github.keltstone.kolt`. Versions are independent — only the changed artifact is published on each release.
 
 | Artifact | Artifact ID | Version | Changelog |
 |---|---|---|---|
@@ -242,8 +242,8 @@ All artifacts share the group `io.github.koltalabs.kolt`. Versions are independe
 | Compose Utilities (Android) | `compose` | ![compose-utils](https://img.shields.io/badge/compose%20utils-0.2.1.dev--01-6200ea?style=flat-square) | [libs/compose-utils/CHANGELOG.md](libs/compose-utils/CHANGELOG.md) |
 | Compose KMP | `compose-kmp` | ![compose-kmp](https://img.shields.io/badge/compose%20kmp-0.2.1.dev--03-6200ea?style=flat-square) | [libs/compose-kmp/CHANGELOG.md](libs/compose-kmp/CHANGELOG.md) |
 | In-App Update | `update-utils` | ![update-utils](https://img.shields.io/badge/update%20utils-0.2.1.dev--01-f57c00?style=flat-square) | [libs/update-utils/CHANGELOG.md](libs/update-utils/CHANGELOG.md) |
-| Location | `location` | ![location](https://img.shields.io/badge/location-0.2.1.dev--12-00838f?style=flat-square) | [libs/location/CHANGELOG.md](libs/location/CHANGELOG.md) |
-| Location Picker | `location-picker` | ![location-picker](https://img.shields.io/badge/location-0.2.1.dev--12-00838f?style=flat-square) | [libs/location-picker/CHANGELOG.md](libs/location-picker/CHANGELOG.md) |
+| Location | `location` | ![location](https://img.shields.io/badge/location-0.2.1.dev--13-00838f?style=flat-square) | [libs/location/CHANGELOG.md](libs/location/CHANGELOG.md) |
+| Location Picker | `location-picker` | ![location-picker](https://img.shields.io/badge/location-0.2.1.dev--13-00838f?style=flat-square) | [libs/location-picker/CHANGELOG.md](libs/location-picker/CHANGELOG.md) |
 
 Full release history across every artifact, with links to each GitHub release: see [docs/RELEASE_MANAGEMENT.md](docs/RELEASE_MANAGEMENT.md).
 

@@ -24,7 +24,7 @@ buildscript {
 
 plugins {
     alias(libs.plugins.dokka)
-    id("io.github.koltalabs.kolt.publish") apply false
+    id("io.github.keltstone.kolt.publish") apply false
 }
 
 // Root aggregator for the Kolt composite build.
@@ -56,7 +56,7 @@ val locationPickerVersion by lazy { computeVersion("LOCATION_PICKER_MAJOR", "LOC
 val bomVersion          by lazy { versionProps.getProperty("BOM_VERSION", "2025.06.1")       }
 
 allprojects {
-    group = providers.gradleProperty("GROUP").getOrElse("io.github.koltalabs.kolt")
+    group = providers.gradleProperty("GROUP").getOrElse("io.github.keltstone.kolt")
 }
 
 // Expose per-lib versions as root extra properties so submodule build scripts
@@ -210,13 +210,13 @@ tasks.register("updateReadme") {
 
 // ── Dependency substitution ───────────────────────────────────────────────────
 // When convention plugins add utils/logutils/compose-utils as Maven coordinates
-// (io.github.koltalabs.kolt:*), substitute them with the local project during
+// (io.github.keltstone.kolt:*), substitute them with the local project during
 // development so consumers build against the current source, not a published artifact.
 //
 // The BOM platform dependency must use `platform(...)` on both sides of the substitution
 // so Gradle preserves the platform semantics correctly (Gradle 6+ feature).
 subprojects {
-    val koltGroup = providers.gradleProperty("GROUP").getOrElse("io.github.koltalabs.kolt")
+    val koltGroup = providers.gradleProperty("GROUP").getOrElse("io.github.keltstone.kolt")
     configurations.configureEach {
         resolutionStrategy.dependencySubstitution {
             // Platform (BOM) substitution — must use platform() on both sides

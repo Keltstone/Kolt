@@ -71,9 +71,9 @@ class KmpLibraryConventionPluginTest {
             koin-ksp-compiler = { group = "io.insert-koin", name = "koin-ksp-compiler", version.ref = "koinAnnotations" }
             koin-compose = { group = "io.insert-koin", name = "koin-compose", version.ref = "koin" }
             koin-compose-viewmodel = { group = "io.insert-koin", name = "koin-compose-viewmodel", version.ref = "koin" }
-            kolt-utils = { group = "io.github.koltalabs.kolt", name = "utils", version.ref = "koltUtils" }
-            kolt-logutils-dev = { group = "io.github.koltalabs.kolt", name = "logutils-dev", version.ref = "koltLogUtils" }
-            kolt-logutils-prod = { group = "io.github.koltalabs.kolt", name = "logutils-prod", version.ref = "koltLogUtils" }
+            kolt-utils = { group = "io.github.keltstone.kolt", name = "utils", version.ref = "koltUtils" }
+            kolt-logutils-dev = { group = "io.github.keltstone.kolt", name = "logutils-dev", version.ref = "koltLogUtils" }
+            kolt-logutils-prod = { group = "io.github.keltstone.kolt", name = "logutils-prod", version.ref = "koltLogUtils" }
 
             [plugins]
             kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
@@ -128,7 +128,7 @@ class KmpLibraryConventionPluginTest {
         buildFile.writeText(
             """
             plugins {
-                id("io.github.koltalabs.kolt.kmp.library")
+                id("io.github.keltstone.kolt.kmp.library")
             }
             android { namespace = "com.example.test" }
 
@@ -156,7 +156,7 @@ class KmpLibraryConventionPluginTest {
         buildFile.writeText(
             """
             plugins {
-                id("io.github.koltalabs.kolt.kmp.library")
+                id("io.github.keltstone.kolt.kmp.library")
             }
             android { namespace = "com.example.test" }
 
@@ -189,7 +189,7 @@ class KmpLibraryConventionPluginTest {
         buildFile.writeText(
             """
             plugins {
-                id("io.github.koltalabs.kolt.kmp.library")
+                id("io.github.keltstone.kolt.kmp.library")
             }
             android { namespace = "com.example.test" }
             kmp { enableIos.set(true) }
@@ -228,7 +228,7 @@ class KmpLibraryConventionPluginTest {
         buildFile.writeText(
             """
             plugins {
-                id("io.github.koltalabs.kolt.kmp.library")
+                id("io.github.keltstone.kolt.kmp.library")
             }
             android { namespace = "com.example.test" }
             kmp { enableDesktop.set(true) }
@@ -265,7 +265,7 @@ class KmpLibraryConventionPluginTest {
         buildFile.writeText(
             """
             plugins {
-                id("io.github.koltalabs.kolt.kmp.library")
+                id("io.github.keltstone.kolt.kmp.library")
             }
             android { namespace = "com.example.test" }
             kmp { enableWasm.set(true) }
@@ -302,7 +302,7 @@ class KmpLibraryConventionPluginTest {
         buildFile.writeText(
             """
             plugins {
-                id("io.github.koltalabs.kolt.kmp.library")
+                id("io.github.keltstone.kolt.kmp.library")
             }
             android { namespace = "com.example.test" }
 
@@ -335,7 +335,7 @@ class KmpLibraryConventionPluginTest {
         buildFile.writeText(
             """
             plugins {
-                id("io.github.koltalabs.kolt.kmp.library")
+                id("io.github.keltstone.kolt.kmp.library")
             }
             android { namespace = "com.example.test" }
 

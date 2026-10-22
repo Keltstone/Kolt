@@ -21,8 +21,8 @@ dependencyResolutionManagement {
     versionCatalogs {
         // Kolt convention plugins + pinned Android library versions
         create("koltlibs") {
-            from("io.github.koltalabs.kolt:kolt-catalog:0.1.6")
-            // Replace 0.1.0 with the current release from https://github.com/kolta-labs/Kolt/releases
+            from("io.github.keltstone.kolt:kolt-catalog:0.1.6")
+            // Replace 0.1.0 with the current release from https://github.com/keltstone/Kolt/releases
         }
     }
 }

@@ -3,8 +3,8 @@ plugins {
     // the build-logic classpath — the SAME classloader the KMP library modules use. Applying
     // the Kotlin plugin directly here (with a version) would load a second copy of KGP and
     // crash the multi-module build (KotlinNativeBundleBuildService classloader conflict).
-    id("io.github.koltalabs.kolt.library-compose")
-    id("io.github.koltalabs.kolt.publish")
+    id("io.github.keltstone.kolt.library-compose")
+    id("io.github.keltstone.kolt.publish")
     alias(libs.plugins.dokka)
 }
 
@@ -50,6 +50,6 @@ mavenPublishing {
     pom {
         name = "Kolt Compose"
         description = "Simple Compose components and utility functions for Android development."
-        url = "https://github.com/kolta-labs/Kolt"
+        url = "https://github.com/keltstone/Kolt"
     }
 }

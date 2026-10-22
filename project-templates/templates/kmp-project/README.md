@@ -16,7 +16,7 @@ Ready-to-use Gradle scaffolding for a new Kotlin Multiplatform project using Kol
 
 ```
 <AppName>/
-├── app/                              ← Android host (io.github.koltalabs.kolt.kmp.application)
+├── app/                              ← Android host (io.github.keltstone.kolt.kmp.application)
 │   └── build.gradle.kts
 ├── shared/                           ← KMP ViewModels + domain (kmp.library-koin)
 │   └── build.gradle.kts
@@ -45,7 +45,7 @@ Create an Xcode project and add a `iosApp/` directory; set the KMP framework as 
 
 ```kotlin
 // data/build.gradle.kts
-plugins { id("io.github.koltalabs.kolt.kmp.data") }
+plugins { id("io.github.keltstone.kolt.kmp.data") }
 kmpDataLayer {
     sqlDelight { enabled.set(true) }    // recommended for KMP
     ktor { enabled.set(true) }

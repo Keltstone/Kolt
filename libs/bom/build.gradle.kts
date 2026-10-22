@@ -4,9 +4,9 @@
 // A Maven platform POM that constrains all Kolt library versions to a
 // known-compatible set. Consumers add this once:
 //
-//   implementation(platform("io.github.koltalabs.kolt:kolt-bom:<version>"))
+//   implementation(platform("io.github.keltstone.kolt:kolt-bom:<version>"))
 //
-// After which all `io.github.koltalabs.kolt:*` artifacts can be declared without
+// After which all `io.github.keltstone.kolt:*` artifacts can be declared without
 // explicit versions. The convention plugins automatically inject this BOM, so
 // most consumer projects never need to add it manually.
 //
@@ -16,7 +16,7 @@
 
 plugins {
     `java-platform`
-    id("io.github.koltalabs.kolt.publish")
+    id("io.github.keltstone.kolt.publish")
 }
 
 // Lib versions are exposed as extra properties by the root build.gradle.kts,
@@ -52,7 +52,7 @@ mavenPublishing {
         description = "Bill of Materials for the Kolt library suite — " +
             "constrains utils, logutils, crashlogs, compose, compose-kmp, location, and update-utils to a " +
             "known-compatible version set."
-        url = "https://github.com/kolta-labs/Kolt"
+        url = "https://github.com/keltstone/Kolt"
         licenses {
             license {
                 name = "Apache-2.0"
@@ -61,15 +61,15 @@ mavenPublishing {
         }
         developers {
             developer {
-                id = "kolta-labs"
-                name = "Kolta Labs"
-                url = "https://github.com/kolta-labs"
+                id = "keltstone"
+                name = "Keltstone"
+                url = "https://github.com/keltstone"
             }
         }
         scm {
-            connection = "scm:git:git://github.com/kolta-labs/Kolt.git"
-            developerConnection = "scm:git:ssh://github.com/kolta-labs/Kolt.git"
-            url = "https://github.com/kolta-labs/Kolt"
+            connection = "scm:git:git://github.com/keltstone/Kolt.git"
+            developerConnection = "scm:git:ssh://github.com/keltstone/Kolt.git"
+            url = "https://github.com/keltstone/Kolt"
         }
     }
 }

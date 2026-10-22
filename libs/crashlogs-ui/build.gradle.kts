@@ -1,6 +1,6 @@
 plugins {
-    id("io.github.koltalabs.kolt.kmp.library-compose")
-    id("io.github.koltalabs.kolt.publish")
+    id("io.github.keltstone.kolt.kmp.library-compose")
+    id("io.github.keltstone.kolt.publish")
     alias(libs.plugins.dokka)
 }
 
@@ -25,6 +25,6 @@ mavenPublishing {
     pom {
         name = "Kolt CrashLogs UI"
         description = "Compose screen (and Android activity) for browsing recorded crashlogs."
-        url = "https://github.com/kolta-labs/Kolt"
+        url = "https://github.com/keltstone/Kolt"
     }
 }

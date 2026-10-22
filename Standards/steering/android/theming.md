@@ -143,7 +143,7 @@ token.
 
 ## Rules
 
-- **Kolt tokens first.** Whenever Kolt is available (in the workspace, an `includeBuild`, a copied module, or an `io.github.koltalabs.kolt` dependency), always
+- **Kolt tokens first.** Whenever Kolt is available (in the workspace, an `includeBuild`, a copied module, or an `io.github.keltstone.kolt` dependency), always
   use its tokens for anything it covers: colors (`Kolt.colors.*`), padding,
   spacing, corner radius, icon/button sizes (`Kolt.sizes.*`), and text
   (`Kolt.typography.title.*` / `Kolt.typography.body.*`, weight via `.bold` etc.). Don't hand-write a

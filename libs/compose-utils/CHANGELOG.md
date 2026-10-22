@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `compose` (`io.github.koltalabs.kolt:compose`) are documented
+All notable changes to `compose` (`io.github.keltstone.kolt:compose`) are documented
 here, newest first. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 

@@ -1,6 +1,6 @@
 // Android host module — thin launcher that starts the KMP shared module
 plugins {
-    id("io.github.koltalabs.kolt.kmp.application")
+    id("io.github.keltstone.kolt.kmp.application")
 }
 
 android {
@@ -30,8 +30,8 @@ dependencies {
 
     // compose-utils for the Android launcher UI (if your :shared doesn't expose Compose).
     // Version is pinned by the Kolt BOM the convention plugin injects — no version needed.
-    implementation("io.github.koltalabs.kolt:compose")
+    implementation("io.github.keltstone.kolt:compose")
 
     // Update dialog (optional)
-    // implementation("io.github.koltalabs.kolt:update-utils")
+    // implementation("io.github.keltstone.kolt:update-utils")
 }

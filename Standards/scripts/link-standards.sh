@@ -244,7 +244,7 @@ update_project_list() {
 
         local rel="${dir#$TECH_DIR/}"
 
-        if [[ "$rel" == KMP/Kolta/KoltLibs* ]]; then
+        if [[ "$rel" == *KoltLibs* ]]; then
             kolt_projects+=("${type}|${rel}")
         elif [[ "$type" == "android" ]]; then
             android_projects+=("${type}|${rel}")

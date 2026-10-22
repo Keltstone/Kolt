@@ -1,7 +1,7 @@
 plugins {
-    id("io.github.koltalabs.kolt.kmp.library")
+    id("io.github.keltstone.kolt.kmp.library")
     alias(kmplibs.plugins.kotlin.serialization)
-    id("io.github.koltalabs.kolt.publish")
+    id("io.github.keltstone.kolt.publish")
     alias(libs.plugins.dokka)
 }
 
@@ -32,6 +32,6 @@ mavenPublishing {
     pom {
         name = "Kolt Utils"
         description = "Common Kotlin Multiplatform util functions and extension methods."
-        url = "https://github.com/kolta-labs/Kolt"
+        url = "https://github.com/keltstone/Kolt"
     }
 }

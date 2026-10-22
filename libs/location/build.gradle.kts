@@ -1,7 +1,7 @@
 plugins {
-    id("io.github.koltalabs.kolt.kmp.data")
+    id("io.github.keltstone.kolt.kmp.data")
     alias(kmplibs.plugins.kotlin.serialization)
-    id("io.github.koltalabs.kolt.publish")
+    id("io.github.keltstone.kolt.publish")
     alias(libs.plugins.dokka)
 }
 
@@ -67,7 +67,7 @@ mavenPublishing {
         name = "Kolt Location"
         description = "Cross-platform current-location fetching: native GPS + reverse " +
             "geocoding on Android/iOS, IP-based geolocation on Desktop, browser Geolocation API on Web."
-        url = "https://github.com/kolta-labs/Kolt"
+        url = "https://github.com/keltstone/Kolt"
     }
 }
 

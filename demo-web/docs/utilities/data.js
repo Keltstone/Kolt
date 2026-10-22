@@ -3,7 +3,7 @@ export const UTILITIES = [
     {
         id: 'bom',
         title: 'kolt-bom',
-        coordinate: 'io.github.koltalabs.kolt:kolt-bom',
+        coordinate: 'io.github.keltstone.kolt:kolt-bom',
         platforms: 'Gradle BOM (Calendar Versioned)',
         summary: 'Bill of Materials (BOM) pinning consistent versions across all Kolt runtime libraries.',
         intro: 'The Kolt Bill of Materials manages consistent version alignment across all Kolt runtime libraries (utils, logutils, compose-utils, compose-kmp, update-utils, location, and location-picker). Using the BOM ensures zero version conflicts across multi-module projects.',
@@ -13,14 +13,14 @@ export const UTILITIES = [
                 path: 'libs/bom/README.md',
                 code: `// Apply the Kolt BOM platform in dependencies:
 dependencies {
-    implementation(platform("io.github.koltalabs.kolt:kolt-bom:2026.06.1"))
+    implementation(platform("io.github.keltstone.kolt:kolt-bom:2026.06.1"))
 
     // Add Kolt libraries without explicit versions:
-    implementation("io.github.koltalabs.kolt:utils")
-    implementation("io.github.koltalabs.kolt:logutils")
-    implementation("io.github.koltalabs.kolt:compose-kmp")
-    implementation("io.github.koltalabs.kolt:location")
-    implementation("io.github.koltalabs.kolt:location-picker")
+    implementation("io.github.keltstone.kolt:utils")
+    implementation("io.github.keltstone.kolt:logutils")
+    implementation("io.github.keltstone.kolt:compose-kmp")
+    implementation("io.github.keltstone.kolt:location")
+    implementation("io.github.keltstone.kolt:location-picker")
 }`,
             },
         ],
@@ -28,7 +28,7 @@ dependencies {
     {
         id: 'utils',
         title: 'utils',
-        coordinate: 'io.github.koltalabs.kolt:utils',
+        coordinate: 'io.github.keltstone.kolt:utils',
         platforms: 'KMP (commonMain + androidMain)',
         summary: 'Flow, list, string, and phone-number helpers shared across every target, plus Android-only date/context extensions.',
         intro: 'The core utility library provides fundamental helpers and extension functions for day-to-day Kotlin development across all platforms. It solves the issue of repeating boilerplate operations on collections, strings, flows, and phone numbers. Use it in common code to format phone numbers, capitalization, or emails, and on Android for network checking and date/time manipulation.',
@@ -133,7 +133,7 @@ val agoText = localDateTime.toRelativeTime() // returns e.g. "3 hours ago" or "J
     {
         id: 'logutils',
         title: 'logutils',
-        coordinate: 'io.github.koltalabs.kolt:logutils',
+        coordinate: 'io.github.keltstone.kolt:logutils',
         platforms: 'KMP (commonMain + androidMain + desktopMain + iosMain)',
         summary: 'A single `printLog()` call across every platform, auto-gated on debuggability via AndroidX App Startup — no manual init in production.',
         intro: 'The logging library offers a clean, platform-independent logging API. It removes the necessity of manually initializing third-party loggers or cleaning debug logs from release builds by wrapping Android\'s Log and native output streams. It auto-gates logging in production through AndroidX App Startup based on the app\'s debuggability flag.',
@@ -187,7 +187,7 @@ Log.init(enabled = BuildConfig.DEBUG) // sets Log.enabled directly`,
     {
         id: 'location',
         title: 'location',
-        coordinate: 'io.github.koltalabs.kolt:location',
+        coordinate: 'io.github.keltstone.kolt:location',
         platforms: 'KMP (commonMain + androidMain + desktopMain + iosMain + wasmJsMain)',
         summary: 'Geolocation, timezone lookup, and place search behind a common interface with per-platform actuals, including browser Geolocation API on Web.',
         intro: 'This geolocation library provides timezone lookup, place search, and coordinate tracking through a common KMP contract. It simplifies requesting permission and fetching location coordinates by exposing a unified platform-agnostic facade. Note that this library is currently speculative and is not yet published as a final artifact.',
@@ -230,7 +230,7 @@ suspend fun handlePlaceSearch(query: String) {
     {
         id: 'location-picker',
         title: 'location-picker',
-        coordinate: 'io.github.koltalabs.kolt:location-picker',
+        coordinate: 'io.github.keltstone.kolt:location-picker',
         platforms: 'KMP (commonMain + androidMain + desktopMain + iosMain + wasmJsMain)',
         summary: 'An all-in-one location picker component with search, map selection, current location fetching, and manual input tabs.',
         intro: 'This library provides a complete, customisable Location Picker dialog and screen for Kotlin Multiplatform. It integrates the underlying geolocation services in `libs/location` with Compose Multiplatform UI layouts. The picker features autocomplete search, an interactive map picker, current location fetching, and manual coordinate entry, adapting natively to Android, iOS, Desktop, and Web (WasmJS) environments.',
@@ -290,7 +290,7 @@ data class LocationPickerResult(
     {
         id: 'compose-kmp',
         title: 'compose-kmp',
-        coordinate: 'io.github.koltalabs.kolt:compose-kmp',
+        coordinate: 'io.github.keltstone.kolt:compose-kmp',
         platforms: 'KMP Compose Multiplatform (commonMain + androidMain + desktopMain + iosMain)',
         summary: 'The theme system (colors, dimens, typography, fonts, window-size classes) and wrapper types (UiText/UiColor/UiImage/UiDimen) that every component in the catalog builds on.',
         intro: 'The Compose Multiplatform styling library bundles theme tokens and resource wrapper classes. It solves color and typography management issues by providing a standard design system centered around Outfit fonts and G2 curvature continuous shapes. Use this to ensure standard component styling and clean dark/light mode switches across all targets.',
@@ -342,7 +342,7 @@ Box(
     {
         id: 'update-utils',
         title: 'update-utils',
-        coordinate: 'io.github.koltalabs.kolt:update-utils',
+        coordinate: 'io.github.keltstone.kolt:update-utils',
         platforms: 'Android-only',
         summary: 'Gates forced/optional in-app updates using Firebase Remote Config plus the Google Play In-App Update API.',
         intro: 'The in-app update utility simplifies the integration of the official Google Play In-App Update API with Firebase Remote Config. It prevents architectural clutter by wrapping update-checks in a single clean interface that delegates forced or optional flows. Use this in your Android application modules to force update configurations from the cloud.',
@@ -392,7 +392,7 @@ FEATURE_DROP    = true   // Displays an optional update prompt with a "Not Now" 
     {
         id: 'compose-utils',
         title: 'compose-utils',
-        coordinate: 'io.github.koltalabs.kolt:compose',
+        coordinate: 'io.github.keltstone.kolt:compose',
         platforms: 'Android-only',
         summary: 'Android-specific Compose components and utility extensions for permissions, photo selectors, and text fields.',
         intro: 'The Android Compose utilities library provides specific lifecycle extensions and wrapper utilities for UI development on the Android platform. It solves the complexity of system-level callbacks such as checking/requesting runtime permissions, invoking photo selectors, and managing system keyboard behaviors.',

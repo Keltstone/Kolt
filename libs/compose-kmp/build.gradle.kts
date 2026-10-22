@@ -1,6 +1,6 @@
 plugins {
-    id("io.github.koltalabs.kolt.kmp.library-compose")
-    id("io.github.koltalabs.kolt.publish")
+    id("io.github.keltstone.kolt.kmp.library-compose")
+    id("io.github.keltstone.kolt.publish")
     alias(libs.plugins.dokka)
 }
 
@@ -33,6 +33,6 @@ mavenPublishing {
     pom {
         name = "Kolt Compose KMP"
         description = "Core Compose Multiplatform UI components and design system tokens."
-        url = "https://github.com/kolta-labs/Kolt"
+        url = "https://github.com/keltstone/Kolt"
     }
 }

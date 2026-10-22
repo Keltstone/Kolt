@@ -1,5 +1,5 @@
 plugins {
-    id("io.github.koltalabs.kolt.application")
+    id("io.github.keltstone.kolt.application")
 }
 
 android {
@@ -28,9 +28,9 @@ dependencies {
     //
     // The convention plugin auto-adds the Kolt runtime libs (utils, logutils,
     // compose-utils) plus the Compose UI stack, lottie, and hilt-navigation-compose — you
-    // do NOT declare those here. All io.github.koltalabs.kolt:* versions are pinned by the
+    // do NOT declare those here. All io.github.keltstone.kolt:* versions are pinned by the
     // BOM the plugin injects, so reference them without a version if you ever add one
-    // explicitly, e.g. implementation("io.github.koltalabs.kolt:update-utils").
+    // explicitly, e.g. implementation("io.github.keltstone.kolt:update-utils").
 
     // Feature modules depend on domain, never on each other:
     // implementation(project(":domain"))

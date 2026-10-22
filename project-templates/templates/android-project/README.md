@@ -16,25 +16,25 @@ Ready-to-use Gradle scaffolding for a new Android project using Kolt convention 
 
 ```
 <AppName>/
-├── app/                              ← host app (io.github.koltalabs.kolt.application)
+├── app/                              ← host app (io.github.keltstone.kolt.application)
 │   └── build.gradle.kts
 ├── feature/
 │   └── home/
-│       └── build.gradle.kts         ← (io.github.koltalabs.kolt.library-hilt-compose)
+│       └── build.gradle.kts         ← (io.github.keltstone.kolt.library-hilt-compose)
 ├── domain/
-│   └── build.gradle.kts             ← (io.github.koltalabs.kolt.library) — no DI annotations
+│   └── build.gradle.kts             ← (io.github.keltstone.kolt.library) — no DI annotations
 ├── data/
-│   └── build.gradle.kts             ← (io.github.koltalabs.kolt.data) + dataLayer {}
+│   └── build.gradle.kts             ← (io.github.keltstone.kolt.data) + dataLayer {}
 └── core/
     └── common/
-        └── build.gradle.kts         ← (io.github.koltalabs.kolt.library) — shared base classes
+        └── build.gradle.kts         ← (io.github.keltstone.kolt.library) — shared base classes
 ```
 
 ## Module build.gradle.kts snippets
 
 **Feature module (`library-hilt-compose`):**
 ```kotlin
-plugins { id("io.github.koltalabs.kolt.library-hilt-compose") }
+plugins { id("io.github.keltstone.kolt.library-hilt-compose") }
 android { namespace = "com.example.myapp.feature.home" }
 dependencies {
     implementation(project(":domain"))
@@ -44,14 +44,14 @@ dependencies {
 
 **Domain module (`library`):**
 ```kotlin
-plugins { id("io.github.koltalabs.kolt.library") }
+plugins { id("io.github.keltstone.kolt.library") }
 android { namespace = "com.example.myapp.domain" }
 // No DI, no Compose — pure Kotlin interfaces + entities
 ```
 
 **Data module (`data`):**
 ```kotlin
-plugins { id("io.github.koltalabs.kolt.data") }
+plugins { id("io.github.keltstone.kolt.data") }
 android { namespace = "com.example.myapp.data" }
 dataLayer {
     room { enabled.set(true) }

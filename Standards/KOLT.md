@@ -32,18 +32,18 @@ cd MyApp && ./gradlew :app:assembleDebug   # first build scaffolds theme XMLs
 dependencyResolutionManagement {
     versionCatalogs {
         create("koltlibs") {
-            from("io.github.koltalabs.kolt:kolt-catalog:<version>")
+            from("io.github.keltstone.kolt:kolt-catalog:<version>")
         }
         // KMP projects also add:
         create("kmplibs") {
-            from("io.github.koltalabs.kolt:kmp-catalog:<version>")
+            from("io.github.keltstone.kolt:kmp-catalog:<version>")
         }
     }
 }
 ```
 ```kotlin
 // app/build.gradle.kts
-plugins { id("io.github.koltalabs.kolt.application") }
+plugins { id("io.github.keltstone.kolt.application") }
 android { namespace = "com.example.myapp" }
 ```
 
@@ -61,23 +61,23 @@ All plugins share the same version (from `version.properties → MAJOR.dev-XX`).
 
 | Plugin ID | Catalog alias | What it auto-wires |
 |---|---|---|
-| `io.github.koltalabs.kolt.application` | `kolt-application` | AGP application + Kotlin Android + Hilt + Compose + Compose compiler + stdlib + utils + logutils + Room-optional + debug/release build types with `.dev` suffix on debug |
-| `io.github.koltalabs.kolt.library` | `kolt-library` | AGP library + Kotlin Android + stdlib + utils + logutils |
-| `io.github.koltalabs.kolt.library-compose` | `kolt-library-compose` | above + Compose + Compose compiler |
-| `io.github.koltalabs.kolt.library-hilt` | `kolt-library-hilt` | above (no Compose) + Hilt + KSP |
-| `io.github.koltalabs.kolt.library-hilt-compose` | `kolt-library-hilt-compose` | AGP library + Kotlin + Hilt + KSP + Compose + Compose compiler |
-| `io.github.koltalabs.kolt.data` | `kolt-data` | `library-hilt` baseline + opt-in Room / Retrofit / DataStore / Security / WorkManager via `dataLayer {}` |
+| `io.github.keltstone.kolt.application` | `kolt-application` | AGP application + Kotlin Android + Hilt + Compose + Compose compiler + stdlib + utils + logutils + Room-optional + debug/release build types with `.dev` suffix on debug |
+| `io.github.keltstone.kolt.library` | `kolt-library` | AGP library + Kotlin Android + stdlib + utils + logutils |
+| `io.github.keltstone.kolt.library-compose` | `kolt-library-compose` | above + Compose + Compose compiler |
+| `io.github.keltstone.kolt.library-hilt` | `kolt-library-hilt` | above (no Compose) + Hilt + KSP |
+| `io.github.keltstone.kolt.library-hilt-compose` | `kolt-library-hilt-compose` | AGP library + Kotlin + Hilt + KSP + Compose + Compose compiler |
+| `io.github.keltstone.kolt.data` | `kolt-data` | `library-hilt` baseline + opt-in Room / Retrofit / DataStore / Security / WorkManager via `dataLayer {}` |
 
 ### KMP plugins (catalog: `kmplibs`)
 
 | Plugin ID | Catalog alias | What it auto-wires |
 |---|---|---|
-| `io.github.koltalabs.kolt.kmp.library` | `kmp-library` | AGP library + Kotlin Multiplatform (Android + optional iOS/Desktop/WASM) + Coroutines + stdlib + utils + logutils |
-| `io.github.koltalabs.kolt.kmp.library-compose` | `kmp-library-compose` | above + Compose Multiplatform + Compose compiler |
-| `io.github.koltalabs.kolt.kmp.library-koin` | `kmp-library-koin` | `kmp-library` + Koin KMP |
-| `io.github.koltalabs.kolt.kmp.library-koin-compose` | `kmp-library-koin-compose` | all of the above + Compose Multiplatform |
-| `io.github.koltalabs.kolt.kmp.data` | `kmp-data` | KMP library baseline + opt-in SQLDelight / Room KMP / Ktor / Ktorfit / Retrofit (Android-only) / DataStore / serialization via `kmpDataLayer {}` |
-| `io.github.koltalabs.kolt.kmp.application` | `kmp-application` | Android application host for a KMP project — AGP application + Kotlin Android + compose UI launcher |
+| `io.github.keltstone.kolt.kmp.library` | `kmp-library` | AGP library + Kotlin Multiplatform (Android + optional iOS/Desktop/WASM) + Coroutines + stdlib + utils + logutils |
+| `io.github.keltstone.kolt.kmp.library-compose` | `kmp-library-compose` | above + Compose Multiplatform + Compose compiler |
+| `io.github.keltstone.kolt.kmp.library-koin` | `kmp-library-koin` | `kmp-library` + Koin KMP |
+| `io.github.keltstone.kolt.kmp.library-koin-compose` | `kmp-library-koin-compose` | all of the above + Compose Multiplatform |
+| `io.github.keltstone.kolt.kmp.data` | `kmp-data` | KMP library baseline + opt-in SQLDelight / Room KMP / Ktor / Ktorfit / Retrofit (Android-only) / DataStore / serialization via `kmpDataLayer {}` |
+| `io.github.keltstone.kolt.kmp.application` | `kmp-application` | Android application host for a KMP project — AGP application + Kotlin Android + compose UI launcher |
 
 ### Typical module-type mapping
 
@@ -204,7 +204,7 @@ kmpDataLayer {
 
 ## 6. Libraries
 
-### 6.1 logutils (`io.github.koltalabs.kolt:logutils`)
+### 6.1 logutils (`io.github.keltstone.kolt:logutils`)
 
 KMP (commonMain + androidMain). Auto-added when `enableUtils = true`.
 
@@ -222,7 +222,7 @@ exception.message.printLog(isError = true, throwable = exception)
 - **`LogLevel`**: `VERBOSE`, `DEBUG`, `INFO` (default), `WARN`, `ERROR`.
 - In `commonMain`, calls go through `expect fun printLog(...)`. In `androidMain`, maps to `android.util.Log`.
 
-### 6.2 utils (`io.github.koltalabs.kolt:utils`)
+### 6.2 utils (`io.github.keltstone.kolt:utils`)
 
 KMP. Auto-added when `enableUtils = true`.
 
@@ -264,7 +264,7 @@ localDateTime.toRelativeTime()       // e.g. "3 hours ago"
 millis.toLocalDateTime()
 ```
 
-### 6.3 compose-utils (`io.github.koltalabs.kolt:compose`)
+### 6.3 compose-utils (`io.github.keltstone.kolt:compose`)
 
 Android-only. Add explicitly or use a plugin that includes it.
 
@@ -468,7 +468,7 @@ compose-kmp `0.2.1.dev-02`, appended at the end of the `Sizes`/`UiSizes`/
 size on the scale; a raw `TextStyle(fontSize = …)` only for runtime-computed
 sizes, with a one-line comment saying why.
 
-### 6.4 update-utils (`io.github.koltalabs.kolt:update-utils`)
+### 6.4 update-utils (`io.github.keltstone.kolt:update-utils`)
 
 Android-only. Uses Firebase Remote Config to gate forced/optional updates.
 
@@ -505,12 +505,12 @@ add the right dependencies for you when you apply a plugin. You therefore almost
 library through the catalog.
 
 **What the plugin adds for you (no declaration needed):**
-- Apply `io.github.koltalabs.kolt.library` → core Android + utils + logutils + the unit-test stack.
-- Apply `io.github.koltalabs.kolt.library-compose` → all of the above **plus** the Compose UI stack,
+- Apply `io.github.keltstone.kolt.library` → core Android + utils + logutils + the unit-test stack.
+- Apply `io.github.keltstone.kolt.library-compose` → all of the above **plus** the Compose UI stack,
   compose-utils, lottie, and hilt-navigation-compose.
 - Apply `*-hilt*` → Hilt runtime + compiler. Apply `kmp.data` with a `kmpDataLayer {}` block →
   Room / SQLDelight / Ktor / Ktorfit / Retrofit / DataStore as you opt in.
-- All `io.github.koltalabs.kolt:*` artifacts are pinned by the Kolt **BOM** the plugin
+- All `io.github.keltstone.kolt:*` artifacts are pinned by the Kolt **BOM** the plugin
   injects — so if you ever add one by hand, omit the version.
 
 ### Plugins (the only catalog accessors you normally use)
@@ -541,7 +541,7 @@ Declare the coordinate directly and pull the version from the catalog's `[versio
 dependencies {
     implementation("io.coil-kt:coil-compose:${'$'}{koltlibs.versions.coil.get()}")
     // An Kolt artifact added by hand needs no version — the BOM pins it:
-    implementation("io.github.koltalabs.kolt:update-utils")
+    implementation("io.github.keltstone.kolt:update-utils")
 }
 ```
 
@@ -608,7 +608,7 @@ This section is for developers working **on** the Kolt suite itself.
  
 ---
 
-## 10. Migration Guide: `io.github.appspiriment.kolt` → `io.github.koltalabs.kolt`
+## 10. Migration Guide: `io.github.appspiriment.kolt` → `io.github.keltstone.kolt`
 
 If your project encounters:
 ```
@@ -621,29 +621,29 @@ Replace all legacy plugin declarations:
 
 | Old Legacy Plugin ID | New Kolt Plugin ID | Version Catalog Accessor |
 |---|---|---|
-| `io.github.appspiriment.kolt.kmp.application` | `io.github.koltalabs.kolt.kmp.application` | `kmplibs.plugins.kmp.application` |
-| `io.github.appspiriment.kolt.kmp.library` | `io.github.koltalabs.kolt.kmp.library` | `kmplibs.plugins.kmp.library` |
-| `io.github.appspiriment.kolt.kmp.library-compose` | `io.github.koltalabs.kolt.kmp.library-compose` | `kmplibs.plugins.kmp.library.compose` |
-| `io.github.appspiriment.kolt.kmp.library-koin` | `io.github.koltalabs.kolt.kmp.library-koin` | `kmplibs.plugins.kmp.library.koin` |
-| `io.github.appspiriment.kolt.kmp.library-koin-compose` | `io.github.koltalabs.kolt.kmp.library-koin-compose` | `kmplibs.plugins.kmp.library.koin.compose` |
-| `io.github.appspiriment.kolt.kmp.data` | `io.github.koltalabs.kolt.kmp.data` | `kmplibs.plugins.kmp.data` |
-| `io.github.appspiriment.kolt.application` | `io.github.koltalabs.kolt.application` | `koltlibs.plugins.kolt.application` |
-| `io.github.appspiriment.kolt.library` | `io.github.koltalabs.kolt.library` | `koltlibs.plugins.kolt.library` |
-| `io.github.appspiriment.kolt.library-compose` | `io.github.koltalabs.kolt.library-compose` | `koltlibs.plugins.kolt.library.compose` |
-| `io.github.appspiriment.kolt.library-hilt` | `io.github.koltalabs.kolt.library-hilt` | `koltlibs.plugins.kolt.library.hilt` |
-| `io.github.appspiriment.kolt.library-hilt-compose` | `io.github.koltalabs.kolt.library-hilt-compose` | `koltlibs.plugins.kolt.library.hilt.compose` |
-| `io.github.appspiriment.kolt.data` | `io.github.koltalabs.kolt.data` | `koltlibs.plugins.kolt.data` |
-| `io.github.appspiriment.kolt.publish` | `io.github.koltalabs.kolt.publish` | — |
+| `io.github.appspiriment.kolt.kmp.application` | `io.github.keltstone.kolt.kmp.application` | `kmplibs.plugins.kmp.application` |
+| `io.github.appspiriment.kolt.kmp.library` | `io.github.keltstone.kolt.kmp.library` | `kmplibs.plugins.kmp.library` |
+| `io.github.appspiriment.kolt.kmp.library-compose` | `io.github.keltstone.kolt.kmp.library-compose` | `kmplibs.plugins.kmp.library.compose` |
+| `io.github.appspiriment.kolt.kmp.library-koin` | `io.github.keltstone.kolt.kmp.library-koin` | `kmplibs.plugins.kmp.library.koin` |
+| `io.github.appspiriment.kolt.kmp.library-koin-compose` | `io.github.keltstone.kolt.kmp.library-koin-compose` | `kmplibs.plugins.kmp.library.koin.compose` |
+| `io.github.appspiriment.kolt.kmp.data` | `io.github.keltstone.kolt.kmp.data` | `kmplibs.plugins.kmp.data` |
+| `io.github.appspiriment.kolt.application` | `io.github.keltstone.kolt.application` | `koltlibs.plugins.kolt.application` |
+| `io.github.appspiriment.kolt.library` | `io.github.keltstone.kolt.library` | `koltlibs.plugins.kolt.library` |
+| `io.github.appspiriment.kolt.library-compose` | `io.github.keltstone.kolt.library-compose` | `koltlibs.plugins.kolt.library.compose` |
+| `io.github.appspiriment.kolt.library-hilt` | `io.github.keltstone.kolt.library-hilt` | `koltlibs.plugins.kolt.library.hilt` |
+| `io.github.appspiriment.kolt.library-hilt-compose` | `io.github.keltstone.kolt.library-hilt-compose` | `koltlibs.plugins.kolt.library.hilt.compose` |
+| `io.github.appspiriment.kolt.data` | `io.github.keltstone.kolt.data` | `koltlibs.plugins.kolt.data` |
+| `io.github.appspiriment.kolt.publish` | `io.github.keltstone.kolt.publish` | — |
 
 ### 2. Update `settings.gradle.kts` Version Catalogs
 ```kotlin
 dependencyResolutionManagement {
     versionCatalogs {
         create("koltlibs") {
-            from("io.github.koltalabs.kolt:kolt-catalog:<version>")
+            from("io.github.keltstone.kolt:kolt-catalog:<version>")
         }
         create("kmplibs") {
-            from("io.github.koltalabs.kolt:kmp-catalog:<version>")
+            from("io.github.keltstone.kolt:kmp-catalog:<version>")
         }
     }
 }
@@ -656,8 +656,8 @@ implementation(platform("io.github.appspiriment.kolt:kolt-bom:<version>"))
 implementation("io.github.appspiriment.kolt:utils")
 
 // New
-implementation(platform("io.github.koltalabs.kolt:kolt-bom:<version>"))
-implementation("io.github.koltalabs.kolt:utils")
+implementation(platform("io.github.keltstone.kolt:kolt-bom:<version>"))
+implementation("io.github.keltstone.kolt:utils")
 ```
 
 ### 4. Package Names & UI Component Names

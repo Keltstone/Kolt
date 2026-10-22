@@ -106,7 +106,7 @@ abstract class AndroidBaseConventionPlugin : Plugin<Project> {
                 }
             }
 
-            // 5. Add the Kolt BOM so all io.github.koltalabs.kolt:* deps resolve without
+            // 5. Add the Kolt BOM so all io.github.keltstone.kolt:* deps resolve without
             //    explicit versions. Must be before util/compose-util dependencies.
             applyKoltBom()
 

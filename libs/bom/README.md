@@ -1,6 +1,6 @@
 # libs/bom — Kolt Bill of Materials (BOM)
 
-[![Maven Central](https://img.shields.io/badge/Maven%20Central-2026.06.1-blue?style=flat-square)](https://central.sonatype.com/artifact/io.github.koltalabs.kolt/kolt-bom)
+[![Maven Central](https://img.shields.io/badge/Maven%20Central-2026.06.1-blue?style=flat-square)](https://central.sonatype.com/artifact/io.github.keltstone.kolt/kolt-bom)
 [![License](https://img.shields.io/badge/License-Apache%202.0-orange?style=flat-square)](../../LICENSE)
 [![Changelog](https://img.shields.io/badge/Changelog-view-lightgrey?style=flat-square)](CHANGELOG.md)
 
@@ -17,18 +17,18 @@ In your target project's module-level `build.gradle.kts`:
 ```kotlin
 dependencies {
     // Import the Kolt BOM
-    implementation(platform("io.github.koltalabs.kolt:kolt-bom:2026.06.1"))
+    implementation(platform("io.github.keltstone.kolt:kolt-bom:2026.06.1"))
 
     // Add Kolt libraries without explicit versions — versions are managed by BOM
-    implementation("io.github.koltalabs.kolt:utils")
-    implementation("io.github.koltalabs.kolt:logutils")
-    implementation("io.github.koltalabs.kolt:compose-kmp")
-    implementation("io.github.koltalabs.kolt:location")
-    implementation("io.github.koltalabs.kolt:location-picker")
+    implementation("io.github.keltstone.kolt:utils")
+    implementation("io.github.keltstone.kolt:logutils")
+    implementation("io.github.keltstone.kolt:compose-kmp")
+    implementation("io.github.keltstone.kolt:location")
+    implementation("io.github.keltstone.kolt:location-picker")
 }
 ```
 
-> **Note:** Kolt Gradle convention plugins (`io.github.koltalabs.kolt.*`) automatically apply the Kolt BOM platform to your build configuration.
+> **Note:** Kolt Gradle convention plugins (`io.github.keltstone.kolt.*`) automatically apply the Kolt BOM platform to your build configuration.
 
 ---
 

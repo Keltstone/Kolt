@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to `compose-kmp` (`io.github.koltalabs.kolt:compose-kmp`) are documented
+All notable changes to `compose-kmp` (`io.github.keltstone.kolt:compose-kmp`) are documented
 here, newest first. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 

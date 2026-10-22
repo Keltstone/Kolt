@@ -141,7 +141,7 @@ val baseDependencies: List<Dependency> = androidBaseBundle + unitTestBundle
 /**
  * The Kolt BOM platform constraint.
  * Injected before individual util dependencies so Gradle's BOM resolution pins every
- * `io.github.koltalabs.kolt:*` artifact to the correct version automatically.
+ * `io.github.keltstone.kolt:*` artifact to the correct version automatically.
  * The BOM artifact coordinates are hardcoded; the version comes from [bomVersion]
  * baked into [Constants.kt] at build time.
  */

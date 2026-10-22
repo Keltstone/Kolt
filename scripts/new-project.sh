@@ -29,7 +29,7 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 TEMPLATES_DIR="${REPO_ROOT}/project-templates/templates"
-GROUP="$(grep -E '^GROUP=' "${REPO_ROOT}/gradle.properties" 2>/dev/null | cut -d= -f2 | tr -d ' ' || echo "io.github.koltalabs.kolt")"
+GROUP="$(grep -E '^GROUP=' "${REPO_ROOT}/gradle.properties" 2>/dev/null | cut -d= -f2 | tr -d ' ' || echo "io.github.keltstone.kolt")"
 
 # ── Colour helpers ───────────────────────────────────────────────────────────
 RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; CYAN='\033[0;36m'; NC='\033[0m'
@@ -229,7 +229,7 @@ echo "  Next steps:"
 echo ""
 echo "  1. Update the catalog version in settings.gradle.kts:"
 echo "     from(\"${GROUP}:kolt-catalog:<version>\")"
-echo "     → check https://github.com/kolta-labs/Kolt/releases"
+echo "     → check https://github.com/keltstone/Kolt/releases"
 echo ""
 echo "  2. Open in Android Studio:"
 echo "     studio ${OUTPUT_DIR}"
