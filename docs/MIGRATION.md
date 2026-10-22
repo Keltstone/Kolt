@@ -173,7 +173,7 @@ Also in `0.2.1.dev-02`:
 
 ## 9. Package rename: `io.github.keltstone.kolt.*` → `kolt.*`
 
-Kotlin package roots across all Kolt libraries have moved from `io.github.keltstone.kolt.*` to `kolt.*` to decouple Kotlin source code from any future Maven group coordinate or organizational shifts. This is a breaking change requiring a major version bump for all published libraries. Maven publication group coordinates (`io.github.koltalabs.kolt`) and Gradle plugin IDs (`io.github.keltstone.kolt.*`) remain unchanged.
+Kotlin package roots across all Kolt libraries have moved from `io.github.keltstone.kolt.*` to `kolt.*` to decouple Kotlin source code from any future Maven group coordinate or organizational shifts. This is a breaking change requiring a major version bump for all published libraries. Maven publication group coordinates (`io.github.keltstone.kolt`) and Gradle plugin IDs (`io.github.keltstone.kolt.*`) are updated under Keltstone (see Section 10 below).
 
 ### Package Mapping
 

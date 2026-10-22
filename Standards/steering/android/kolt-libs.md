@@ -31,12 +31,32 @@ consumption is already decided: look for an `includeBuild(...)` pointing at
 yet, **ask the user which mode to use — always, exactly once per project,
 never silently default:**
 
-1. **Composite build / direct link from disk** — `includeBuild("<path-to-KoltLibs>")` in `settings.gradle.kts`. Not a copy: a live reference to the same files on this machine, edits in Kolt show up immediately with no publish step. Only works on this machine, at this path.
+1. **Composite build / direct link from disk** — `includeBuild("$koltLibsDir/build-logic")` in `pluginManagement {}` and `apply(from = "$koltLibsDir/gradle/kolt-consumer.settings.gradle.kts")` at the end of `settings.gradle.kts` with `koltLibsDir` defined in `gradle.properties` (or `settings.gradle.kts`). Not a copy: a live reference to the same files on this machine, edits in Kolt show up immediately with no publish step.
 2. **Copy the module(s) in** — vendor the source into this project's tree. Portable across machines/CI, but you own drift from the source from that point on; no free updates.
 3. **Gradle dependency on a published artifact** — `implementation("io.github.keltstone.kolt:<module>:<version>")` (note: `compose-utils` is published under artifact ID `compose`, i.e. `io.github.keltstone.kolt:compose:<version>`). Requires Kolt actually published (Maven local or remote) under that coordinate. Most portable/CI-friendly option, if publishing is set up.
 
 Once answered, treat it as decided for the life of the project — don't
 re-ask on later tasks; re-check the project state above instead.
+
+## Composite-build rules (mandatory when Kolt is an `includeBuild`)
+
+Any project in this workspace that consumes Kolt does so as a composite build — apps and
+shared libraries alike — and **option 1 above is already decided**, don't re-ask.
+
+1. **No versioned/published Kolt coordinates.** Never `io.github.koltsystems…`,
+   `io.github.appspiriment…`, or a literal `io.github.keltstone.kolt:<module>:<version>` that
+   only resolves from `~/.m2`/Maven. Declare Kolt libraries through the version catalog and let
+   the included build *substitute* them.
+2. **Apply Kolt plugins by raw ID, with no version** — `id("io.github.keltstone.kolt.application")`
+   or `id("io.github.keltstone.kolt.library")`, never a catalog `alias(...)` with `version.ref`, and
+   never `alias(...) apply false` for them in the root build. A version makes Gradle demand a published artifact.
+3. **Every build that uses Kolt includes build-logic in `pluginManagement` and applies the shared script LAST:**
+   `includeBuild("$koltLibsDir/build-logic")` in `pluginManagement {}` (plugins) and
+   `apply(from = "$koltLibsDir/gradle/kolt-consumer.settings.gradle.kts")` at the very end of
+   `settings.gradle.kts` (libraries substitution for every Kolt module). Use relative paths (e.g. `koltLibsDir=../../../KMP/Keltstone/KoltLibs` in `gradle.properties`).
+4. **Depend on sibling projects by source, not by published jar.**
+5. **Include order is significant: chained builds first, Kolt last.**
+6. **Prove it before calling it done:** verify with `--offline`.
 
 ## External tooling coordinates
 

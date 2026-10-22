@@ -168,7 +168,13 @@ link_project() {
         mkdir -p "$(dirname "$2")"
         ln -sfn "$1" "$2"
     }
-    safe_link "${steering_dir}" "${target}/.standards"
+    local rel_steering
+    if command -v python3 >/dev/null 2>&1; then
+        rel_steering="$(python3 -c "import os.path; print(os.path.relpath('$steering_dir', '$target'))")"
+    else
+        rel_steering="${steering_dir}"
+    fi
+    safe_link "${rel_steering}" "${target}/.standards"
     local f
     for f in "${AGENT_FILES_ROOT[@]}"; do
         safe_link .standards/AGENTS.md "${target}/${f}"

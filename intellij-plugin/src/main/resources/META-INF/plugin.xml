@@ -1,5 +1,5 @@
 <idea-plugin>
-    <id>io.github.koltalabs.kolt.project-wizard</id>
+    <id>io.github.keltstone.kolt.project-wizard</id>
     <name>Kolt Project Wizard</name>
     <vendor url="https://github.com/keltstone/Kolt">
         Kolt
