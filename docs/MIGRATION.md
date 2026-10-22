@@ -102,13 +102,13 @@ dependencies {
 
 Update your Kotlin source imports across all source sets:
 
-- `io.github.appspiriment.kolt.utils.*` → `io.github.koltalabs.kolt.utils.*`
-- `io.github.appspiriment.kolt.logutils.*` → `io.github.koltalabs.kolt.logutils.*`
-- `io.github.appspiriment.kolt.composekmp.*` → `io.github.koltalabs.kolt.composekmp.*`
-- `io.github.appspiriment.kolt.composeutils.*` → `io.github.koltalabs.kolt.composeutils.*`
-- `io.github.appspiriment.kolt.location.*` → `io.github.koltalabs.kolt.location.*`
-- `io.github.appspiriment.kolt.locationpicker.*` → `io.github.koltalabs.kolt.locationpicker.*`
-- `io.github.appspiriment.kolt.updateutils.*` → `io.github.koltalabs.kolt.updateutils.*`
+- `io.github.appspiriment.kolt.utils.*` → `kolt.utils.*`
+- `io.github.appspiriment.kolt.logutils.*` → `kolt.logutils.*`
+- `io.github.appspiriment.kolt.composekmp.*` → `kolt.composekmp.*`
+- `io.github.appspiriment.kolt.composeutils.*` → `kolt.composeutils.*`
+- `io.github.appspiriment.kolt.location.*` → `kolt.location.*`
+- `io.github.appspiriment.kolt.locationpicker.*` → `kolt.locationpicker.*`
+- `io.github.appspiriment.kolt.updateutils.*` → `kolt.updateutils.*`
 
 ---
 
@@ -168,4 +168,71 @@ Also in `0.2.1.dev-02`:
 - **Deprecated `text*` styles** — `Kolt.typography.textMinimum` … `textGiant`, `textMediumLargeMid`, `textXLargeMid`. Use `Kolt.typography.body.<size>` (or `title.<size>` for titles); the quick-fix gives the identical style. They're removed in 0.3.0; `BaseTextStyles(textX = …)` constructor args go with them.
 - **iOS / wasmJs** — `Kolt.sizes`, `Kolt.uiSizes` and `Kolt.typography` now have the desktop default values instead of all-`Unspecified`. If you override `LocalSizes`/`LocalTypography`, nothing changes for you.
 - **`UiSizes.fontSizeXBig`** (36 sp) added, appended last.
+
+---
+
+## 9. Package rename: `io.github.koltalabs.kolt.*` → `kolt.*`
+
+Kotlin package roots across all Kolt libraries have moved from `io.github.koltalabs.kolt.*` to `kolt.*` to decouple Kotlin source code from any future Maven group coordinate or organizational shifts. This is a breaking change requiring a major version bump for all published libraries. Maven publication group coordinates (`io.github.koltalabs.kolt`) and Gradle plugin IDs (`io.github.koltalabs.kolt.*`) remain unchanged.
+
+### Package Mapping
+
+| Old Package Prefix | New Package Prefix |
+|---|---|
+| `io.github.koltalabs.kolt.utils` | `kolt.utils` |
+| `io.github.koltalabs.kolt.logutils` | `kolt.logutils` |
+| `io.github.koltalabs.kolt.composekmp` | `kolt.composekmp` |
+| `io.github.koltalabs.kolt.composeutils` | `kolt.composeutils` |
+| `io.github.koltalabs.kolt.crashlogs` | `kolt.crashlogs` |
+| `io.github.koltalabs.kolt.crashlogs.ui` | `kolt.crashlogs.ui` |
+| `io.github.koltalabs.kolt.crashlogs.noop` | `kolt.crashlogs.noop` |
+| `io.github.koltalabs.kolt.location` | `kolt.location` |
+| `io.github.koltalabs.kolt.locationpicker` | `kolt.locationpicker` |
+| `io.github.koltalabs.kolt.updateutils` | `kolt.updateutils` |
+| `io.github.koltalabs.kolt.detekt` | `kolt.detekt` |
+| `io.github.koltalabs.kolt.conventions` | `kolt.conventions` |
+| `io.github.koltalabs.kolt.intellij` | `kolt.intellij` |
+| `io.github.koltalabs.kolt.demo` | `kolt.demo` |
+
+### One-line Consumer Find-Replace
+
+To migrate consumer source code without touching Gradle plugin IDs or Maven dependency coordinates, run this command in your project root (or use the equivalent IDE find-and-replace scoped to `*.kt` / `*.java` files):
+
+```bash
+find . -type f \( -name "*.kt" -o -name "*.java" \) -exec sed -i '' -E 's/(package|import) io\.github\.koltalabs\.kolt\./\1 kolt./g' {} +
+```
+
+---
+
+## 10. Consumers: composite-build setup
+
+When consuming Kolt as an `includeBuild` composite build, avoid repeating individual module substitution blocks across consumer projects. KoltLibs provides a shared settings script `gradle/kolt-consumer.settings.gradle.kts`.
+
+### 1. Configure `gradle.properties`
+Define the relative path to `KoltLibs`:
+```properties
+koltLibsDir=../KoltLibs
+```
+
+### 2. Configure `settings.gradle.kts`
+Include `build-logic` in `pluginManagement {}`, place any other chained builds first, and apply the shared script last:
+
+```kotlin
+pluginManagement {
+    includeBuild("${settings.providers.gradleProperty("koltLibsDir").get()}/build-logic")
+    repositories {
+        google()
+        gradlePluginPortal()
+        mavenCentral()
+        mavenLocal()
+    }
+}
+
+val koltLibsDir = providers.gradleProperty("koltLibsDir").get()
+
+// (Chained builds go here, if any)
+
+// chained builds first, Kolt last (hard rule, see kolt-libs.md)
+apply(from = "$koltLibsDir/gradle/kolt-consumer.settings.gradle.kts")
+```
 

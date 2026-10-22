@@ -54,11 +54,10 @@ a *chained build* means any included build that itself applies a Kolt plugin.
 2. **Apply Kolt plugins by raw ID, with no version** — `id("io.github.koltalabs.kolt.kmp.library")`,
    never a catalog `alias(...)` with `version.ref`, and never `alias(...) apply false` for them in
    the root build. A version makes Gradle demand a published artifact.
-3. **Every build that uses Kolt includes both parts in its own `settings.gradle.kts`:**
-   `includeBuild("<path>/KoltLibs/build-logic")` (plugins) and
-   `includeBuild("<path>/KoltLibs") { dependencySubstitution { … } }` (libraries), with a
-   substitution for **every** Kolt module the plugins inject (`kolt-bom`, `utils`, `logutils`,
-   `compose`, `compose-kmp`, `location`, `location-picker`). Relative paths. This is what lets
+3. **Every build that uses Kolt includes build-logic in `pluginManagement` and applies the shared script LAST:**
+   `includeBuild("<path>/KoltLibs/build-logic")` in `pluginManagement {}` (plugins) and
+   `apply(from = "<path>/KoltLibs/gradle/kolt-consumer.settings.gradle.kts")` at the very end of
+   `settings.gradle.kts` (libraries substitution for every Kolt module). Relative paths. This is what lets
    each link in a chain build standalone.
 4. **Depend on sibling projects by source, not by published jar.** If project A depends on
    project B (same workspace), `includeBuild` B with a `dependencySubstitution` for B's
