@@ -5,6 +5,7 @@ import com.android.build.api.variant.ApplicationAndroidComponentsExtension
 import io.github.koltalabs.kolt.conventions.extensions.DEFAULT_DEBUG_VERSION_TIMESTAMP_PATTERN
 import io.github.koltalabs.kolt.conventions.extensions.KMP_EXTENSION_NAME
 import io.github.koltalabs.kolt.conventions.extensions.KmpExtension
+import io.github.koltalabs.kolt.conventions.extensions.addCrashLogs
 import io.github.koltalabs.kolt.conventions.extensions.addKoltBom
 import io.github.koltalabs.kolt.conventions.extensions.addKmpAppUtilDeps
 import io.github.koltalabs.kolt.conventions.extensions.addKmpDep
@@ -35,6 +36,7 @@ import org.gradle.kotlin.dsl.getByType
  * Opt-in via `kmp { }`:
  * - enableMinify: enables R8 on release (default: false)
  * - enableUtils: adds utils/logutils (default: true)
+ * - enableCrashLogs: debug crashlogs(+ui), release crashlogs-no-op (default: false)
  * - addDevSuffixToDebug + debugApplicationIdSuffix: appends a suffix (default `.dev`)
  *   to the debug applicationId so it installs alongside release (default: true)
  * - appendTimestampToDebugVersion + debugVersionTimestampPattern: appends a build
@@ -128,6 +130,10 @@ class KmpApplicationConventionPlugin : Plugin<Project> {
 
                 if (kmpExt.enableUtils.getOrElse(true)) {
                     dependencies { addKmpAppUtilDeps(kmpLibs) }
+                }
+
+                if (kmpExt.enableCrashLogs.getOrElse(false)) {
+                    dependencies { addCrashLogs() }
                 }
             }
         }

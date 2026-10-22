@@ -20,6 +20,7 @@ internal const val KMP_DATA_LAYER_EXTENSION_NAME = "kmpDataLayer"
  *     enableDesktop.set(true)
  *     enableWasm.set(false)
  *     enableUtils.set(true)   // default: true
+ *     enableCrashLogs.set(true) // default: false (Android app modules)
  *     enableMinify.set(false) // default: false (application modules only)
  * }
  * ```
@@ -39,6 +40,13 @@ abstract class KmpExtension @Inject constructor(objects: ObjectFactory) {
 
     /** Add utils and logutils to the module. Default: true. */
     abstract val enableUtils: Property<Boolean>
+
+    /**
+     * Opt-in: Android application modules get `crashlogs` + `crashlogs-ui` in debug and
+     * `crashlogs-no-op` in release. Independent of [enableUtils]. Library modules and
+     * desktop/iOS targets are not wired — add `crashlogs` manually there. Default: false.
+     */
+    abstract val enableCrashLogs: Property<Boolean>
 
     /**
      * Master switch for the debug `applicationId` suffix (KMP application module only).

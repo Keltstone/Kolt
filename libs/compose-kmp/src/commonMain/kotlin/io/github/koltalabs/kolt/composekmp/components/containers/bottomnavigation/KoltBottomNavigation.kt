@@ -20,6 +20,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.style.TextAlign
 import io.github.koltalabs.kolt.composekmp.components.containers.types.KoltBottomBarButton
 import io.github.koltalabs.kolt.composekmp.components.core.HorizontalSpacer
@@ -69,6 +70,7 @@ fun KoltBottomNavBar(
     unselectedColor: Color = Kolt.colors.onPrimaryCardContainer,
     selectedBubbleColor: Color = Color.Transparent,
     iconSize: Dp = Kolt.sizes.iconMedium,
+    elevation: Dp = 0.dp,
     itemContent: @Composable RowScope.(route: KoltBottomBarButton, isSelected: Boolean, selectedColor: Color, unselectedColor: Color) -> Unit = { route, isSelected, selColor, unselColor ->
         DefaultBottomNavigationItem(
             route = route,
@@ -92,6 +94,7 @@ fun KoltBottomNavBar(
 
     BottomNavigation(
         backgroundColor = backgroundColor,
+        elevation = elevation,
         modifier = modifier
     ) {
         HorizontalSpacer(Kolt.sizes.paddingSmall)

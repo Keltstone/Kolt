@@ -73,6 +73,9 @@ rootProject.name = "Kolt"
 include(":libs:bom")            // Bill of Materials — publish first before individual libs
 include(":libs:utils")
 include(":libs:logutils")
+include(":libs:crashlogs")
+include(":libs:crashlogs-no-op")
+include(":libs:crashlogs-ui")
 include(":libs:compose-utils")
 include(":libs:compose-kmp")
 include(":libs:update-utils")

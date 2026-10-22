@@ -23,6 +23,7 @@ plugins {
 // which reads them from version.properties. This avoids re-parsing the file here.
 val utilsVersion:        String by rootProject.extra
 val logutilsVersion:     String by rootProject.extra
+val crashlogsVersion:    String by rootProject.extra
 val composeUtilsVersion: String by rootProject.extra
 val composeKmpVersion:   String by rootProject.extra
 val updateUtilsVersion:  String by rootProject.extra
@@ -32,6 +33,9 @@ dependencies {
     constraints {
         api("io.github.koltalabs.kolt:utils:$utilsVersion")
         api("io.github.koltalabs.kolt:logutils:$logutilsVersion")
+        api("io.github.koltalabs.kolt:crashlogs:$crashlogsVersion")
+        api("io.github.koltalabs.kolt:crashlogs-no-op:$crashlogsVersion")
+        api("io.github.koltalabs.kolt:crashlogs-ui:$crashlogsVersion")
         api("io.github.koltalabs.kolt:compose:$composeUtilsVersion")
         api("io.github.koltalabs.kolt:compose-kmp:$composeKmpVersion")
         api("io.github.koltalabs.kolt:update-utils:$updateUtilsVersion")
@@ -44,7 +48,7 @@ mavenPublishing {
     pom {
         name = "Kolt BOM"
         description = "Bill of Materials for the Kolt library suite — " +
-            "constrains utils, logutils, compose, compose-kmp, location, and update-utils to a " +
+            "constrains utils, logutils, crashlogs, compose, compose-kmp, location, and update-utils to a " +
             "known-compatible version set."
         url = "https://github.com/kolta-labs/Kolt"
         licenses {

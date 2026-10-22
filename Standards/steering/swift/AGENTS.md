@@ -40,6 +40,20 @@ If this file was reached through a `.standards` symlink in a consuming repo
 (see `scripts/link-standards.sh`), the table links resolve to
 `.standards/<file>.md` from that repo's root.
 
+## Working rules — always apply (any stack)
+
+Read [rules.md](rules.md) once at the start of every session, before the first
+action, and keep it cached in context/memory (don't re-read) — it is short and applies to *every* task, not just code. Headlines:
+Caveman ultra + Ponytail ultra stay on, and follow the stack's best current
+standards; run
+`git status` before any git state change and never lose uncommitted work;
+commit at logical boundaries (when asked); **never delete a file or run a
+destructive command without explicit confirmation**; stay in scope; verify and
+report honestly. Docs: everything lives under `docs/` — compact recovery
+specs in `docs/specs/` (commit locally *before* a new feature or major behaviour
+change; updated only then), user docs in `docs/user/` (updated only when the
+user asks). Unlike the other files here, this one is not load-on-demand.
+
 ## Non-negotiables (tl;dr)
 
 1. **Swift 6 language mode, complete strict concurrency.** UI-bound types are `@MainActor`; cross-isolation values are `Sendable`; shared mutable state lives in an `actor`. No `@unchecked Sendable` or `nonisolated(unsafe)` without a one-line justification comment. On Swift 6.2+, default `MainActor` isolation is allowed **only in the App/Presentation/DesignSystem targets** — `Domain` and `Data` stay nonisolated (explicit isolation), and off-main work is marked `@concurrent`. See [architecture.md](architecture.md#concurrency-model).

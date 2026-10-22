@@ -8,6 +8,7 @@ import io.github.koltalabs.kolt.conventions.extensions.applyPluginFromLibs
 import io.github.koltalabs.kolt.conventions.extensions.koltLibs
 import io.github.koltalabs.kolt.conventions.extensions.baseDependencies
 import io.github.koltalabs.kolt.conventions.extensions.basePluginList
+import io.github.koltalabs.kolt.conventions.extensions.addCrashLogs
 import io.github.koltalabs.kolt.conventions.extensions.bomDependency
 import io.github.koltalabs.kolt.conventions.extensions.composeDependencies
 import io.github.koltalabs.kolt.conventions.extensions.composePluginList
@@ -127,6 +128,10 @@ abstract class AndroidBaseConventionPlugin : Plugin<Project> {
                     commonExtension = commonExtension,
                     addDevSuffixToDebug = config.addDevSuffixToDebug.orNull ?: true
                 )
+
+                if (config.enableCrashLogs.orNull ?: false) {
+                    dependencies { addCrashLogs() }
+                }
 
                 // Optional utility dependencies
                 if (config.enableUtils.orNull ?: true) {

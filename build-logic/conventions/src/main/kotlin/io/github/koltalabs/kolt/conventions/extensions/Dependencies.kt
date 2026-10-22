@@ -165,6 +165,16 @@ val utilDependencies: List<Dependency> = listOf(
 )
 
 /**
+ * Opt-in crash collector: real implementation + UI in debug, API-identical no-op in release.
+ * Versions come from the BOM.
+ */
+fun DependencyHandler.addCrashLogs() {
+    add("debugImplementation", "io.github.koltalabs.kolt:crashlogs")
+    add("debugImplementation", "io.github.koltalabs.kolt:crashlogs-ui")
+    add("releaseImplementation", "io.github.koltalabs.kolt:crashlogs-no-op")
+}
+
+/**
  * Optional Compose utility dependencies.
  * No explicit version on Kolt artifacts — version comes from the BOM.
  */

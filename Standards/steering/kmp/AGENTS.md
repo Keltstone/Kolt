@@ -48,6 +48,20 @@ links above (`kolt-libs.md`, `architecture.md`, etc.) resolve to
 `.standards/<file>.md` from that app's root, not `<file>.md` — the symlinked
 folder, not the app root, is what they're sibling to.
 
+## Working rules — always apply (any stack)
+
+Read [rules.md](rules.md) once at the start of every session, before the first
+action, and keep it cached in context/memory (don't re-read) — it is short and applies to *every* task, not just code. Headlines:
+Caveman ultra + Ponytail ultra stay on, and follow the stack's best current
+standards; run
+`git status` before any git state change and never lose uncommitted work;
+commit at logical boundaries (when asked); **never delete a file or run a
+destructive command without explicit confirmation**; stay in scope; verify and
+report honestly. Docs: everything lives under `docs/` — compact recovery
+specs in `docs/specs/` (commit locally *before* a new feature or major behaviour
+change; updated only then), user docs in `docs/user/` (updated only when the
+user asks). Unlike the other files here, this one is not load-on-demand.
+
 ## Non-negotiables (tl;dr)
 
 1. Clean architecture, strict call chain, no skipped layers: `ViewModel → UseCase → Repository (interface, domain) → RepositoryImpl → DataSource → originator (Ktor/Room/SQLDelight/DataStore)`. `UseCase` depends only on `Repository` interfaces (any number); `RepositoryImpl` depends only on its `DataSource`(s), never a network client/DAO/DataStore directly. Domain has zero Android/Compose/platform imports. Platform exceptions (Ktor/SQL/etc.) get mapped to a shared `DomainException` at the `DataSource` boundary — never caught raw above it.

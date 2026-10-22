@@ -47,6 +47,7 @@ fun computeVersion(majorKey: String, devKey: String): String {
 val pluginVersion       by lazy { computeVersion("PLUGIN_MAJOR",        "PLUGIN_DEV")        }
 val utilsVersion        by lazy { computeVersion("UTILS_MAJOR",         "UTILS_DEV")         }
 val logutilsVersion     by lazy { computeVersion("LOGUTILS_MAJOR",      "LOGUTILS_DEV")      }
+val crashlogsVersion    by lazy { computeVersion("CRASHLOGS_MAJOR",     "CRASHLOGS_DEV")     }
 val composeUtilsVersion by lazy { computeVersion("COMPOSE_UTILS_MAJOR",  "COMPOSE_UTILS_DEV") }
 val composeKmpVersion   by lazy { computeVersion("COMPOSE_KMP_MAJOR",    "COMPOSE_KMP_DEV")   }
 val updateUtilsVersion  by lazy { computeVersion("UPDATE_UTILS_MAJOR",   "UPDATE_UTILS_DEV")  }
@@ -62,6 +63,7 @@ allprojects {
 // (e.g. libs/bom/build.gradle.kts) can read them without re-parsing the file.
 extra["utilsVersion"]        = utilsVersion
 extra["logutilsVersion"]     = logutilsVersion
+extra["crashlogsVersion"]    = crashlogsVersion
 extra["composeUtilsVersion"] = composeUtilsVersion
 extra["composeKmpVersion"]   = composeKmpVersion
 extra["updateUtilsVersion"]  = updateUtilsVersion
@@ -74,6 +76,7 @@ subprojects {
     version = when (name) {
         "utils"         -> utilsVersion
         "logutils"      -> logutilsVersion
+        "crashlogs", "crashlogs-no-op", "crashlogs-ui" -> crashlogsVersion
         "compose-utils" -> composeUtilsVersion
         "compose-kmp"   -> composeKmpVersion
         "update-utils"  -> updateUtilsVersion
@@ -115,6 +118,9 @@ tasks.register("publishAllToMavenLocal") {
     dependsOn(":libs:bom:publishToMavenLocal")
     // Runtime libraries
     dependsOn(":libs:logutils:publishToMavenLocal")
+    dependsOn(":libs:crashlogs:publishToMavenLocal")
+    dependsOn(":libs:crashlogs-no-op:publishToMavenLocal")
+    dependsOn(":libs:crashlogs-ui:publishToMavenLocal")
     dependsOn(":libs:utils:publishToMavenLocal")
     dependsOn(":libs:compose-kmp:publishToMavenLocal")
     dependsOn(":libs:compose-utils:publishToMavenLocal")
@@ -144,6 +150,12 @@ tasks.register("bumpLogutilsVersion") {
     group = "versioning"
     description = "Bumps the LOGUTILS_DEV counter — libs:logutils."
     dependsOn(gradle.includedBuild("build-logic").task(":conventions:bumpLogutilsVersion"))
+}
+
+tasks.register("bumpCrashlogsVersion") {
+    group = "versioning"
+    description = "Bumps the CRASHLOGS_DEV counter — libs:crashlogs, crashlogs-no-op, crashlogs-ui."
+    dependsOn(gradle.includedBuild("build-logic").task(":conventions:bumpCrashlogsVersion"))
 }
 
 tasks.register("bumpComposeUtilsVersion") {
@@ -214,6 +226,12 @@ subprojects {
                 .using(project(":libs:utils"))
             substitute(module("io.github.koltalabs.kolt:logutils"))
                 .using(project(":libs:logutils"))
+            substitute(module("io.github.koltalabs.kolt:crashlogs"))
+                .using(project(":libs:crashlogs"))
+            substitute(module("io.github.koltalabs.kolt:crashlogs-no-op"))
+                .using(project(":libs:crashlogs-no-op"))
+            substitute(module("io.github.koltalabs.kolt:crashlogs-ui"))
+                .using(project(":libs:crashlogs-ui"))
             substitute(module("io.github.koltalabs.kolt:compose-kmp"))
                 .using(project(":libs:compose-kmp"))
             substitute(module("io.github.koltalabs.kolt:compose"))

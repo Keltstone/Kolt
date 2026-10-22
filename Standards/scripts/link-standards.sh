@@ -51,6 +51,13 @@ TECH_DIR="${TECH_DIR:-$(find_tech_dir)}"
 DATA_FILE="${DATA_FILE:-${SCRIPT_DIR}/projects.txt}"
 PROJECTS=()
 
+# ── Agent instruction files (all symlinks to the one main steering file) ─────
+# AGENTS.md: Codex, Cursor, Copilot, Windsurf, Jules, Zed, Aider-compatible, …
+# Others are tool-specific names for the same content.
+AGENT_FILES_ROOT=(AGENTS.md CLAUDE.md GEMINI.md QWEN.md CONVENTIONS.md
+    .cursorrules .windsurfrules .clinerules .roorules .rules)
+AGENT_FILES_NESTED=(.github/copilot-instructions.md .junie/guidelines.md)
+
 # ── Type detection helper ────────────────────────────────────────────────────
 detect_project_type() {
     local dir="$1"
@@ -150,14 +157,25 @@ link_project() {
         return 1
     fi
 
-    # Remove existing symlinks or broken references
-    rm -f "${target}/.standards" "${target}/AGENTS.md" "${target}/CLAUDE.md" "${target}/GEMINI.md"
-
-    # Soft-link the standards steering folder and AI docs
-    ln -sfn "${steering_dir}" "${target}/.standards"
-    ln -sfn .standards/AGENTS.md "${target}/AGENTS.md"
-    ln -sfn .standards/AGENTS.md "${target}/CLAUDE.md"
-    ln -sfn .standards/AGENTS.md "${target}/GEMINI.md"
+    # Soft-link the standards steering folder, then every agent's instruction
+    # file to the one main steering file. Real (non-symlink) files are never
+    # replaced — they may be hand-written; skip with a warning instead.
+    safe_link() {  # safe_link <link-target> <link-path>
+        if [[ -e "$2" && ! -L "$2" ]]; then
+            warn "Not a symlink, left untouched: ${2#$target/}"
+            return 0
+        fi
+        mkdir -p "$(dirname "$2")"
+        ln -sfn "$1" "$2"
+    }
+    safe_link "${steering_dir}" "${target}/.standards"
+    local f
+    for f in "${AGENT_FILES_ROOT[@]}"; do
+        safe_link .standards/AGENTS.md "${target}/${f}"
+    done
+    for f in "${AGENT_FILES_NESTED[@]}"; do
+        safe_link ../.standards/AGENTS.md "${target}/${f}"
+    done
 
     local display_path="$target"
     if [[ "$target" == "$TECH_DIR"/* ]]; then

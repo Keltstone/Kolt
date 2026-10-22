@@ -21,6 +21,7 @@ internal const val DATA_LAYER_EXTENSION_NAME = "dataLayer"
  * ```kotlin
  * kolt {
  *     enableUtils.set(false)            // default: true
+ *     enableCrashLogs.set(true)         // default: false
  *     enableMinify.set(true)            // default: false
  *     addDevSuffixToDebug.set(false)    // default: true (app modules only)
  *     debugApplicationIdSuffix.set(".qa")          // default: ".dev"
@@ -33,6 +34,12 @@ internal const val DATA_LAYER_EXTENSION_NAME = "dataLayer"
 abstract class KoltExtension @Inject constructor(objects: ObjectFactory) {
     /** Whether to add utils, logutils. Default: true. */
     abstract val enableUtils: Property<Boolean>
+    /**
+     * Opt-in: adds the `crashlogs` throwable/crash collector (+ `crashlogs-ui`) to debug
+     * builds and an API-identical `crashlogs-no-op` to release. Independent of [enableUtils]
+     * (works with it off). Default: false.
+     */
+    abstract val enableCrashLogs: Property<Boolean>
     /** Whether to enable R8 minification in the release build type. Default: false. */
     abstract val enableMinify: Property<Boolean>
     /**

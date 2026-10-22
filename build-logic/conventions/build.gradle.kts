@@ -126,6 +126,7 @@ fun registerBumpTask(
 val bumpPluginVersion       = registerBumpTask("bumpPluginVersion",       "PLUGIN_DEV",       "PLUGIN_MAJOR",       "convention-plugins")
 val bumpUtilsVersion        = registerBumpTask("bumpUtilsVersion",        "UTILS_DEV",        "UTILS_MAJOR",        "utils")
 val bumpLogutilsVersion     = registerBumpTask("bumpLogutilsVersion",     "LOGUTILS_DEV",     "LOGUTILS_MAJOR",     "logutils")
+val bumpCrashlogsVersion    = registerBumpTask("bumpCrashlogsVersion",    "CRASHLOGS_DEV",    "CRASHLOGS_MAJOR",    "crashlogs")
 val bumpComposeUtilsVersion = registerBumpTask("bumpComposeUtilsVersion", "COMPOSE_UTILS_DEV","COMPOSE_UTILS_MAJOR","compose-utils")
 val bumpComposeKmpVersion   = registerBumpTask("bumpComposeKmpVersion",   "COMPOSE_KMP_DEV",  "COMPOSE_KMP_MAJOR",  "compose-kmp")
 val bumpUpdateUtilsVersion  = registerBumpTask("bumpUpdateUtilsVersion",  "UPDATE_UTILS_DEV", "UPDATE_UTILS_MAJOR", "update-utils")
@@ -157,7 +158,7 @@ val bumpAllVersions = tasks.register("bumpAllVersions") {
     group = "versioning"
     description = "Bumps ALL per-artifact DEV counters and the BOM version."
     dependsOn(bumpPluginVersion, bumpUtilsVersion, bumpLogutilsVersion,
-              bumpComposeUtilsVersion, bumpComposeKmpVersion, bumpUpdateUtilsVersion,
+              bumpCrashlogsVersion, bumpComposeUtilsVersion, bumpComposeKmpVersion, bumpUpdateUtilsVersion,
               bumpLocationVersion, bumpLocationPickerVersion, bumpBomVersion)
 }
 
