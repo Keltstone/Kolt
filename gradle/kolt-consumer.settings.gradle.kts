@@ -31,20 +31,24 @@ val koltProperties = Properties().apply {
 val koltGroup = koltProperties.getProperty("GROUP")
     ?: error("GROUP not found in ${koltPropertiesFile.canonicalPath}")
 
+val koltGroups = listOfNotNull(koltGroup, "io.github.koltalabs.kolt").distinct()
+
 includeBuild(koltLibsDir) {
     dependencySubstitution {
-        substitute(module("$koltGroup:kolt-bom")).using(project(":libs:bom"))
-        substitute(module("$koltGroup:utils")).using(project(":libs:utils"))
-        substitute(module("$koltGroup:logutils")).using(project(":libs:logutils"))
-        substitute(module("$koltGroup:crashlogs")).using(project(":libs:crashlogs"))
-        substitute(module("$koltGroup:crashlogs-no-op")).using(project(":libs:crashlogs-no-op"))
-        substitute(module("$koltGroup:crashlogs-ui")).using(project(":libs:crashlogs-ui"))
-        substitute(module("$koltGroup:compose")).using(project(":libs:compose-utils"))
-        substitute(module("$koltGroup:compose-kmp")).using(project(":libs:compose-kmp"))
-        substitute(module("$koltGroup:update-utils")).using(project(":libs:update-utils"))
-        substitute(module("$koltGroup:location")).using(project(":libs:location"))
-        substitute(module("$koltGroup:location-picker")).using(project(":libs:location-picker"))
-        substitute(module("$koltGroup:detekt-rules")).using(project(":libs:detekt-rules"))
+        for (group in koltGroups) {
+            substitute(module("$group:kolt-bom")).using(project(":libs:bom"))
+            substitute(module("$group:utils")).using(project(":libs:utils"))
+            substitute(module("$group:logutils")).using(project(":libs:logutils"))
+            substitute(module("$group:crashlogs")).using(project(":libs:crashlogs"))
+            substitute(module("$group:crashlogs-no-op")).using(project(":libs:crashlogs-no-op"))
+            substitute(module("$group:crashlogs-ui")).using(project(":libs:crashlogs-ui"))
+            substitute(module("$group:compose")).using(project(":libs:compose-utils"))
+            substitute(module("$group:compose-kmp")).using(project(":libs:compose-kmp"))
+            substitute(module("$group:update-utils")).using(project(":libs:update-utils"))
+            substitute(module("$group:location")).using(project(":libs:location"))
+            substitute(module("$group:location-picker")).using(project(":libs:location-picker"))
+            substitute(module("$group:detekt-rules")).using(project(":libs:detekt-rules"))
+        }
     }
 }
 
