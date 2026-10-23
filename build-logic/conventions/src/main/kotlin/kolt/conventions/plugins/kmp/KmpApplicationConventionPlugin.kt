@@ -6,6 +6,8 @@ import kolt.conventions.extensions.DEFAULT_DEBUG_VERSION_TIMESTAMP_PATTERN
 import kolt.conventions.extensions.KMP_EXTENSION_NAME
 import kolt.conventions.extensions.KmpExtension
 import kolt.conventions.extensions.addCrashLogs
+import kolt.conventions.extensions.applyCrashlyticsIf
+import kolt.conventions.extensions.crashlyticsAppIds
 import kolt.conventions.extensions.addKoltBom
 import kolt.conventions.extensions.addKmpAppUtilDeps
 import kolt.conventions.extensions.addKmpDep
@@ -37,6 +39,7 @@ import org.gradle.kotlin.dsl.getByType
  * - enableMinify: enables R8 on release (default: false)
  * - enableUtils: adds utils/logutils (default: true)
  * - enableCrashLogs: debug crashlogs(+ui), release crashlogs-no-op (default: false)
+ * - enableCrashlytics: google-services + crashlytics plugins and SDK (default: false)
  * - addDevSuffixToDebug + debugApplicationIdSuffix: appends a suffix (default `.dev`)
  *   to the debug applicationId so it installs alongside release (default: true)
  * - appendTimestampToDebugVersion + debugVersionTimestampPattern: appends a build
@@ -47,6 +50,20 @@ class KmpApplicationConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             extensions.create(KMP_EXTENSION_NAME, KmpExtension::class.java)
+
+            // Must precede AGP so the Firebase plugins can still use the Variant API.
+            applyCrashlyticsIf(
+                kmpLibs,
+                enabled = { extensions.getByType<KmpExtension>().enableCrashlytics.getOrElse(false) },
+                appIds = {
+                    val k = extensions.getByType<KmpExtension>()
+                    crashlyticsAppIds(
+                        extensions.getByType<ApplicationExtension>().defaultConfig.applicationId,
+                        k.addDevSuffixToDebug.getOrElse(true),
+                        k.debugApplicationIdSuffix.getOrElse(".dev"),
+                    )
+                },
+            )
 
             pluginManager.applyKmpPluginFromLibs(
                 kmpLibs to listOf("android-application"),
@@ -135,6 +152,7 @@ class KmpApplicationConventionPlugin : Plugin<Project> {
                 if (kmpExt.enableCrashLogs.getOrElse(false)) {
                     dependencies { addCrashLogs() }
                 }
+
             }
         }
     }

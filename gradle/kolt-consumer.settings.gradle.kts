@@ -41,7 +41,6 @@ includeBuild(koltLibsDir) {
             substitute(module("$group:logutils")).using(project(":libs:logutils"))
             substitute(module("$group:crashlogs")).using(project(":libs:crashlogs"))
             substitute(module("$group:crashlogs-no-op")).using(project(":libs:crashlogs-no-op"))
-            substitute(module("$group:crashlogs-ui")).using(project(":libs:crashlogs-ui"))
             substitute(module("$group:compose")).using(project(":libs:compose-utils"))
             substitute(module("$group:compose-kmp")).using(project(":libs:compose-kmp"))
             substitute(module("$group:update-utils")).using(project(":libs:update-utils"))

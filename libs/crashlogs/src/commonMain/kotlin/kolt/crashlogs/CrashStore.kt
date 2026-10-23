@@ -16,6 +16,9 @@ internal expect fun installUncaughtHook(onCrash: (Throwable) -> Unit)
 
 internal expect fun nowMillis(): Long
 
+/** Forwards a handled throwable to Firebase Crashlytics when it is on the classpath (Android only). */
+internal expect fun sendToCrashlytics(tag: String, throwable: Throwable)
+
 /** Runs [block] under one process-wide lock. */
 internal expect fun <T> locked(block: () -> T): T
 

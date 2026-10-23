@@ -37,7 +37,6 @@ dependencies {
         api("$koltGroup:logutils:$logutilsVersion")
         api("$koltGroup:crashlogs:$crashlogsVersion")
         api("$koltGroup:crashlogs-no-op:$crashlogsVersion")
-        api("$koltGroup:crashlogs-ui:$crashlogsVersion")
         api("$koltGroup:compose:$composeUtilsVersion")
         api("$koltGroup:compose-kmp:$composeKmpVersion")
         api("$koltGroup:update-utils:$updateUtilsVersion")

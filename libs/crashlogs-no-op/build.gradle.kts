@@ -14,6 +14,12 @@ android {
     namespace = "kolt.crashlogs.noop"
 }
 
+dependencies {
+    // Forwarding of handled errors; compileOnly so it is used only if the app ships Crashlytics.
+    "androidMainCompileOnly"(platform("com.google.firebase:firebase-bom:${koltlibs.versions.firebaseBom.get()}"))
+    "androidMainCompileOnly"("com.google.firebase:firebase-crashlytics")
+}
+
 mavenPublishing {
     coordinates(artifactId = "crashlogs-no-op")
     pom {

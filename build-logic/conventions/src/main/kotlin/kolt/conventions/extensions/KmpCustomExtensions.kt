@@ -21,6 +21,7 @@ internal const val KMP_DATA_LAYER_EXTENSION_NAME = "kmpDataLayer"
  *     enableWasm.set(false)
  *     enableUtils.set(true)   // default: true
  *     enableCrashLogs.set(true) // default: false (Android app modules)
+ *     enableCrashlytics.set(true) // default: false (Android app modules)
  *     enableMinify.set(false) // default: false (application modules only)
  * }
  * ```
@@ -42,11 +43,17 @@ abstract class KmpExtension @Inject constructor(objects: ObjectFactory) {
     abstract val enableUtils: Property<Boolean>
 
     /**
-     * Opt-in: Android application modules get `crashlogs` + `crashlogs-ui` in debug and
+     * Opt-in: Android application modules get `crashlogs` in debug and
      * `crashlogs-no-op` in release. Independent of [enableUtils]. Library modules and
      * desktop/iOS targets are not wired — add `crashlogs` manually there. Default: false.
      */
     abstract val enableCrashLogs: Property<Boolean>
+    /**
+     * Opt-in (Android application modules only): applies Firebase Crashlytics (google-services + crashlytics plugins, SDK via
+     * firebase-bom). Needs both Gradle plugins declared `apply false` in the root build and a
+     * `google-services.json`. Independent of [enableCrashLogs]. Default: false.
+     */
+    abstract val enableCrashlytics: Property<Boolean>
 
     /**
      * Master switch for the debug `applicationId` suffix (KMP application module only).

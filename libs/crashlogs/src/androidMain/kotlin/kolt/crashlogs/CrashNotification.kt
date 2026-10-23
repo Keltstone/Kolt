@@ -10,23 +10,18 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 
-/** Implicit action served by the optional `crashlogs-ui` activity. */
-const val ACTION_VIEW_CRASHLOGS = "kolt.crashlogs.VIEW"
-
 private const val CHANNEL_ID = "kolt_crashlogs"
 
 /**
- * Best-effort notification for a recorded throwable. Skipped when notifications are not
- * permitted or no activity (the `crashlogs-ui` module) handles [ACTION_VIEW_CRASHLOGS].
- * The library never requests POST_NOTIFICATIONS itself.
+ * Best-effort notification for a recorded throwable; tap opens [CrashLogsActivity]. Skipped
+ * when notifications are not permitted. The library never requests POST_NOTIFICATIONS itself.
  */
 internal fun notifyCrash(context: Context, summary: CrashSummary) {
     if (Build.VERSION.SDK_INT >= 33 &&
         context.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
     ) return
 
-    val view = Intent(ACTION_VIEW_CRASHLOGS).setPackage(context.packageName).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-    if (context.packageManager.queryIntentActivities(view, 0).isEmpty()) return
+    val view = Intent(context, CrashLogsActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
     val manager = context.getSystemService(NotificationManager::class.java)
     manager.createNotificationChannel(

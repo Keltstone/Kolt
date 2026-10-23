@@ -3,6 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <application>
+        <activity
+            android:name="kolt.crashlogs.CrashLogsActivity"
+            android:exported="false"
+            android:label="Crash logs" />
+
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"

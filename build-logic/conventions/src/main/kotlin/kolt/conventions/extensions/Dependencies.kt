@@ -165,12 +165,11 @@ val utilDependencies: List<Dependency> = listOf(
 )
 
 /**
- * Opt-in crash collector: real implementation + UI in debug, API-identical no-op in release.
+ * Opt-in crash collector: real implementation (incl. viewer UI) in debug, API-identical no-op in release.
  * Versions come from the BOM.
  */
 fun DependencyHandler.addCrashLogs() {
     add("debugImplementation", "$koltGroup:crashlogs")
-    add("debugImplementation", "$koltGroup:crashlogs-ui")
     add("releaseImplementation", "$koltGroup:crashlogs-no-op")
 }
 

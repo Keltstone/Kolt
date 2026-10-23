@@ -76,7 +76,7 @@ subprojects {
     version = when (name) {
         "utils"         -> utilsVersion
         "logutils"      -> logutilsVersion
-        "crashlogs", "crashlogs-no-op", "crashlogs-ui" -> crashlogsVersion
+        "crashlogs", "crashlogs-no-op" -> crashlogsVersion
         "compose-utils" -> composeUtilsVersion
         "compose-kmp"   -> composeKmpVersion
         "update-utils"  -> updateUtilsVersion
@@ -120,7 +120,6 @@ tasks.register("publishAllToMavenLocal") {
     dependsOn(":libs:logutils:publishToMavenLocal")
     dependsOn(":libs:crashlogs:publishToMavenLocal")
     dependsOn(":libs:crashlogs-no-op:publishToMavenLocal")
-    dependsOn(":libs:crashlogs-ui:publishToMavenLocal")
     dependsOn(":libs:utils:publishToMavenLocal")
     dependsOn(":libs:compose-kmp:publishToMavenLocal")
     dependsOn(":libs:compose-utils:publishToMavenLocal")
@@ -154,7 +153,7 @@ tasks.register("bumpLogutilsVersion") {
 
 tasks.register("bumpCrashlogsVersion") {
     group = "versioning"
-    description = "Bumps the CRASHLOGS_DEV counter — libs:crashlogs, crashlogs-no-op, crashlogs-ui."
+    description = "Bumps the CRASHLOGS_DEV counter — libs:crashlogs, crashlogs-no-op."
     dependsOn(gradle.includedBuild("build-logic").task(":conventions:bumpCrashlogsVersion"))
 }
 
@@ -231,8 +230,6 @@ subprojects {
                 .using(project(":libs:crashlogs"))
             substitute(module("$koltGroup:crashlogs-no-op"))
                 .using(project(":libs:crashlogs-no-op"))
-            substitute(module("$koltGroup:crashlogs-ui"))
-                .using(project(":libs:crashlogs-ui"))
             substitute(module("$koltGroup:compose-kmp"))
                 .using(project(":libs:compose-kmp"))
             substitute(module("$koltGroup:compose"))

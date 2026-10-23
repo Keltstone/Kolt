@@ -47,8 +47,16 @@ object CrashLogs {
         }
     }
 
-    /** Records a handled throwable. */
+    /**
+     * Also send handled throwables to Firebase Crashlytics when the app has it (Android).
+     * Uncaught crashes are not forwarded: Crashlytics catches those itself.
+     */
+    @Volatile
+    var forwardToCrashlytics: Boolean = true
+
+    /** Records a handled throwable (and forwards it to Crashlytics if present and enabled). */
     fun onError(tag: String, throwable: Throwable) {
+        if (forwardToCrashlytics) sendToCrashlytics(tag, throwable)
         record(tag, throwable)
     }
 

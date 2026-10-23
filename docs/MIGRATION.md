@@ -184,7 +184,6 @@ Kotlin package roots across all Kolt libraries have moved from `io.github.keltst
 | `io.github.keltstone.kolt.composekmp` | `kolt.composekmp` |
 | `io.github.keltstone.kolt.composeutils` | `kolt.composeutils` |
 | `io.github.keltstone.kolt.crashlogs` | `kolt.crashlogs` |
-| `io.github.keltstone.kolt.crashlogs.ui` | `kolt.crashlogs.ui` |
 | `io.github.keltstone.kolt.crashlogs.noop` | `kolt.crashlogs.noop` |
 | `io.github.keltstone.kolt.location` | `kolt.location` |
 | `io.github.keltstone.kolt.locationpicker` | `kolt.locationpicker` |
