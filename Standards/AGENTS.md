@@ -4,11 +4,13 @@ Read this before generating any code in a KMP, Android Compose, or pure Swift (m
 These rules are mandatory, not suggestions — an AI agent (Claude, Gemini, or
 otherwise) must follow them by default without being re-asked per task.
 
-Every agent-specific instruction file (`CLAUDE.md`, `GEMINI.md`, `QWEN.md`,
-`CONVENTIONS.md`, `.cursorrules`, `.windsurfrules`, `.clinerules`, `.roorules`,
-`.rules`, `.github/copilot-instructions.md`, `.junie/guidelines.md`) is a
-symlink to this one file — edit steering content here, never in an agent-
-specific copy. `scripts/link-standards.sh` creates them all.
+`CLAUDE.md` is a symlink to this one file — edit steering content here, never
+in a copy. `scripts/link-standards.sh` creates it, plus `AGENTS.md` (read
+natively by Codex, Cursor, Copilot, Windsurf, Cline, Roo, Junie, Qwen, Zed and
+others). `GEMINI.md` and the other per-tool copies (`QWEN.md`, `CONVENTIONS.md`,
+`.cursorrules`, `.windsurfrules`, `.clinerules`, `.roorules`, `.rules`,
+`.github/copilot-instructions.md`, `.junie/guidelines.md`) are no longer created;
+Gemini CLI: set `context.fileName` to `AGENTS.md`.
 
 Also read [steering/rules.md](steering/rules.md): tech-agnostic working rules
 (git hygiene, never delete without confirmation, scope, verification) that

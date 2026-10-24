@@ -44,12 +44,15 @@ fun KoltTopBar(
     onTopBarColor: Color = Kolt.colors.onTopAppBar,
     actions: List<KoltTopBarButton>? = null,
     actionsContent: @Composable RowScope.(Color) -> Unit = {},
+    navigationIcon: (@Composable () -> Unit)? = null,
 ) {
     val backgroundColor = background
     val contentColor = onTopBarColor
     TopAppBar(
         navigationIcon = {
-            if (navMode != NavigationMode.EMPTY) {
+            if (navigationIcon != null) {
+                navigationIcon()
+            } else if (navMode != NavigationMode.EMPTY) {
                 KoltIconButton(
                     icon = navMode.icon,
                     iconModifier = Modifier.size(sizes.iconStandard),

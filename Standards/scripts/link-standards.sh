@@ -8,6 +8,7 @@
 #   ./scripts/link-standards.sh --list           List configured projects & status
 #   ./scripts/link-standards.sh --update         Scan Tech folder & update projects.txt
 #   ./scripts/link-standards.sh --select         Select projects to link by number
+#   ./scripts/link-standards.sh --unlink [--yes] Remove steering symlinks from all listed projects
 #   ./scripts/link-standards.sh --file <path>    Use custom data file
 #   ./scripts/link-standards.sh <type> <path>    Link a specific project (type: kmp|android|swift)
 #   ./scripts/link-standards.sh --help           Show this message
@@ -51,12 +52,23 @@ TECH_DIR="${TECH_DIR:-$(find_tech_dir)}"
 DATA_FILE="${DATA_FILE:-${SCRIPT_DIR}/projects.txt}"
 PROJECTS=()
 
-# ── Agent instruction files (all symlinks to the one main steering file) ─────
-# AGENTS.md: Codex, Cursor, Copilot, Windsurf, Jules, Zed, Aider-compatible, …
-# Others are tool-specific names for the same content.
-AGENT_FILES_ROOT=(AGENTS.md CLAUDE.md GEMINI.md QWEN.md CONVENTIONS.md
-    .cursorrules .windsurfrules .clinerules .roorules .rules)
-AGENT_FILES_NESTED=(.github/copilot-instructions.md .junie/guidelines.md)
+# ── Agent instruction files (symlinks to the one main steering file) ─────────
+# Only files a tool needs by name. AGENTS.md is read natively by Codex, Cursor,
+# Copilot, Windsurf, Cline, Roo, Junie, Zed, Jules, Qwen, …; Claude Code
+# still wants CLAUDE.md. (Gemini CLI: set context.fileName to AGENTS.md.)
+AGENT_FILES_ROOT=(AGENTS.md CLAUDE.md)
+AGENT_FILES_NESTED=()
+
+# ── Every steering file ever linked (removal is by explicit name only) ───────
+# Includes legacy per-tool names from older runs. Only symlinks are removed;
+# a real (hand-written) file with one of these names is never touched.
+STEERING_FILES=(
+    .standards
+    AGENTS.md CLAUDE.md GEMINI.md QWEN.md CONVENTIONS.md
+    .cursorrules .windsurfrules .clinerules .roorules .rules
+    .github/copilot-instructions.md
+    .junie/guidelines.md
+)
 
 # ── Type detection helper ────────────────────────────────────────────────────
 detect_project_type() {
@@ -181,7 +193,7 @@ link_project() {
     done
     for f in "${AGENT_FILES_NESTED[@]}"; do
         safe_link ../.standards/AGENTS.md "${target}/${f}"
-    done
+    done  # (empty by default)
 
     local display_path="$target"
     if [[ "$target" == "$TECH_DIR"/* ]]; then
@@ -395,6 +407,48 @@ link_all() {
     info "Link run complete: ${success_count} succeeded, ${fail_count} failed/skipped."
 }
 
+# ── Option 5: Remove steering symlinks from all projects ─────────────────────
+unlink_all() {
+    local assume_yes="${1:-}"
+    load_projects
+    if [[ ${#PROJECTS[@]} -eq 0 ]]; then
+        warn "No projects found in ${DATA_FILE}."
+        return
+    fi
+
+    # Dry run: collect what would go.
+    local victims=() skipped=() item path f
+    for item in "${PROJECTS[@]}"; do
+        path="${item#*|}"
+        for f in "${STEERING_FILES[@]}"; do
+            if [[ -L "${path}/${f}" ]]; then
+                victims+=("${path}/${f}")
+            elif [[ -e "${path}/${f}" ]]; then
+                skipped+=("${path}/${f}")
+            fi
+        done
+    done
+
+    if [[ ${#victims[@]} -eq 0 ]]; then
+        info "No steering symlinks found in the listed projects."
+        return
+    fi
+    info "Steering symlinks to remove (${#victims[@]}):"
+    for f in "${victims[@]}"; do echo "    ${f#$TECH_DIR/}"; done
+    for f in ${skipped[@]+"${skipped[@]}"}; do warn "Real file, will be kept: ${f#$TECH_DIR/}"; done
+
+    if [[ "$assume_yes" != "--yes" ]]; then
+        read -rp "Delete these ${#victims[@]} symlinks? [y/N] " ans
+        [[ "$ans" =~ ^[yY]$ ]] || { info "Aborted, nothing removed."; return; }
+    fi
+
+    local removed=0
+    for f in "${victims[@]}"; do
+        rm -- "$f" && ((removed++))
+    done
+    success "Removed ${removed} steering symlinks."
+}
+
 # ── Option 4: Link standards to selected projects ────────────────────────────
 link_selected() {
     load_projects
@@ -524,9 +578,10 @@ interactive_menu() {
         echo -e "  ${GREEN}2)${NC} List the projects with its type and status"
         echo -e "  ${GREEN}3)${NC} Link standards to all projects"
         echo -e "  ${GREEN}4)${NC} Link standards to selected projects with project numbers"
-        echo -e "  ${GREEN}5)${NC} Exit"
+        echo -e "  ${GREEN}5)${NC} Remove steering files (symlinks) from all projects"
+        echo -e "  ${GREEN}6)${NC} Exit"
         echo ""
-        read -rp "Select an option [1-5]: " choice
+        read -rp "Select an option [1-6]: " choice
         echo ""
 
         case "$choice" in
@@ -542,12 +597,15 @@ interactive_menu() {
             4)
                 link_selected
                 ;;
-            5|[qQ]|exit|quit)
+            5)
+                unlink_all
+                ;;
+            6|[qQ]|exit|quit)
                 info "Goodbye!"
                 break
                 ;;
             *)
-                warn "Invalid selection '$choice'. Please choose 1, 2, 3, 4, or 5."
+                warn "Invalid selection '$choice'. Please choose 1-6."
                 ;;
         esac
 
@@ -558,13 +616,14 @@ interactive_menu() {
 
 # ── Help / Usage ─────────────────────────────────────────────────────────────
 show_help() {
-    sed -n '2,13p' "$0" | sed 's/^# //' | sed 's/^#//'
+    sed -n '2,14p' "$0" | sed 's/^# //' | sed 's/^#//'
     echo ""
     echo "INTERACTIVE OPTIONS:"
     echo "  1) Update project list in Tech root with proper type (kmp/android/swift)"
     echo "  2) List configured projects with type and link status"
     echo "  3) Link standards to all projects"
     echo "  4) Link standards to selected projects with project numbers"
+    echo "  5) Remove steering files (symlinks only) from all projects"
 }
 
 # ── Entry Point ──────────────────────────────────────────────────────────────
@@ -576,6 +635,8 @@ elif [[ "${1:-}" == "--update" ]] || [[ "${1:-}" == "-u" ]]; then
     update_project_list
 elif [[ "${1:-}" == "--all" ]]; then
     link_all
+elif [[ "${1:-}" == "--unlink" ]]; then
+    unlink_all "${2:-}"
 elif [[ "${1:-}" == "--list" ]] || [[ "${1:-}" == "-l" ]]; then
     list_projects
 elif [[ "${1:-}" == "--select" ]] || [[ "${1:-}" == "-s" ]]; then
@@ -587,6 +648,8 @@ elif [[ "${1:-}" == "--file" ]] && [[ $# -ge 2 ]]; then
         interactive_menu
     elif [[ "${1:-}" == "--all" ]]; then
         link_all
+    elif [[ "${1:-}" == "--unlink" ]]; then
+        unlink_all "${2:-}"
     elif [[ "${1:-}" == "--list" ]]; then
         list_projects
     elif [[ "${1:-}" == "--update" ]]; then

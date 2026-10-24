@@ -23,6 +23,7 @@ entirely otherwise:
 | [presentation-mvi.md](presentation-mvi.md) | write/edit a `ViewModel`, `State`, `Intent`, or `Effect`, or extract ViewModel logic into a delegate | the change is UI-only inside an already-compliant screen |
 | [navigation.md](navigation.md) | add a route/screen, touch `NavDisplay`/back stack/deep links, or the question is Activity-per-journey vs single-Activity | navigation isn't part of the task |
 | [theming.md](theming.md) | add a color/dimension/font/user-facing string/token, or touch the theme module | you're just referencing `AppTheme.colors.x` that already exists |
+| [ui.md](ui.md) | build or edit any screen UI: edge-to-edge/insets, app bar, which components to use, dividers | the change is non-visual (domain/data/ViewModel logic) |
 | [kolt-libs.md](kolt-libs.md) | about to add a dependency or write a new util/component, **and** `Kolt/libs` exists in this workspace — check first, its vetted pieces are mandatory to reuse | `Kolt/libs` isn't present — the rest of this steering set doesn't need it |
 | [kolt-libs-reference.md](kolt-libs-reference.md) | `kolt-libs.md`'s table already pointed you at a module (usually `location-picker`) and you need more than the one-line summary | the table's one-liner already answers it |
 | [testing.md](testing.md) | write a unit test for a UseCase/ViewModel, or reach for a mocking library | the task has no test-writing in it |

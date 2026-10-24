@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
@@ -104,9 +105,11 @@ fun PageScaffold(
 sealed class NavigationMode(val icon: UiImage, val contentDescription: String? = null) {
     data object EMPTY : NavigationMode(Icons.Default.Home.toUiImage(), null)
     data object BACK : NavigationMode(Icons.AutoMirrored.Filled.ArrowBack.toUiImage(), "Back")
+    data object BACK_IOS : NavigationMode(Icons.AutoMirrored.Filled.ArrowBackIos.toUiImage(), "Back")
     data object CLOSE : NavigationMode(Icons.Default.Close.toUiImage(), "Close")
     data object DRAWER : NavigationMode(Icons.Default.Menu.toUiImage(), "Menu")
     data object HOME : NavigationMode(Icons.Default.Home.toUiImage(), "Home")
+    class Custom(customIcon: UiImage, contentDescription: String? = null) : NavigationMode(customIcon, contentDescription)
 }
 
 sealed class AppBarTitle(open val modifier: Modifier) {
