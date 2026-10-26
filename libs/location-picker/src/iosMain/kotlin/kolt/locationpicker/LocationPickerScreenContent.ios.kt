@@ -64,6 +64,7 @@ import kolt.composekmp.components.core.text.textfield.KoltValidatedTextField
 import kolt.composekmp.components.core.text.textfield.ValidatedTextFieldState
 import kolt.composekmp.theme.Kolt
 import kolt.composekmp.theme.LocalColors
+import kolt.composekmp.theme.bold
 import kolt.composekmp.theme.getDarkColors
 import kolt.composekmp.theme.getLightColors
 import kolt.composekmp.wrappers.toUiText
@@ -104,7 +105,7 @@ internal actual fun LocationPickerScreenContent(
     colors: LocationPickerColors?,
 ) = CompositionLocalProvider(LocalColors provides (colors?.toBaseColors() ?: LocalColors.current)) {
     Column(modifier.fillMaxSize().background(Kolt.colors.background).padding(16.dp)) {
-        Text(config.title, style = MaterialTheme.typography.titleLarge, color = Kolt.colors.onBackground)
+        Text(config.title, style = Kolt.typography.title.xLarge.bold, color = Kolt.colors.onBackground)
         Spacer(Modifier.height(12.dp))
 
         val tabs = config.enabledTabs
@@ -113,7 +114,7 @@ internal actual fun LocationPickerScreenContent(
                 Tab(
                     selected = state.selectedTab == tab,
                     onClick = { onIntent(LocationPickerIntent.SelectTab(tab)) },
-                    text = { Text(tab.contentLabel(config), fontSize = 12.sp) },
+                    text = { Text(tab.contentLabel(config), style = Kolt.typography.body.small) },
                 )
             }
         }

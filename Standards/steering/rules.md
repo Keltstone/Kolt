@@ -15,6 +15,9 @@ these rules there once and refresh only when this file changes.
 - Follow the stack's best current standards: official guidelines, idiomatic
   APIs, steering docs. Never invent APIs/flags; no deprecated APIs when a
   current one exists. Correct and idiomatic first, then short.
+- Always analyze code, plan and spec if needed, analyze the required files and
+  edit; never go in a loop or hallucinate. If that happens, stop and inform the
+  user.
 
 ## 1. Git
 - `git status` + current branch before any state change (commit, switch,

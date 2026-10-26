@@ -7,6 +7,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 
 internal expect val platformTextStyleNoPadding: PlatformTextStyle?
@@ -306,6 +307,9 @@ val TextStyle.semiBold get() = this.copy(fontWeight = FontWeight.SemiBold)
 val TextStyle.bold get() = this.copy(fontWeight = FontWeight.Bold)
 val TextStyle.extraBold get() = this.copy(fontWeight = FontWeight.ExtraBold)
 val TextStyle.black get() = this.copy(fontWeight = FontWeight.Black)
+
+/** Opt-in line height as a multiple of the style's own font size (1.5f = 150%); steps keep the platform default otherwise. */
+fun TextStyle.withLineHeight(multiplier: Float = 1.5f) = copy(lineHeight = multiplier.em)
 
 
 

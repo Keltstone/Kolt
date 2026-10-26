@@ -40,6 +40,7 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import kolt.composekmp.theme.Kolt
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.request.header
@@ -135,7 +136,7 @@ actual fun MapPickerContent(
                 .fillMaxWidth()
                 .height(240.dp)
                 .clip(RoundedCornerShape(16.dp))
-                .background(Color(0xFFDDDDDD))
+                .background(Kolt.colors.secondarySurface)
                 .pointerInput(zoom) {
                     detectDragGestures { change, dragAmount ->
                         change.consume()
@@ -254,11 +255,11 @@ private fun ZoomButton(label: String, onClick: () -> Unit) {
         Modifier
             .size(32.dp)
             .clip(CircleShape)
-            .background(Color(0xFFFFFFFF))
-            .border(0.5.dp, Color(0xFFAAAAAA), CircleShape)
+            .background(Kolt.colors.mainSurface)
+            .border(0.5.dp, Kolt.colors.dividerColor, CircleShape)
             .clickable(onClick = onClick),
         contentAlignment = Alignment.Center
     ) {
-        Text(label)
+        Text(label, color = Kolt.colors.onMainSurface)
     }
 }

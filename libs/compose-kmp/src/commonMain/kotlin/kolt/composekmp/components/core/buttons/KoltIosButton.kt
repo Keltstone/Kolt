@@ -117,7 +117,7 @@ fun KoltIosButton(
     }
     
     val alpha = when {
-        !enabled -> 0.38f
+        !enabled -> 0.6f
         isPressed -> 0.45f
         else -> 1.0f
     }
