@@ -49,39 +49,43 @@ links above (`kolt-libs.md`, `architecture.md`, etc.) resolve to
 `.standards/<file>.md` from that app's root, not `<file>.md` — the symlinked
 folder, not the app root, is what they're sibling to.
 
-## Working rules — always apply (any stack)
+## Working rules — headlines always apply (any stack)
 
-Read [rules.md](rules.md) once at the start of every session, before the first
-action, and keep it cached in context/memory (don't re-read) — it is short and applies to *every* task, not just code. Headlines:
 Caveman ultra + Ponytail ultra stay on, and follow the stack's best current
-standards; run
-`git status` before any git state change and never lose uncommitted work;
-commit at logical boundaries (when asked); **never delete a file or run a
-destructive command without explicit confirmation**; stay in scope; verify and
-report honestly. Docs: everything lives under `docs/` — compact recovery
-specs in `docs/specs/` (commit locally *before* a new feature or major behaviour
-change; updated only then), user docs in `docs/user/` (updated only when the
-user asks). Unlike the other files here, this one is not load-on-demand.
+standards. `git status` before any git state change and never lose uncommitted
+work; commit at logical boundaries (when asked); **never delete a file or run
+a destructive command without explicit confirmation**; stay in scope; verify
+and report honestly. Docs live under `docs/`: compact recovery specs in
+`docs/specs/` (commit locally *before* a new feature or major behaviour
+change), user docs in `docs/user/` (only when the user asks).
+
+Read the full [rules.md](rules.md) **only when a trigger fires** — a commit,
+branch/PR or other git state change; a delete or other destructive command; a
+dependency or tooling change; writing/updating a spec or doc; or you're
+stuck/unsure how to proceed. Not at session start; once read, don't re-read.
 
 ## Non-negotiables (tl;dr)
 
-1. Clean architecture, strict call chain, no skipped layers: `ViewModel → UseCase → Repository (interface, domain) → RepositoryImpl → DataSource → originator (Retrofit/Room/DataStore)`. `UseCase` depends only on `Repository` interfaces (any number); `RepositoryImpl` depends only on its `DataSource`(s), never a network client/DAO/DataStore directly. Domain has zero Android/Compose imports. Platform exceptions (Retrofit/Room/etc.) get mapped to a shared `DomainException` at the `DataSource` boundary — never caught raw above it.
+One line each; the linked doc holds the detail — open it only if the line doesn't settle the question.
+
+1. Clean architecture, strict call chain, no skipped layers: `ViewModel → UseCase → Repository (interface, domain) → RepositoryImpl → DataSource → originator (Retrofit/Room/DataStore)`. Domain has zero Android/Compose imports; platform exceptions map to `DomainException` at the `DataSource` boundary. See [architecture.md](architecture.md).
 2. No same-layer dependencies: `UseCase` never depends on another `UseCase`; `RepositoryImpl` never depends on another `Repository`; `DataSource` never depends on another `DataSource`. Shared logic between peers is a plain, non-`UseCase`/non-`Repository`-suffixed function or class. See [architecture.md](architecture.md#data-layer-repository--datasource--originator).
 3. MVI: `State` (data class), `Intent` (sealed interface), `Effect` (sealed interface, one-shot via `Channel`), all three together in one `Contract.kt`.
 4. One package per screen under `presentation/` (e.g. `presentation/list/`, `presentation/detail/`), holding that screen's `Contract.kt`, `ViewModel`, `Route`, and `Screen` — never a flat `presentation/` shared by every screen in the feature.
 5. Navigation is **Navigation 3** (`androidx.navigation3`, stable since Nov 2025) — not the old `androidx.navigation:navigation-compose`. Caller-owned back stack (`NavKey` list), not a `NavController`.
 6. ViewModel is instantiated inside the composable named in `entryProvider` for its route (the "Route" composable), obtained via `hiltViewModel()` — never inside the stateless screen composable, never above the back stack.
-7. The Route composable is the **only** collector of the effect `Flow`. It resolves nav effects itself (`backStack.add/removeLast`) and forwards non-nav effects (snackbar text, etc.) to the screen as plain lambdas/state — never as a raw `Flow`. Note: current official Android guidance argues against `Channel`-based effects entirely, in favor of modeling events as `State`; this project keeps `Channel` deliberately — see [presentation-mvi.md](presentation-mvi.md#known-deviation-from-current-official-guidance-channel-based-effects).
+7. The Route composable is the **only** collector of the effect `Flow`: it resolves nav effects itself and forwards non-nav effects to the screen as plain lambdas/state, never a raw `Flow`. `Channel` effects are a deliberate deviation — see [presentation-mvi.md](presentation-mvi.md#known-deviation-from-current-official-guidance-channel-based-effects).
 8. The stateless root composable receives only `state`, `onIntent: (Intent) -> Unit`, and resolved navigation lambdas. It never sees a `ViewModel`, a back stack, or an effect `Flow`. It must be `@Preview`-able with fake data alone.
 9. Any `List`/`Map`/`Set` in `State` is `ImmutableList`/`ImmutableMap`/`ImmutableSet` (`kotlinx.collections.immutable`), never the plain `kotlin.collections` type — Compose treats plain collections as unstable and over-recomposes.
-10. Single Activity, one back stack/`NavDisplay` for the whole app. Feature modules contribute routes and `entryProvider` fragments, not their own `NavDisplay`. Splitting a journey into its own Activity is opt-in, for a concrete reason only (SDK-style embedding, own process/task, deep-link-only entry) — see [navigation.md](navigation.md).
+10. Single Activity, one `NavDisplay` for the whole app; feature modules contribute routes, not their own `NavDisplay`. A separate Activity per journey is opt-in, for a concrete reason only — see [navigation.md](navigation.md).
 11. Theme lives in its own module, exposed via `CompositionLocal`. No hardcoded colors/dimens/fonts/user-facing strings (use `stringResource`) outside their respective modules.
 12. Accessibility is required, not optional polish: `contentDescription` on every meaningful image/icon (explicit `null` if decorative), ≥48.dp touch targets, no layout that breaks at large system font scales.
-13. `Kolt/libs` is optional — but only whether it's *present*. If it is, using its vetted pieces (see [kolt-libs.md](kolt-libs.md)'s "Reuse as-is") is mandatory: don't write a new theme module/`AsyncState`/UI component that already exists there. On an Android-only project, most of Kolt is usable (including `compose-utils`, which the KMP set restricts) — the doc says what to still skip and why. Everything else in this steering set is self-contained and works without Kolt. **Tokens too:** whenever Kolt is available (in the workspace, an `includeBuild`, a copied module, or an `io.github.keltstone.kolt` dependency), always use Kolt tokens — `Kolt.colors`, `Kolt.sizes` (padding, corner radius, icon, button and font sizes), `Kolt.typography` (`title.xLarge.bold`, `body.medium`, …) — never a literal `Color(...)`/`.dp`/`.sp` or a parallel app token for a value Kolt already provides. When you touch code using a deprecated Kolt token (e.g. `Kolt.typography.textXLarge`), replace it with the current one (`body.xLarge`) in the same change. See [theming.md](theming.md#rules).
+13. If `Kolt/libs` is present, its vetted pieces are mandatory (don't write a new theme module/`AsyncState`/UI component that exists there), and always use `Kolt.colors`/`Kolt.sizes`/`Kolt.typography` instead of literals or parallel tokens; replace deprecated Kolt tokens when you touch the code. Android-only projects can use most of Kolt incl. `compose-utils`; what to skip: [kolt-libs.md](kolt-libs.md). Token rules: [theming.md](theming.md#rules).
 14. Extract a delegate/util/component once real duplication shows up (rule of three — two if it's error-prone) — not speculatively, and not left unused after extraction. See [architecture.md](architecture.md#reuse-over-duplication).
 15. Unit tests for `domain`/`presentation` are plain JVM local unit tests (JUnit4/5) — no Robolectric/instrumentation unless the test genuinely needs a real Android framework class. Fakes for small interfaces, MockK for large/volatile ones. See [testing.md](testing.md).
 16. **DI is Hilt**, not Koin — no multiplatform constraint here, and Hilt is the officially recommended choice for Android apps of this shape.
-17. Non-negotiables 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 13 are Konsist/Detekt/compiler-enforced, not review-only — `./gradlew check` must pass, and a deprecated-token usage won't even compile. Don't hand-wave a violation as "will fix in review" when the tooling exists to catch it. Only 12 (partly), 14, 18 and 19 stay judgment calls. See [tooling.md](tooling.md).
+17. Non-negotiables 1–11, 13, 21 are Konsist/Detekt/compiler-enforced — `./gradlew check` must pass; don't hand-wave a violation as "will fix in review". Only 12 (partly), 14, 18, 19 and 20 stay judgment calls. See [tooling.md](tooling.md).
 18. Input UX: a screen that collects input uses a **bottom sheet** for at most 2 data points, a **full screen** for more — unless the user specified otherwise. **Dialogs** are for messages and CTA/confirm choices only, never for data entry.
 19. **Pre-commit exposure check — every commit, no exceptions.** Before `git commit`/`git push`, scan the staged diff and any new untracked files for: (a) internal/local paths (`/Users/…`, `C:\Users\…`, home dirs, internal hostnames/URLs, project or client folder names); (b) secrets (API keys, tokens, passwords, keystores, `.env`, `google-services.json`/`GoogleService-Info.plist`, signing/`local.properties`); (c) personal data (emails, phone numbers, real names, device/account IDs). If anything matches: **stop, list each item (`file:line`), warn the user, and commit only with their express approval for each item** — a blanket "commit it" does not cover them. Prefer redacting, or gitignoring + untracking the file, over approval. Once pushed it is public — removing it later needs a history rewrite + force-push, so catch it before.
 20. If a task is ambiguous, the right scope is unclear, or you're several attempts deep retrying variations of the same fix without progress — stop and ask the user. Don't expand scope, add speculative abstraction, or keep guessing to route around a blocker; a wrong guess compounds, a question doesn't.
+21. **File size: soft cap ~600 lines per `.kt` file, hard cap 800.** Past the soft cap, split by responsibility before adding more — one screen section / component per file, helpers in sibling files (`private`/`internal`), same package. This is size-driven and separate from the duplication rule (14). Konsist/Detekt-enforced. See [architecture.md](architecture.md#file-size--split-by-responsibility).

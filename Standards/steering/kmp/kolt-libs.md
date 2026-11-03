@@ -133,6 +133,19 @@ comes from `Kolt.colors` / `Kolt.sizes` / `Kolt.typography`
 when Kolt has one — no literals, no duplicate app tokens, and no deprecated Kolt tokens (replace them with the current one when you touch the code). Rules in
 [theming.md](theming.md#rules).
 
+**Components are part of the mandate too.** Dropdowns, buttons, text, bottom
+sheets, empty/error states, cards and tags use the Kolt components —
+`KoltDropdown`, `KoltButton`/`KoltOutlinedButton`, `KoltText`,
+`KoltBottomSheet`, `KoltEmptyState`, `KoltStatusTag`, `TitledCardView`,
+`SmoothCornerShape` — never raw Material3 equivalents
+(`OutlinedTextField`+`ExposedDropdownMenuBox`, `Button`, `Card`, `AssistChip`,
+`ModalBottomSheet`). Raw Material only where Kolt has no equivalent (e.g.
+`Scaffold`, `Dialog`). Token examples: `title.xLarge.bold`, `body.medium`; a
+deprecated token such as `Kolt.typography.textXLarge` becomes `body.xLarge` in
+the same change. In this workspace Kolt is always an `includeBuild` — raw
+plugin IDs, no versioned coordinates (see
+[composite-build rules](#composite-build-rules-mandatory-when-kolt-is-an-includebuild)).
+
 | Module | Path | Why it's safe |
 |---|---|---|
 | `compose-kmp` theme | `compose-kmp/src/{commonMain,androidMain,iosMain,desktopMain}/.../theme/` | Genuine `expect`/`actual` KMP. `Kolt` object + `LocalColors`/`LocalTypography`/`LocalSizes` + `CompositionBaseProvider` is exactly the pattern in [theming.md](theming.md). Text: `Kolt.typography.title.*` / `Kolt.typography.body.*` (full scale each, weight via `.bold` etc.), covering 6–48 sp incl. `body.mediumLargeMid` (17 sp) and `body.xLargeMid` (22 sp) — use a slot, not `TextStyle(fontSize = …)`. The old flat `Kolt.typography.text*` names for these same slots are deprecated, removed in 0.3.0 — don't reuse them even as an example; full scale in [theming.md](theming.md#kolt-type-scale). Sizes: `Kolt.sizes.padding*`/`cornerRadius*`/`icon*`/`size*`/`image*` — no raw `.dp` for anything on a scale; own `LocalSizes` starts from `KoltDefaults.sizes()`; families in [theming.md](theming.md#kolt-size-scale). |

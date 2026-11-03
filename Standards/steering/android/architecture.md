@@ -300,6 +300,28 @@ Three concrete extraction targets in this stack:
   calculation copy-pasted into two ViewModels and not a `UseCase` depending
   on another `UseCase`.
 
+## File size: split by responsibility
+
+Rule 14 (extract on duplication) does **not** cover size. A file that only
+ever grows is a separate failure: unreviewable diffs, merge conflicts, and
+agents that edit the wrong region. **Soft cap ~600 lines, hard cap 800 per
+`.kt` file.** Past the soft cap, split before adding more:
+
+- A `*Screen.kt` → the stateless root stays; each distinct section becomes its
+  own `internal` composable in a sibling file (`FooHeader.kt`,
+  `FooFilterBar.kt`, `FooItemRow.kt`), same `presentation/<screen>/` package.
+  Section composables take plain state/lambdas — no `ViewModel`, same as
+  rule 8.
+- Dialogs/sheets/previews/fake preview data → their own files.
+- Helpers/formatters/mappers → a `*Utils.kt`/`*Mapper.kt` sibling, not a
+  trailing block in the screen.
+- One public class per file; a `Contract.kt` stays whole (rule 3).
+
+Don't split into tiny files to dodge the number, and don't move code into
+another module just for size — that's [Feature module separation](#feature-module-separation).
+When you touch an already-oversized file, don't add to it: split the part
+you're changing first (own commit, no behaviour change).
+
 ## Rules
 
 - **DI**: Hilt. It's the officially recommended choice for Android apps of

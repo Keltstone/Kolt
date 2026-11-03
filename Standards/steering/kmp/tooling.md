@@ -63,6 +63,7 @@ class ArchitectureTest {
     // - every presentation/ file lives in a screen subpackage, not the bare package
     // - commonMain never references BuildConfig
     // - commonTest never imports org.junit
+    // - no .kt file over 800 lines (soft 600: warn) — rule on file size
 }
 ```
 
@@ -104,6 +105,22 @@ non-negotiables 6, 7, 8, 9, and 11:
   it false-positives on an unconventional file name rather than a real
   violation; treat a hit as "go look," not an automatic fail-the-PR blocker
   the way the others are.
+
+**File size (rule on file length).** Detekt has no stock file-length rule, so
+use Konsist for the file cap (`codebase.files.assertTrue { it.text.lines().size <= 800 }`,
+printing the 600+ list as a warning) and Detekt's stock `complexity` rules for
+the inside of a file:
+
+```yaml
+# detekt.yml
+complexity:
+  LargeClass:        { active: true, threshold: 600 }
+  LongMethod:        { active: true, threshold: 100 }   # composables bloat — bump only with reason
+  TooManyFunctions:  { active: true, thresholdInFiles: 20, thresholdInClasses: 20 }
+```
+
+An existing oversized file goes in the Detekt/Konsist baseline so the check
+passes today but can't grow; shrink the baseline as files get split.
 
 **Don't author these as a project-local rule set.** They're published once as
 `io.github.keltstone.kolt:detekt-rules` — see

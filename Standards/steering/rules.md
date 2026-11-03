@@ -4,9 +4,10 @@ Mandatory, tech-agnostic, on top of the stack steering set. User's explicit
 chat instruction wins — say which rule you bend. Single canonical copy (sets
 symlink it as `rules.md`); link, never duplicate.
 
-**Cache:** read once per session, keep in context/memory, don't re-read
-(re-read only if edited or forgotten). Agents with persistent memory: store
-these rules there once and refresh only when this file changes.
+**Load:** by trigger, not blindly — each section says when it applies; read
+the file once when the first trigger fires, then keep it in context (re-read
+only if edited or forgotten). Agents with persistent memory: store these rules
+there once and refresh only when this file changes.
 
 ## 0. Defaults
 - Caveman ultra + Ponytail ultra always on (agents lacking them: terse prose,
@@ -98,6 +99,9 @@ these rules there once and refresh only when this file changes.
 - Check `git diff --stat` for lockfile/generated/vendored churn.
 - Use project wrappers (`./gradlew`, `make`, `npm run`), not mismatched global
   tools.
+- Android work: if the Android CLI is available, use it where it is cheaper in
+  tokens/time/resources than the alternative (Gradle/adb/Studio round-trips);
+  otherwise don't force it.
 
 ## 9. Workspace
 - Scratch (experiments, logs, one-off scripts, downloads) outside the repo;

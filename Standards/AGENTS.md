@@ -12,9 +12,10 @@ others). `GEMINI.md` and the other per-tool copies (`QWEN.md`, `CONVENTIONS.md`,
 `.github/copilot-instructions.md`, `.junie/guidelines.md`) are no longer created;
 Gemini CLI: set `context.fileName` to `AGENTS.md`.
 
-Also read [steering/rules.md](steering/rules.md): tech-agnostic working rules
-(git hygiene, never delete without confirmation, scope, verification) that
-apply to every task regardless of project type.
+[steering/rules.md](steering/rules.md): tech-agnostic working rules (git
+hygiene, never delete without confirmation, scope, verification). Read it when
+a trigger fires (git state change, delete, dependency change, writing a
+spec/doc, stuck) — the set's `AGENTS.md` carries the headlines.
 
 Documentation layout is fixed: `docs/specs/` (compact recovery specs) and
 `docs/user/` (user docs, only when asked).
