@@ -15,6 +15,7 @@ class CrashLogsInitializer : Initializer<Unit> {
         val debuggable = (context.applicationInfo.flags and ApplicationInfo.FLAG_DEBUGGABLE) != 0
         CrashLogs.onRecorded = { notifyCrash(context.applicationContext, it) }
         CrashLogs.install(debuggable)
+        updateCrashShortcut(context.applicationContext, debuggable)
     }
 
     override fun dependencies(): List<Class<out Initializer<*>>> = emptyList()

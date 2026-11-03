@@ -13,6 +13,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Surface
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -23,16 +25,25 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
 /**
  * List → detail browser for [CrashLogs]. [onBack] is called from the list's back button
- * (omit to hide it). Plain Material3 so the module needs no other Kolt lib.
+ * (omit to hide it). Plain Material3 so the module needs no other Kolt lib; always light
+ * (white, Chucker-style) regardless of the host theme.
  */
 @Composable
 fun CrashLogsScreen(onBack: (() -> Unit)? = null) {
+    MaterialTheme(colorScheme = lightColorScheme(background = Color.White, surface = Color.White)) {
+        Surface(Modifier.fillMaxSize(), color = Color.White) { CrashLogsContent(onBack) }
+    }
+}
+
+@Composable
+private fun CrashLogsContent(onBack: (() -> Unit)?) {
     var selected by remember { mutableStateOf<CrashEntry?>(null) }
     var query by remember { mutableStateOf("") }
     var items by remember { mutableStateOf(CrashLogs.all()) }
@@ -45,6 +56,7 @@ fun CrashLogsScreen(onBack: (() -> Unit)? = null) {
     Column(Modifier.fillMaxSize().padding(16.dp)) {
         Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             if (onBack != null) TextButton(onClick = onBack) { Text("Back") }
+            Text("Crash logs", Modifier.padding(top = 10.dp), style = MaterialTheme.typography.titleLarge)
             TextButton(onClick = { CrashLogs.clear(); items = emptyList() }) { Text("Clear all") }
         }
         OutlinedTextField(

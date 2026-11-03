@@ -6,7 +6,10 @@
         <activity
             android:name="kolt.crashlogs.CrashLogsActivity"
             android:exported="false"
-            android:label="Crash logs" />
+            android:label="Crash logs"
+            android:taskAffinity="${applicationId}.crashlogs"
+            android:documentLaunchMode="always"
+            android:excludeFromRecents="false" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"

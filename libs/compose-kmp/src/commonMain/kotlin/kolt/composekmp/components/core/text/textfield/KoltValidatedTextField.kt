@@ -2,6 +2,8 @@ package kolt.composekmp.components.core.text.textfield
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -75,6 +77,13 @@ fun KoltValidatedTextField(
     onValueChange: ((String) -> Unit)? = null,
     leadingIcon: (@Composable () -> Unit)? = null,
     trailingIcon: (@Composable () -> Unit)? = null,
+    /**
+     * Compact "floating" mode: while empty and unfocused only the [label] shows, as a hint inside
+     * the field; on focus or once it has a value the label animates in above it, and the
+     * [placeholder] takes over the hint slot. The length counter sits inline at the field's right
+     * end instead of in the footer row. Off by default so existing screens are unaffected.
+     */
+    floatingLabel: Boolean = false,
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isFocused by interactionSource.collectIsFocusedAsState()
@@ -97,12 +106,19 @@ fun KoltValidatedTextField(
     Column(modifier = modifier) {
         // Label Section
         label?.let {
-            KoltText(
-                text = it,
-                style = labelStyle.unselectedTextStyle,
-                color = labelStyle.unselectedColor,
-                modifier = labelStyle.modifier
-            )
+            val labelVisible = !floatingLabel || isFocused || state.value.isNotEmpty()
+            AnimatedVisibility(
+                visible = labelVisible,
+                enter = expandVertically() + fadeIn(),
+                exit = shrinkVertically() + fadeOut()
+            ) {
+                KoltText(
+                    text = it,
+                    style = labelStyle.unselectedTextStyle,
+                    color = labelStyle.unselectedColor,
+                    modifier = labelStyle.modifier
+                )
+            }
         }
 
         // The Modern BasicTextField (v2)
@@ -140,9 +156,12 @@ fun KoltValidatedTextField(
                     leadingIcon?.let { it() }
 
                     Box(modifier = Modifier.weight(1f)) {
-                        if (state.value.isEmpty() && placeholder != null) {
+                        // Floating mode: the label is the resting hint; the placeholder only appears
+                        // once focused (the label has moved above by then).
+                        val hint = if (floatingLabel && !isFocused) label ?: placeholder else placeholder
+                        if (state.value.isEmpty() && hint != null) {
                             KoltText(
-                                text = placeholder,
+                                text = hint,
                                 style = placeHolderStyle.unselectedTextStyle,
                                 color = placeHolderStyle.unselectedColor,
                                 modifier = placeHolderStyle.modifier
@@ -151,18 +170,24 @@ fun KoltValidatedTextField(
                         innerTextField()
                     }
 
+                    if (floatingLabel && showCounter(state)) {
+                        Counter(state, colors, Modifier.padding(start = Kolt.sizes.paddingXSmall))
+                    }
+
                     trailingIcon?.let { it() }
                 }
             }
         )
 
         // Helper and Counter Row
-        Row(
+        val footerText = state.error ?: helperText
+        // Floating mode drops the footer row entirely when there is nothing to show, so stacked
+        // fields sit close together.
+        if (!floatingLabel || footerText != null) Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 4.dp, vertical = 4.dp)
         ) {
-            val footerText = state.error ?: helperText
 
             Box(modifier = Modifier.weight(1f)) {
                 this@Row.AnimatedVisibility(
@@ -181,15 +206,22 @@ fun KoltValidatedTextField(
                 }
             }
 
-            if (state.showCounter && state.maxLength < Int.MAX_VALUE) {
-                KoltText(
-                    text = UiText.DynamicString("${state.value.length} / ${state.maxLength}"),
-                    style = Kolt.typography.body.small,
-                    color = if (state.value.length >= state.maxLength) colors.errorColor else Kolt.colors.subText
-                )
-            }
+            if (!floatingLabel && showCounter(state)) Counter(state, colors)
         }
     }
+}
+
+private fun showCounter(state: ValidatedTextFieldState) =
+    state.showCounter && state.maxLength < Int.MAX_VALUE
+
+@Composable
+private fun Counter(state: ValidatedTextFieldState, colors: TextFieldColors, modifier: Modifier = Modifier) {
+    KoltText(
+        text = UiText.DynamicString("${state.value.length} / ${state.maxLength}"),
+        style = Kolt.typography.body.small,
+        color = if (state.value.length >= state.maxLength) colors.errorColor else Kolt.colors.subText,
+        modifier = modifier
+    )
 }
 
 data class TextFieldColors(

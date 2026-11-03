@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.BottomSheetDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -61,6 +62,7 @@ fun KoltBottomSheet(
     state: SheetState,
     title: UiText? = null,
     dismissSheet: () -> Unit,
+    onBack: (() -> Unit)? = null,
     containerColor: Color = Kolt.colors.background,
     showCloseButton: Boolean = true,
     showDragHandle: Boolean = true,
@@ -71,7 +73,7 @@ fun KoltBottomSheet(
     titlePadding: PaddingValues = PaddingValues(16.dp),
     contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
     modifier: Modifier = Modifier,
-    content: @Composable (ColumnScope.() -> Unit)
+    content: @Composable (ColumnScope.() -> Unit),
 ) {
     if (showSheet) {
         ModalBottomSheet(
@@ -80,11 +82,12 @@ fun KoltBottomSheet(
             sheetState = state,
             shape = shape,
             containerColor = containerColor,
-            dragHandle = if (showDragHandle) { { BottomSheetDefaults.DragHandle() } } else null
+            dragHandle = if (showDragHandle) { { BottomSheetDefaults.DragHandle() } } else null,
         ) {
             BottomSheetContent(
                 title = title,
                 dismissSheet = dismissSheet,
+                onBack = onBack,
                 showCloseButton = showCloseButton,
                 contentAlignment = contentAlignment,
                 contentArrangement = contentArrangement,
@@ -101,38 +104,51 @@ fun KoltBottomSheet(
 private fun BottomSheetContent(
     title: UiText? = null,
     dismissSheet: () -> Unit,
+    onBack: (() -> Unit)? = null,
     showCloseButton: Boolean = true,
     contentAlignment: Alignment.Horizontal = Alignment.CenterHorizontally,
     titleAlignment: Arrangement.Horizontal = Arrangement.Center,
     contentArrangement: Arrangement.Vertical = Arrangement.Top,
     titlePadding: PaddingValues = PaddingValues(horizontal = 16.dp),
     contentPadding: PaddingValues = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
-    content: @Composable() (ColumnScope.() -> Unit)
+    content: @Composable() (ColumnScope.() -> Unit),
 ) {
-    if (showCloseButton || title != null) {
+    if (showCloseButton || onBack != null || title != null) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(titlePadding),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(titlePadding),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = if (showCloseButton) Arrangement.SpaceBetween else titleAlignment
+            horizontalArrangement = if (showCloseButton || onBack != null) Arrangement.SpaceBetween else titleAlignment,
         ) {
-            if (showCloseButton) {
+            if (onBack != null) {
+                KoltIcon(
+                    icon = Icons.AutoMirrored.Filled.ArrowBack.toUiImage("Back"),
+                    modifier =
+                        Modifier
+                            .clickable { onBack() }
+                            .size(Kolt.sizes.iconStandardLarge),
+                )
+            } else if (showCloseButton) {
                 HorizontalSpacer(Kolt.sizes.paddingXLarge)
             }
             title?.let {
                 KoltText(
                     text = it,
-                    style = Kolt.typography.body.large.semiBold
+                    style = Kolt.typography.body.large.semiBold,
                 )
             }
             if (showCloseButton) {
                 KoltIcon(
                     icon = Icons.Default.Close.toUiImage(),
-                    modifier = Modifier
-                        .clickable { dismissSheet() }
-                        .size(Kolt.sizes.iconStandardLarge)
+                    modifier =
+                        Modifier
+                            .clickable { dismissSheet() }
+                            .size(Kolt.sizes.iconStandardLarge),
                 )
+            } else if (onBack != null) {
+                HorizontalSpacer(Kolt.sizes.paddingXLarge)
             }
         }
     } else {

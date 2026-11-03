@@ -21,7 +21,7 @@ internal fun notifyCrash(context: Context, summary: CrashSummary) {
         context.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED
     ) return
 
-    val view = Intent(context, CrashLogsActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+    val view = crashLogsIntent(context)
 
     val manager = context.getSystemService(NotificationManager::class.java)
     manager.createNotificationChannel(

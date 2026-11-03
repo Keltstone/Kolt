@@ -1,8 +1,11 @@
 package kolt.composekmp.components.core.text.textfield
 
 import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.listSaver
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import kolt.composekmp.wrappers.UiText
 
@@ -51,6 +54,11 @@ class ValidatedTextFieldState(
     // Logic-only check for the "Add" button
     fun isValid(): Boolean = runValidation() == null
 
+    /** Replaces the text without marking the field dirty — used when restoring saved state. */
+    fun restoreText(text: String) {
+        textFieldState.edit { replace(0, length, text) }
+    }
+
     fun clear() {
         textFieldState.edit { replace(0, length, "") }
         error = null
@@ -61,3 +69,21 @@ class ValidatedTextFieldState(
 fun List<ValidatedTextFieldState>.validateAll(): Boolean {
     return this.map { it.validate() }.all { it }
 }
+
+/**
+ * [remember] for a [ValidatedTextFieldState] that also survives configuration changes and process
+ * death: only the typed text is saved, the rules/limits come from [factory] again on restore.
+ * [keys] behave like [remember]'s — a key change drops both the state and its saved text.
+ */
+@Composable
+fun rememberSavedTextFieldState(
+    vararg keys: Any?,
+    factory: () -> ValidatedTextFieldState
+): ValidatedTextFieldState = rememberSaveable(
+    *keys,
+    saver = listSaver<ValidatedTextFieldState, String>(
+        save = { listOf(it.value) },
+        restore = { factory().also { state -> state.restoreText(it[0]) } }
+    ),
+    init = factory
+)
