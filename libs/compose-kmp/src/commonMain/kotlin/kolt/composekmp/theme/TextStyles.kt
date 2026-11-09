@@ -311,6 +311,9 @@ val TextStyle.black get() = this.copy(fontWeight = FontWeight.Black)
 /** Opt-in line height as a multiple of the style's own font size (1.5f = 150%); steps keep the platform default otherwise. */
 fun TextStyle.withLineHeight(multiplier: Float = 1.5f) = copy(lineHeight = multiplier.em)
 
+/** Opt-in letter spacing as a multiple of the style's own font size (0.04f = 4%); negative tightens. */
+fun TextStyle.withLetterSpacing(multiplier: Float) = copy(letterSpacing = multiplier.em)
+
 
 
 val TextStyle.italic get() = this.copy(fontStyle = FontStyle.Italic)

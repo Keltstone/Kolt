@@ -502,7 +502,7 @@ Components read the style values: `KoltTopBar` (large title), `KoltValidatedText
 inset), `KoltListGroup { row { … } }` (plain or grouped, separators) and `Modifier.ctaPrimary()` /
 `ctaSecondary()`. There is no `GoogleButton` / `AppleButton`. `GoogleTheme` is deprecated: use
 `KoltTheme(colorScheme = M3Schemes.blue(dark), customize = …)`. `KoltIosButton` is deprecated: use
-`KoltButton` under `AppleTheme`.
+`KoltButton` under `AppleTheme` with `ButtonStyle.tinted(tint)` / `gray(tint)` / `plain(tint)` (destructive: `tint = Kolt.colors.error`); `KoltButton` takes `leadingIcon` / `trailingIcon`. For text spacing use `withLineHeight(x)` / `withLetterSpacing(x)` (em multiples), not `sp` literals.
 
 ### Theme rules (standard)
 

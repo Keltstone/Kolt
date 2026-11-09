@@ -90,6 +90,14 @@ class KoltThemeSpecTest {
         }
     }
 
+    @Test
+    fun letterSpacingIsEmMultiple() {
+        assertEquals(
+            androidx.compose.ui.unit.TextUnit(0.04f, androidx.compose.ui.unit.TextUnitType.Em),
+            androidx.compose.ui.text.TextStyle.Default.withLetterSpacing(0.04f).letterSpacing,
+        )
+    }
+
     private fun BaseColors.allRoles() = listOf(
         primary, onPrimary, secondary, onSecondary, tertiary, onTertiary, iconTint, disabledIconTint,
         drawerItem, scrimColor, navigationBarColor, mainSurface, onMainSurface, secondarySurface,

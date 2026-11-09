@@ -154,5 +154,52 @@ data class ButtonStyle(
             disabledContainerColor = disabledContainerColor,
             disabledContentColor = disabledContentColor,
         )
+
+        /**
+         * Tinted: [tint] at 15% as the container, [tint] text (iOS "tinted"). Pass
+         * `tint = Kolt.colors.error` for a destructive variant.
+         */
+        @Composable
+        fun tinted(
+            tint: Color = Kolt.colors.primary,
+            textStyle: TextStyle = Kolt.typography.body.medium,
+            buttonShape: Shape = CircleShape,
+            disabledContentColor: Color = Kolt.colors.onMainSurface.copy(alpha = 0.38f),
+        ): ButtonStyle = ButtonStyle(
+            textStyle = textStyle,
+            buttonColor = tint.copy(alpha = 0.15f),
+            buttonPressedColor = tint.copy(alpha = 0.25f),
+            textColor = tint,
+            strokeColor = Color.Transparent,
+            buttonShape = buttonShape,
+            disabledContainerColor = Color.Transparent,
+            disabledContentColor = disabledContentColor,
+        )
+
+        /** Gray: neutral fill (`onMainSurface` at 10%, follows the theme's dark flag), [tint] text (iOS "gray"). */
+        @Composable
+        fun gray(
+            tint: Color = Kolt.colors.primary,
+            textStyle: TextStyle = Kolt.typography.body.medium,
+            buttonShape: Shape = CircleShape,
+            disabledContentColor: Color = Kolt.colors.onMainSurface.copy(alpha = 0.38f),
+        ): ButtonStyle = ButtonStyle(
+            textStyle = textStyle,
+            buttonColor = Kolt.colors.onMainSurface.copy(alpha = 0.10f),
+            buttonPressedColor = Kolt.colors.onMainSurface.copy(alpha = 0.18f),
+            textColor = tint,
+            strokeColor = Color.Transparent,
+            buttonShape = buttonShape,
+            disabledContainerColor = Color.Transparent,
+            disabledContentColor = disabledContentColor,
+        )
+
+        /** Plain: no container, [tint] text (iOS "plain"). Same as [transparent] with a tint parameter. */
+        @Composable
+        fun plain(
+            tint: Color = Kolt.colors.primary,
+            textStyle: TextStyle = Kolt.typography.body.medium,
+            buttonShape: Shape = CircleShape,
+        ): ButtonStyle = transparent(textStyle = textStyle, textColor = tint, buttonShape = buttonShape)
     }
 }
