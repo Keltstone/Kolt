@@ -268,7 +268,11 @@ object KoltTextFieldDefaults {
         },
         contentColor: Color = Kolt.colors.onMainSurface,
         borderWidth: Dp = Kolt.layout.fieldOutline,
-        borderColor: Color = Kolt.colors.onMainSurface.copy(alpha = 0.1f),
+        borderColor: Color = if (Kolt.layout.fieldStyle == FieldStyle.Inset) {
+            Kolt.colors.onMainSurface.copy(alpha = 0.1f)
+        } else {
+            Kolt.colors.outline
+        },
         focusedBorderWidth: Dp = Kolt.layout.fieldFocusOutline,
         focusedBorderColor: Color = Kolt.colors.primary,
         errorBorderColor: Color = Kolt.colors.error,

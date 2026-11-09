@@ -4,6 +4,7 @@ import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import kotlin.math.max
 import kotlin.math.min
 
@@ -17,7 +18,9 @@ fun seedColorScheme(seed: Color, dark: Boolean): ColorScheme {
     val (h, s, _) = seed.hsl()
     val sat = s.coerceIn(0.45f, 0.9f)
     fun tone(hue: Float, saturation: Float, t: Int) = Color.hsl((hue + 360f) % 360f, saturation, t / 100f)
+    // HSL tones don't guarantee contrast like HCT does: darken the light accent until white text passes 4.5:1.
     fun p(t: Int) = tone(h, sat, t)
+    fun p4(t: Int) = (t downTo 10).map { p(it) }.firstOrNull { contrast(Color.White, it) >= 4.5f } ?: p(10)
     fun s2(t: Int) = tone(h, sat * 0.3f, t)
     fun t3(t: Int) = tone(h + 60f, sat * 0.5f, t)
     fun n(t: Int) = tone(h, 0.08f, t)
@@ -31,14 +34,19 @@ fun seedColorScheme(seed: Color, dark: Boolean): ColorScheme {
         surfaceContainer = n(12), surfaceContainerHigh = n(17), surfaceContainerHighest = n(22),
         outline = nv(60), outlineVariant = nv(30),
     ) else lightColorScheme(
-        primary = p(40), onPrimary = Color.White, primaryContainer = p(90), onPrimaryContainer = p(10),
-        secondary = s2(40), onSecondary = Color.White, secondaryContainer = s2(90), onSecondaryContainer = s2(10),
-        tertiary = t3(40), onTertiary = Color.White, tertiaryContainer = t3(90), onTertiaryContainer = t3(10),
+        primary = p4(40), onPrimary = Color.White, primaryContainer = p(90), onPrimaryContainer = p(10),
+        secondary = (40 downTo 10).map { s2(it) }.firstOrNull { contrast(Color.White, it) >= 4.5f } ?: s2(10), onSecondary = Color.White, secondaryContainer = s2(90), onSecondaryContainer = s2(10),
+        tertiary = (40 downTo 10).map { t3(it) }.firstOrNull { contrast(Color.White, it) >= 4.5f } ?: t3(10), onTertiary = Color.White, tertiaryContainer = t3(90), onTertiaryContainer = t3(10),
         background = n(98), onBackground = n(10), surface = n(98), onSurface = n(10),
         surfaceVariant = nv(90), onSurfaceVariant = nv(30),
         surfaceContainer = n(94), surfaceContainerHigh = n(92), surfaceContainerHighest = n(90),
         outline = nv(50), outlineVariant = nv(80),
     )
+}
+
+internal fun contrast(a: Color, b: Color): Float {
+    val (hi, lo) = listOf(a.luminance(), b.luminance()).sortedDescending()
+    return (hi + 0.05f) / (lo + 0.05f)
 }
 
 private fun Color.hsl(): Triple<Float, Float, Float> {

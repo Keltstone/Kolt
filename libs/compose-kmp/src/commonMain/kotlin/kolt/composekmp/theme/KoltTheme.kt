@@ -5,20 +5,52 @@ import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.em
-import androidx.compose.ui.unit.sp
 
 /** Material You scheme from the device wallpaper (Android 12+); null elsewhere. */
 @Composable
 internal expect fun wallpaperColorScheme(isDark: Boolean): ColorScheme?
 
 /**
- * Material 3 theme. Palette precedence: [colorScheme] > [seed] (approximate HSL scheme, see [seedColorScheme])
- * > wallpaper (when [useWallpaper], Android 12+) > the built-in Google-blue scheme.
+ * The Kolt theme (Material 3). With no arguments it is [CompositionBaseProvider] plus the M3
+ * `Kolt.layout`. To theme an app:
+ * 1. pass a palette: [colorScheme], else [seed] (see [seedColorScheme]), else [useWallpaper]
+ *    (Android 12+), else the Kolt palette;
+ * 2. override only what differs from the base in [customize]:
+ *    `customize = { it.copy(layout = it.layout.copy(screenSide = 28.dp)) }`;
+ * 3. wrap the app root. Nothing else: no per-app token layer, no copied components.
+ *
+ * [compactText] = true (default) keeps the Android <400dp text down-scaling; false uses the exact M3 scale.
  */
+@Composable
+fun KoltTheme(
+    isDarkTheme: Boolean? = null,
+    font: AppFont = AppFont.Roboto,
+    colorScheme: ColorScheme? = null,
+    seed: Color? = null,
+    useWallpaper: Boolean = false,
+    compactText: Boolean = true,
+    customize: (KoltThemeSpec) -> KoltThemeSpec = { it },
+    content: @Composable () -> Unit,
+) {
+    val dark = isDarkTheme ?: isSystemInDarkTheme()
+    val scheme = colorScheme
+        ?: seed?.let { seedColorScheme(it, dark) }
+        ?: if (useWallpaper) wallpaperColorScheme(dark) else null
+    val preset = remember(scheme, dark) {
+        KoltPreset(scheme = scheme) { base, roles ->
+            base.copy(
+                colors = scheme?.let { base.colors.withScheme(it).withSuccess(dark) } ?: base.colors,
+                layout = base.layout.withText(roles.headlineMedium, roles.bodyMedium, roles.bodyLarge, roles.labelMedium),
+            )
+        }
+    }
+    KoltThemeProvider(dark, font, compactText, preset, customize, content)
+}
+
+/** Replaced by [KoltTheme] (same palette options; its layout is now plain M3). */
+@Deprecated("Use KoltTheme(customize = …); layout values are now M3 compact by default.", ReplaceWith("KoltTheme(isDarkTheme, font, colorScheme ?: M3Schemes.blue(isDarkTheme ?: false), seed, useWallpaper, content = content)"))
 @Composable
 fun GoogleTheme(
     isDarkTheme: Boolean? = null,
@@ -29,45 +61,10 @@ fun GoogleTheme(
     content: @Composable () -> Unit,
 ) {
     val dark = isDarkTheme ?: isSystemInDarkTheme()
-    val scheme = colorScheme
-        ?: seed?.let { seedColorScheme(it, dark) }
-        ?: (if (useWallpaper) wallpaperColorScheme(dark) else null)
-        ?: if (dark) GoogleSchemes.dark else GoogleSchemes.light
-    KoltThemeProvider(dark, font, scheme, { it.google(scheme, dark) }, content)
-}
-
-/** Google preset: only what differs from the shared base. */
-internal fun KoltThemeSpec.google(scheme: ColorScheme, dark: Boolean = false): KoltThemeSpec {
-    val text = typography.baseTextStyle
-    return copy(
-        colors = colors.withScheme(scheme).withSuccess(
-            if (dark) Color(0xFF81C784) else Color(0xFF146C2E),
-            if (dark) Color(0xFF1B3822) else Color(0xFFC8E6C9),
-            if (dark) Color(0xFFC8E6C9) else Color(0xFF0A3818),
-        ),
-        layout = layout.copy(
-            screenSide = 28.dp,
-            topToTitle = 24.dp,
-            titleToSubtitle = 12.dp,
-            headerToContent = 32.dp,
-            ctaGap = 16.dp,
-            ctaBottom = 24.dp,
-            ctaPrimaryHeight = 56.dp,
-            ctaSecondaryHeight = 52.dp,
-            screenTitle = text.copy(
-                fontSize = 30.sp, fontWeight = FontWeight.Bold, lineHeight = 1.2.em, letterSpacing = (-0.5).sp,
-            ),
-            screenSubtitle = text.copy(fontSize = 15.sp, lineHeight = 1.5.em),
-            body = text.copy(fontSize = 15.sp, lineHeight = 1.5.em),
-            section = text.copy(fontSize = 12.sp, fontWeight = FontWeight.SemiBold, letterSpacing = 0.5.sp),
-            sectionAllCaps = true,
-            titleStyle = TitleStyle.Standard,
-            fieldStyle = FieldStyle.Outlined,
-            fieldRadius = 12.dp,
-            fieldOutline = 1.dp,
-            fieldFocusOutline = 2.dp,
-            listStyle = ListStyle.Plain,
-        ),
+    KoltTheme(
+        isDarkTheme = dark, font = font, seed = seed, useWallpaper = useWallpaper,
+        colorScheme = colorScheme ?: if (seed == null && !useWallpaper) M3Schemes.blue(dark) else null,
+        content = content,
     )
 }
 
@@ -95,14 +92,22 @@ internal fun BaseColors.withScheme(s: ColorScheme) = copy(
     hintText = s.onSurfaceVariant, dividerColor = s.outlineVariant,
 )
 
-/** Sets the success trio, which M3 has no role for. */
+/** M3 has no success role: custom green trio (AA on surface and on its container, light and dark). */
+internal fun BaseColors.withSuccess(dark: Boolean) = withSuccess(
+    if (dark) Color(0xFF81C784) else Color(0xFF146C2E),
+    if (dark) Color(0xFF1B3822) else Color(0xFFC8E6C9),
+    if (dark) Color(0xFFC8E6C9) else Color(0xFF0A3818),
+)
+
 internal fun BaseColors.withSuccess(success: Color, container: Color, onContainer: Color) = copy(
     successOverride = success, successContainerOverride = container, onSuccessContainerOverride = onContainer,
 )
 
-/** Google-blue M3 schemes (values from the onboarding prototype; secondary/tertiary tonal fill-ins). */
-internal object GoogleSchemes {
-    val light: ColorScheme = lightColorScheme(
+/** Built-in Google-blue M3 schemes (secondary/tertiary are tonal fill-ins). */
+object M3Schemes {
+    fun blue(dark: Boolean): ColorScheme = if (dark) BlueDark else BlueLight
+
+    private val BlueLight = lightColorScheme(
         primary = Color(0xFF0B57D0), onPrimary = Color(0xFFFFFFFF),
         primaryContainer = Color(0xFFD3E3FD), onPrimaryContainer = Color(0xFF041E49),
         secondary = Color(0xFF565F71), onSecondary = Color(0xFFFFFFFF),
@@ -118,7 +123,7 @@ internal object GoogleSchemes {
         surfaceContainerHighest = Color(0xFFDDE0EC),
         outline = Color(0xFF74777F), outlineVariant = Color(0xFFC4C6D0),
     )
-    val dark: ColorScheme = darkColorScheme(
+    private val BlueDark = darkColorScheme(
         primary = Color(0xFF8AB4F8), onPrimary = Color(0xFF002D6C),
         primaryContainer = Color(0xFF004494), onPrimaryContainer = Color(0xFFD3E3FD),
         secondary = Color(0xFFBEC6DC), onSecondary = Color(0xFF283141),

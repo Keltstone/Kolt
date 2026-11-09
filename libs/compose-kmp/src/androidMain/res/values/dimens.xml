@@ -38,6 +38,7 @@
     <dimen name="corner_radius_large">16dp</dimen>
     <dimen name="corner_radius_xlarge">20dp</dimen>
     <dimen name="corner_radius_xxlarge">24dp</dimen>
+    <dimen name="corner_radius_xxlarge_mid">28dp</dimen>
     <dimen name="corner_radius_xxxlarge">32dp</dimen>
 
     <dimen name="action_button_size">48dp</dimen>

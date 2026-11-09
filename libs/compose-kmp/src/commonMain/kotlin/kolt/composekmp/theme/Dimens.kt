@@ -109,6 +109,8 @@ data class Sizes(
     val imageGiant: Dp = Dp.Unspecified,
     /** 56 dp (Material list-item thumbnail) — between imageSmallMedium 48 and imageMedium 64; appended last. */
     val imageSmallMediumPlus: Dp = Dp.Unspecified,
+    /** 28 dp (M3 extra-large shape) — between [cornerRadiusXXLarge] 24 and [cornerRadiusXXXLarge] 32; appended last. */
+    val cornerRadiusXXLargeMid: Dp = Dp.Unspecified,
 )
 
 
@@ -212,6 +214,8 @@ data class UiSizes(
     val imageGiant: UiDimen = UiDimen.DynamicDp.Unspecified,
     /** 56 dp — mirrors [Sizes.imageSmallMediumPlus]. */
     val imageSmallMediumPlus: UiDimen = UiDimen.DynamicDp.Unspecified,
+    /** 28 dp — mirrors [Sizes.cornerRadiusXXLargeMid]; appended last. */
+    val cornerRadiusXXLargeMid: UiDimen = UiDimen.DynamicDp.Unspecified,
 )
 
 @Composable

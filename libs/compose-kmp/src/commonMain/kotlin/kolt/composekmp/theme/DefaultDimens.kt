@@ -103,6 +103,7 @@ internal fun defaultSizes(): Sizes = Sizes(
     imageGiant = 320.dp,
     imageSmallMediumPlus = 56.dp,
     illustrationLarge = 200.dp,
+    cornerRadiusXXLargeMid = 28.dp,
 )
 
 internal fun defaultUiSizes(): UiSizes = UiSizes(
@@ -196,4 +197,5 @@ internal fun defaultUiSizes(): UiSizes = UiSizes(
     imageHuge = 240.dp.toUiDimen(),
     imageGiant = 320.dp.toUiDimen(),
     imageSmallMediumPlus = 56.dp.toUiDimen(),
+    cornerRadiusXXLargeMid = 28.dp.toUiDimen(),
 )

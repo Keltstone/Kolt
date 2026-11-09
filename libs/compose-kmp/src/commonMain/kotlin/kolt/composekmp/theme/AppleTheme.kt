@@ -1,48 +1,60 @@
 package kolt.composekmp.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.em
-import androidx.compose.ui.unit.sp
 
 /** iOS system blue (light / dark variants). */
 val AppleBlueLight = Color(0xFF007AFF)
 val AppleBlueDark = Color(0xFF0A84FF)
 
 /**
- * Apple HIG theme. [tint] defaults to systemBlue. [font] defaults to the platform system font
- * (SF on iOS; the platform default elsewhere).
+ * Apple HIG theme: system colours (tint defaults to systemBlue), HIG type roles, 10pt shapes, no
+ * Material ripple, 16pt margins, 44pt targets, large titles, inset fields, grouped inset lists.
+ * [font] defaults to the platform system font (SF on iOS). Customise like [KoltTheme] via [customize].
  */
 @Composable
 fun AppleTheme(
     isDarkTheme: Boolean? = null,
     tint: Color? = null,
     font: AppFont = AppFont.Custom(FontFamily.Default),
+    compactText: Boolean = true,
+    customize: (KoltThemeSpec) -> KoltThemeSpec = { it },
     content: @Composable () -> Unit,
 ) {
     val dark = isDarkTheme ?: isSystemInDarkTheme()
     val scheme = appleScheme(tint ?: if (dark) AppleBlueDark else AppleBlueLight, dark)
-    KoltThemeProvider(dark, font, scheme, { it.apple(scheme, dark) }, content)
+    val preset = remember(scheme, dark) { applePreset(scheme, dark) }
+    KoltThemeProvider(dark, font, compactText, preset, customize, content)
 }
 
-/** Apple preset: only what differs from the shared base. Colours reuse [withScheme]. */
-internal fun KoltThemeSpec.apple(scheme: ColorScheme, dark: Boolean = false): KoltThemeSpec {
-    val text = typography.baseTextStyle
-    return copy(
-        colors = colors.withScheme(scheme).withSuccess(
-            if (dark) Color(0xFF30D158) else Color(0xFF34C759),
+internal fun applePreset(scheme: ColorScheme, dark: Boolean) = KoltPreset(
+    scheme = scheme,
+    roles = ::createAppleRoles,
+    shapes = Shapes(
+        extraSmall = RoundedCornerShape(6.dp), small = RoundedCornerShape(8.dp),
+        medium = RoundedCornerShape(10.dp), large = RoundedCornerShape(14.dp),
+        extraLarge = RoundedCornerShape(20.dp),
+    ),
+    ripple = false,
+) { base, roles ->
+    base.copy(
+        colors = base.colors.withScheme(scheme).withSuccess(
+            // systemGreen fails 4.5:1 as text on grouped backgrounds in light mode: darker accessible green.
+            if (dark) Color(0xFF30D158) else Color(0xFF1E7B34),
             if (dark) Color(0xFF30D158).copy(alpha = 0.24f) else Color(0xFF34C759).copy(alpha = 0.16f),
             if (dark) Color(0xFF30D158) else Color(0xFF1E7B34),
         ),
-        layout = layout.copy(
-            screenSide = 20.dp,
+        layout = base.layout.withText(roles.displayLarge, roles.bodyMedium, roles.bodyLarge, roles.bodySmall).copy(
+            screenSide = 16.dp,
             topToTitle = 16.dp,
             titleToSubtitle = 10.dp,
             headerToContent = 28.dp,
@@ -50,12 +62,7 @@ internal fun KoltThemeSpec.apple(scheme: ColorScheme, dark: Boolean = false): Ko
             ctaBottom = 20.dp,
             ctaPrimaryHeight = 50.dp,
             ctaSecondaryHeight = 50.dp,
-            screenTitle = text.copy(
-                fontSize = 34.sp, fontWeight = FontWeight.Bold, lineHeight = 1.18.em, letterSpacing = 0.4.sp,
-            ),
-            screenSubtitle = text.copy(fontSize = 15.sp),
-            body = text.copy(fontSize = 17.sp, lineHeight = 1.29.em),
-            section = text.copy(fontSize = 13.sp),
+            minTouchTarget = 44.dp,
             sectionAllCaps = true,
             titleStyle = TitleStyle.Large,
             fieldStyle = FieldStyle.Inset,

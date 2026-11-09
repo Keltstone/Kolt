@@ -4,7 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
-import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -58,7 +58,8 @@ fun iosButtonColors(
     style: IosButtonStyle,
     tintColor: Color = Kolt.colors.primary
 ): IosButtonColors {
-    val isDark = isSystemInDarkTheme()
+    // Follows the Kolt theme's dark flag, not the OS setting.
+    val isDark = Kolt.colors.background.luminance() < 0.5f
     return when (style) {
         IosButtonStyle.Filled -> IosButtonColors(
             containerColor = tintColor,
@@ -91,6 +92,7 @@ fun iosButtonColors(
  * An iOS-style button implementing standard iOS configurations, shapes,
  * typography, and custom pressed feedback (fade effect instead of Material ripples).
  */
+@Deprecated("Use KoltButton under AppleTheme: capsule shape, 50dp CTA (Modifier.ctaPrimary()) and system colours come from the theme.")
 @Composable
 fun KoltIosButton(
     onClick: () -> Unit,

@@ -47,7 +47,7 @@ actual fun createSizes(): Sizes {
         cornerRadiusLarge = dimensionResource(id = R.dimen.corner_radius_large),
         cornerRadiusXLarge = dimensionResource(id = R.dimen.corner_radius_xlarge),
         cornerRadiusXXLarge = dimensionResource(id = R.dimen.corner_radius_xxlarge),
-        cornerRadiusXXXLarge = dimensionResource(id = R.dimen.corner_radius_xxlarge),
+        cornerRadiusXXXLarge = dimensionResource(id = R.dimen.corner_radius_xxxlarge),
 
         actionButtonSize = dimensionResource(id = R.dimen.action_button_size),
         floatingButtonSizeSmall = dimensionResource(id = R.dimen.fab_button_size_small),
@@ -101,6 +101,7 @@ actual fun createSizes(): Sizes {
         imageGiant = dimensionResource(id = R.dimen.image_giant),
         imageSmallMediumPlus = dimensionResource(id = R.dimen.image_small_medium_plus),
         illustrationLarge = dimensionResource(id = R.dimen.illustration_large),
+        cornerRadiusXXLargeMid = dimensionResource(id = R.dimen.corner_radius_xxlarge_mid),
     )
 }
 
@@ -144,7 +145,7 @@ actual fun createUiSizes(): UiSizes {
         cornerRadiusLarge = uiDimenResource(id = R.dimen.corner_radius_large),
         cornerRadiusXLarge = uiDimenResource(id = R.dimen.corner_radius_xlarge),
         cornerRadiusXXLarge = uiDimenResource(id = R.dimen.corner_radius_xxlarge),
-        cornerRadiusXXXLarge = uiDimenResource(id = R.dimen.corner_radius_xxlarge),
+        cornerRadiusXXXLarge = uiDimenResource(id = R.dimen.corner_radius_xxxlarge),
 
         actionButtonSize = uiDimenResource(id = R.dimen.action_button_size),
         floatingButtonSizeSmall = uiDimenResource(id = R.dimen.fab_button_size_small),
@@ -197,5 +198,6 @@ actual fun createUiSizes(): UiSizes {
         imageHuge = uiDimenResource(id = R.dimen.image_huge),
         imageGiant = uiDimenResource(id = R.dimen.image_giant),
         imageSmallMediumPlus = uiDimenResource(id = R.dimen.image_small_medium_plus),
+        cornerRadiusXXLargeMid = uiDimenResource(id = R.dimen.corner_radius_xxlarge_mid),
     )
 }
