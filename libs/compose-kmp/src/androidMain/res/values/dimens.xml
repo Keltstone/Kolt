@@ -2,6 +2,7 @@
 <resources>
     <dimen name="app_bar_height">56dp</dimen>
 
+    <dimen name="icon_xxsmall">4dp</dimen>
     <dimen name="icon_xsmall">8dp</dimen>
     <dimen name="icon_small">16dp</dimen>
     <dimen name="icon_medium">20dp</dimen>
@@ -94,4 +95,5 @@
     <dimen name="image_huge">240dp</dimen>
     <dimen name="image_giant">320dp</dimen>
     <dimen name="image_small_medium_plus">56dp</dimen>
+    <dimen name="illustration_large">200dp</dimen>
 </resources>

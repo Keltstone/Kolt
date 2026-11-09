@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
@@ -28,6 +29,7 @@ import kolt.composekmp.components.core.buttons.KoltIconButton
 import kolt.composekmp.components.core.image.KoltImage
 import kolt.composekmp.components.core.text.KoltText
 import kolt.composekmp.theme.Kolt
+import kolt.composekmp.theme.TitleStyle
 import kolt.composekmp.theme.Kolt.sizes
 import kolt.composekmp.theme.noPadding
 import kolt.composekmp.theme.semiBold
@@ -48,8 +50,7 @@ fun KoltTopBar(
 ) {
     val backgroundColor = background
     val contentColor = onTopBarColor
-    TopAppBar(
-        navigationIcon = {
+    val navigationSlot: @Composable () -> Unit = {
             if (navigationIcon != null) {
                 navigationIcon()
             } else if (navMode != NavigationMode.EMPTY) {
@@ -61,23 +62,8 @@ fun KoltTopBar(
                     }
                 )
             } else HorizontalSpacer()
-        },
-        title = {
-            appBarTitle?.let {
-                AppBarTitleImage(
-                    appBarTitle = it,
-                    tintColor = onTopBarColor,
-                )
-            }
-        },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = backgroundColor,
-            scrolledContainerColor = backgroundColor,
-            navigationIconContentColor = contentColor,
-            titleContentColor = contentColor,
-            actionIconContentColor = contentColor
-        ),
-        actions = {
+    }
+    val actionsSlot: @Composable RowScope.() -> Unit = {
             actions?.forEach { btn ->
                 KoltIcon(
                     icon = btn.icon.setTint(tint = onTopBarColor.toUiColor()),
@@ -89,8 +75,30 @@ fun KoltTopBar(
                 )
             }
             actionsContent(contentColor)
-        }
+    }
+    val topBarColors = TopAppBarDefaults.topAppBarColors(
+        containerColor = backgroundColor,
+        scrolledContainerColor = backgroundColor,
+        navigationIconContentColor = contentColor,
+        titleContentColor = contentColor,
+        actionIconContentColor = contentColor
     )
+    // One bar: the theme's titleStyle picks the collapsed or the large-title variant.
+    if (Kolt.layout.titleStyle == TitleStyle.Large) {
+        LargeTopAppBar(
+            navigationIcon = navigationSlot,
+            title = { appBarTitle?.let { AppBarTitleImage(appBarTitle = it, tintColor = onTopBarColor) } },
+            colors = topBarColors,
+            actions = actionsSlot,
+        )
+    } else {
+        TopAppBar(
+            navigationIcon = navigationSlot,
+            title = { appBarTitle?.let { AppBarTitleImage(appBarTitle = it, tintColor = onTopBarColor) } },
+            colors = topBarColors,
+            actions = actionsSlot,
+        )
+    }
 }
 
 
@@ -115,7 +123,11 @@ fun AppBarTitleImage(
             is AppBarTitle.ScreenTitle -> {
                 KoltText(
                     text = appBarTitle.title,
-                    style = Kolt.typography.body.mediumLarge.semiBold,
+                    style = if (Kolt.layout.titleStyle == TitleStyle.Large) {
+                        Kolt.layout.screenTitle
+                    } else {
+                        Kolt.typography.body.mediumLarge.semiBold
+                    },
                     color = tintColor
                 )
             }

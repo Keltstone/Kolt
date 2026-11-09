@@ -1,5 +1,9 @@
 package kolt.composekmp.components.core.modifiers
 
+import kolt.composekmp.theme.Kolt
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.runtime.Composable
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
@@ -254,3 +258,13 @@ fun Modifier.shake(
 
     offset(x = offsetX.value.dp)
 }
+
+/** Full-width primary call-to-action sized by the theme (`Kolt.layout.ctaPrimaryHeight`). */
+@Composable
+fun Modifier.ctaPrimary(): Modifier =
+    fillMaxWidth().heightIn(min = Kolt.layout.ctaPrimaryHeight)
+
+/** Full-width secondary call-to-action sized by the theme (`Kolt.layout.ctaSecondaryHeight`). */
+@Composable
+fun Modifier.ctaSecondary(): Modifier =
+    fillMaxWidth().heightIn(min = Kolt.layout.ctaSecondaryHeight)

@@ -38,6 +38,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import kolt.composekmp.components.core.text.KoltText
+import kolt.composekmp.theme.FieldStyle
 import kolt.composekmp.theme.Kolt
 import kolt.composekmp.theme.medium
 import kolt.composekmp.theme.normal
@@ -127,13 +128,13 @@ fun KoltValidatedTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(colors.background, colors.borderShape)
-                .border(
-                    border = when {
+                .then(
+                    // A 0.dp BorderStroke would draw a hairline, so an inset field skips it.
+                    when {
                         isError -> BorderStroke(1.dp, colors.errorBorderColor)
                         isFocused -> colors.focusedBorder
                         else -> colors.border
-                    },
-                    shape = colors.borderShape
+                    }.let { if (it.width > 0.dp) Modifier.border(it, colors.borderShape) else Modifier }
                 )
                 .semantics {
                     if (isError) error(errorDescription)
@@ -260,16 +261,20 @@ object KoltTextFieldDefaults {
 
     @Composable
     fun defaultColor(
-        background: Color = Kolt.colors.mainSurface,
+        background: Color = if (Kolt.layout.fieldStyle == FieldStyle.Inset) {
+            Kolt.colors.secondarySurface
+        } else {
+            Kolt.colors.mainSurface
+        },
         contentColor: Color = Kolt.colors.onMainSurface,
-        borderWidth: Dp = 1.dp,
+        borderWidth: Dp = Kolt.layout.fieldOutline,
         borderColor: Color = Kolt.colors.onMainSurface.copy(alpha = 0.1f),
-        focusedBorderWidth: Dp = 1.dp,
+        focusedBorderWidth: Dp = Kolt.layout.fieldFocusOutline,
         focusedBorderColor: Color = Kolt.colors.primary,
         errorBorderColor: Color = Kolt.colors.error,
         errorColor: Color = Kolt.colors.error,
         cursorColor: Color = Kolt.colors.primary,
-        borderShape: Shape = RoundedCornerShape(Kolt.sizes.cornerRadiusNormal)
+        borderShape: Shape = RoundedCornerShape(Kolt.layout.fieldRadius)
     ): TextFieldColors {
         return TextFieldColors(
             background = background,

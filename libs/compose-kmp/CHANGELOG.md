@@ -5,6 +5,12 @@ here, newest first. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
+- Added `GoogleTheme` (Material 3) and `AppleTheme` (HIG) providers and the `Kolt.layout` token group (`KoltLayout`, `LocalLayout`), built from `KoltThemeSpec` presets over one shared base. `GoogleTheme` palette: `colorScheme` > `seed` (HSL approximation of HCT, `seedColorScheme`) > Android 12+ wallpaper (`useWallpaper`) > built-in Google blue. Additive: `KoltTheme`/`CompositionBaseProvider` and all default values are unchanged.
+- Components now read the theme's style values (defaults identical without these themes): `KoltTopBar` uses `LargeTopAppBar` when `titleStyle = Large`; `KoltValidatedTextField` defaults take radius/outline/focus width from `Kolt.layout` and an inset fill (no border) for `FieldStyle.Inset`. New `KoltListGroup` / `KoltListRow` and `Modifier.ctaPrimary()` / `ctaSecondary()`.
+- `BaseColors` gained `successOverride`, `successContainerOverride`, `onSuccessContainerOverride` (appended last, default Unspecified = derive as before).
+- Fixed: `Sizes.iconXXSmall` (4 dp) and `Sizes.illustrationLarge` (200 dp) were never populated on any platform (`Unspecified`); now set (Android dimens `icon_xxsmall`, `illustration_large`).
+- Fixed (Android): `paddingTiny` read `padding_xxsmall` (2 dp) instead of `padding_tiny` (1 dp, the value on all other platforms). **Visual change** of 1 dp wherever `paddingTiny` is used on Android.
+- Tests: desktop composition tests now run (`ui-test` + `compose.desktop.currentOs` as `desktopTestImplementation`).
 - Android: font sizes are now smaller on screens narrower than 400dp (e.g. Galaxy S23, ~360dp) — about ×0.88 of the previous values, rounded to whole sp (`values/dimens.xml`). Screens ≥ 400dp (Pixel-class phones, tablets, foldables) keep the previous sizes via the new `values-sw400dp/dimens.xml`. iOS, desktop and wasmJs unchanged.
 
 ## [0.2.1.dev-03] - 2026-09-24

@@ -49,4 +49,6 @@ object Kolt {
         @Composable @ReadOnlyComposable get() = LocalTypography.current
     val flags: BaseFlags
         @Composable @ReadOnlyComposable get() = LocalFlags.current
+    val layout: KoltLayout
+        @Composable @ReadOnlyComposable get() = LocalLayout.current
 }

@@ -13,6 +13,7 @@ import kolt.composekmp.wrappers.toUiDimen
 internal fun defaultSizes(): Sizes = Sizes(
     appBarSize = 56.dp,
 
+    iconXXSmall = 4.dp,
     iconXSmall = 8.dp,
     iconSmall = 16.dp,
     iconMedium = 20.dp,
@@ -101,6 +102,7 @@ internal fun defaultSizes(): Sizes = Sizes(
     imageHuge = 240.dp,
     imageGiant = 320.dp,
     imageSmallMediumPlus = 56.dp,
+    illustrationLarge = 200.dp,
 )
 
 internal fun defaultUiSizes(): UiSizes = UiSizes(

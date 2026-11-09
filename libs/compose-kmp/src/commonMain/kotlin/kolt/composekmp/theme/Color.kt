@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.takeOrElse
 import kolt.composekmp.wrappers.UiColor
 import kolt.composekmp.wrappers.toUiColor
 
@@ -50,13 +51,18 @@ data class BaseColors(
     val subText : Color = Color.Unspecified,
     val hintText : Color = Color.Unspecified,
     val dividerColor : Color = Color.Unspecified,
+    // Optional per-theme overrides for the derived status colours below (appended last so
+    // positional args stay stable). Unspecified = derive as before.
+    val successOverride: Color = Color.Unspecified,
+    val successContainerOverride: Color = Color.Unspecified,
+    val onSuccessContainerOverride: Color = Color.Unspecified,
 ) {
     // ── Semantic status colors (derive from card-container palette when not overridden) ──
 
     /** Background of a "success" tag / badge. Defaults to [primaryCardContainer]. */
-    val successContainer: Color get() = primaryCardContainer
+    val successContainer: Color get() = successContainerOverride.takeOrElse { primaryCardContainer }
     /** Content on top of [successContainer]. Defaults to [onPrimaryCardContainer]. */
-    val onSuccessContainer: Color get() = onPrimaryCardContainer
+    val onSuccessContainer: Color get() = onSuccessContainerOverride.takeOrElse { onPrimaryCardContainer }
 
     /** Background of a "warning" tag / badge. Defaults to [tertiaryCardContainer]. */
     val warningContainer: Color get() = tertiaryCardContainer
@@ -85,7 +91,7 @@ data class BaseColors(
     val primaryContainer: Color get() = primaryCardContainer
 
     /** Generic "success" colour. Defaults to [primary] (green-branded apps). */
-    val success: Color get() = primary
+    val success: Color get() = successOverride.takeOrElse { primary }
 
     /** "Accented blue" link colour. Defaults to [accentedBlueText]. */
     val accentedBlue: Color get() = accentedBlueText

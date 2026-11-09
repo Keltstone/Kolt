@@ -23,6 +23,10 @@ dependencies {
     "commonMainImplementation"("org.jetbrains.compose.material:material-icons-extended:1.7.3")
     "commonMainImplementation"("org.jetbrains.compose.material:material:1.7.3")
 
+    // Desktop-only composition test (themes provide the right Kolt.* values).
+    "desktopTestImplementation"("org.jetbrains.compose.ui:ui-test:1.10.3")
+    "desktopTestImplementation"(compose.desktop.currentOs)
+
     "androidMainImplementation"("io.coil-kt:coil-compose:${koltlibs.versions.coil.get()}")
     "androidMainImplementation"(platform("androidx.compose:compose-bom:${koltlibs.versions.composeBom.get()}"))
     "androidMainImplementation"("androidx.compose.ui:ui-text-google-fonts")

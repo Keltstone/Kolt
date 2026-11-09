@@ -462,6 +462,40 @@ with `.bold`, `.light`, etc. `CompositionBaseProvider` also fills
 `MaterialTheme.typography` from this scale. The flat `Kolt.typography.bodyMedium`/
 `titleLarge`/… aliases are deprecated.
 
+**Google and Apple themes**
+
+`GoogleTheme` (Material 3) and `AppleTheme` (Apple HIG) wrap `CompositionBaseProvider`, so
+`Kolt.colors` / `sizes` / `typography` / `flags` keep working; they add one more token group,
+`Kolt.layout` (`KoltLayout`): `screenSide`, `topToTitle`, `titleToSubtitle`, `headerToContent`,
+`ctaGap`, `ctaBottom` (add the nav-bar / safe-area inset yourself), `ctaPrimaryHeight`,
+`ctaSecondaryHeight`, `minTouchTarget`, text styles `screenTitle` / `screenSubtitle` / `body` /
+`section` (`sectionAllCaps`), and style values `titleStyle` (Standard/Large), `fieldStyle`
+(Outlined/Inset), `listStyle` (Plain/GroupedInset) with `fieldRadius`, `fieldOutline`,
+`fieldFocusOutline`, `listRadius`, `listRowMinHeight`, `listRowPadding`. Without either theme
+`Kolt.layout` is a neutral default and existing screens look exactly as before.
+
+```kotlin
+GoogleTheme(isDarkTheme = null, seed = Color(0xFF0B57D0)) { App() }   // or colorScheme = …, useWallpaper = true
+AppleTheme(isDarkTheme = null, tint = null /* systemBlue */) { App() }
+```
+
+| | Google | Apple |
+|---|---|---|
+| Palette | `colorScheme` > `seed` > wallpaper (`useWallpaper`, Android 12+) > built-in Google blue | system colours, `tint` (default systemBlue), grouped backgrounds |
+| Font | Roboto (default) | platform system font (SF on iOS) |
+| Side / CTA | 28 / 56+52 | 20 / 50+50 |
+| Title / body | 30 bold / 15 | 34 bold large title / 17 |
+| Fields | outlined, 12 radius, 1 (2 focused) | inset fill, 10 radius, no outline |
+| Lists | plain | grouped inset, 10 radius, 44 rows |
+
+Presets are `KoltThemeSpec(colors, sizes, typography, layout)` built from one base with
+`copy()`, so shared values are defined once. Components read the style values — there is no
+`GoogleButton` / `AppleButton`: `KoltTopBar` (large title), `KoltValidatedTextField`
+(outlined / inset), `KoltListGroup` + `KoltListRow` (plain / grouped) and
+`Modifier.ctaPrimary()` / `ctaSecondary()` render both. `BaseColors` has optional
+`successOverride` / `successContainerOverride` / `onSuccessContainerOverride`; both themes set
+them. `seed` uses an HSL approximation of Material's HCT (close, not identical to wallpaper colours).
+
 `mediumLargeMid` (17 sp) and `xLargeMid` (22 sp) were added in
 compose-kmp `0.2.1.dev-02`, appended at the end of the `Sizes`/`UiSizes`/
 `BaseTextStyles` constructors so nothing existing moved. Use a slot for any

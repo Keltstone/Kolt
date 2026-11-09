@@ -11,6 +11,7 @@ actual fun createSizes(): Sizes {
     return Sizes(
         appBarSize = dimensionResource(id = R.dimen.app_bar_height),
 
+        iconXXSmall = dimensionResource(id = R.dimen.icon_xxsmall),
         iconXSmall = dimensionResource(id = R.dimen.icon_xsmall),
         iconSmall = dimensionResource(id = R.dimen.icon_small),
         iconMedium = dimensionResource(id = R.dimen.icon_medium),
@@ -36,7 +37,7 @@ actual fun createSizes(): Sizes {
         paddingXSmallPlus = dimensionResource(id = R.dimen.padding_xsmall_plus),
         paddingXSmall = dimensionResource(id = R.dimen.padding_xsmall),
         paddingXXSmall = dimensionResource(id = R.dimen.padding_xxsmall),
-        paddingTiny = dimensionResource(id = R.dimen.padding_xxsmall),
+        paddingTiny = dimensionResource(id = R.dimen.padding_tiny),
         noPadding = dimensionResource(id = R.dimen.no_padding),
 
         cornerRadiusSmall = dimensionResource(id = R.dimen.corner_radius_small),
@@ -99,6 +100,7 @@ actual fun createSizes(): Sizes {
         imageHuge = dimensionResource(id = R.dimen.image_huge),
         imageGiant = dimensionResource(id = R.dimen.image_giant),
         imageSmallMediumPlus = dimensionResource(id = R.dimen.image_small_medium_plus),
+        illustrationLarge = dimensionResource(id = R.dimen.illustration_large),
     )
 }
 
@@ -132,7 +134,7 @@ actual fun createUiSizes(): UiSizes {
         paddingXSmallPlus = uiDimenResource(id = R.dimen.padding_xsmall_plus),
         paddingXSmall = uiDimenResource(id = R.dimen.padding_xsmall),
         paddingXXSmall = uiDimenResource(id = R.dimen.padding_xxsmall),
-        paddingTiny = uiDimenResource(id = R.dimen.padding_xxsmall),
+        paddingTiny = uiDimenResource(id = R.dimen.padding_tiny),
         noPadding = uiDimenResource(id = R.dimen.no_padding),
 
         cornerRadiusSmall = uiDimenResource(id = R.dimen.corner_radius_small),
